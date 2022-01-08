@@ -12,8 +12,6 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>bpbd</string>
-	<key>CFBundleDisplayName</key>
-	<string>Bpbd</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -42,6 +40,6 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
