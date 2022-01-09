@@ -7,6 +7,9 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
+  static late SharedPreferences isLogin ;
+  
+  bool logIn = false;
   final int _numpages = 2;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
@@ -32,9 +35,13 @@ class _OnBoardingState extends State<OnBoarding> {
     );
   }
 
+   static Future init() async {
+    isLogin = await SharedPreferences.getInstance();
+    }
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {
+    
     sizeConfig.init(context);
     return Scaffold(
         body: Column(
@@ -64,7 +71,7 @@ class _OnBoardingState extends State<OnBoarding> {
                           style: onBoardStyle.copyWith(
                               decoration: TextDecoration.underline,
                               fontSize: 18,
-                              color: const Color(0xFF484848)),
+                              color: const Color(0xFFC4C4C4)),
                         ),
                       ),
                     ],
@@ -136,8 +143,8 @@ class _OnBoardingState extends State<OnBoarding> {
                                               style: onBoardStyle.copyWith(
                                                   color:
                                                       const Color(0xFFC4C4C4),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w100))
+                                                  fontSize: 16,
+                                                  ))
                                         ],
                                       ),
                                     )
@@ -157,7 +164,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                     ),
                                     SvgPicture.asset('assets/images/ilust.svg'),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 5,
+                                      height: SizeConfig.blockSizeVertical *8,
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -169,26 +176,26 @@ class _OnBoardingState extends State<OnBoarding> {
                                           RichText(
                                             text: TextSpan(
                                               style: onBoardStyle.copyWith(
-                                                  fontSize: 30),
+                                                  fontSize: 27),
                                               children: [
                                                 TextSpan(
                                                     text: 'Jagalah',
                                                     style:
                                                         onBoardStyle.copyWith(
                                                             color:
-                                                                orangeColor)),
+                                                                Colors.black)),
                                                 const TextSpan(text: ' '),
                                                 TextSpan(
                                                     text: 'Lingkunganmu',
                                                     style: TextStyle(
                                                         color: orangeColor)),
-                                                const TextSpan(text: ' '),
-                                                const TextSpan(
-                                                    text:
-                                                        'Untuk Kesehjateraan Bersama'),
                                               ],
                                             ),
                                           ),
+                                          Text('Untuk Kesehjateraan Bersama',
+                                          style: onBoardStyle.copyWith(
+                                            fontSize: 27
+                                          ),),
                                           SizedBox(
                                             height:
                                                 SizeConfig.safeBlockVertical *
@@ -199,8 +206,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                               style: onBoardStyle.copyWith(
                                                   color:
                                                       const Color(0xFFC4C4C4),
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w100))
+                                                  fontSize: 16,))
                                         ],
                                       ),
                                     )
@@ -235,6 +241,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                     ? () => Navigator.of(context)
                                             .pushReplacement(
                                                 MaterialPageRoute(builder: (_) {
+                                                  save();
                                           return const LoginPage();
                                         }))
                                     : () => _pageController.nextPage(
@@ -277,4 +284,9 @@ class _OnBoardingState extends State<OnBoarding> {
       ],
     ));
   }
+save()async{
+ await _OnBoardingState.init(); 
+ isLogin.setBool('isLogin',true);
+ 
+}
 }

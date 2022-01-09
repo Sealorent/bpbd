@@ -21,4 +21,5 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'Flutter'
   s.dependency 'google_maps_flutter'
   s.dependency 'path_provider_ios'
+  s.dependency 'shared_preferences_ios'
 end

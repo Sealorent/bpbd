@@ -8,16 +8,32 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+// final isLogin = await SharedPreferences.getInstance();
+late bool ifLogin = false;
+
   @override
   void initState() {
     goHomePage();
     super.initState();
+    _isLogin(); 
+  }
+
+  void _isLogin() async{
+    final logIn = await SharedPreferences.getInstance();
+    setState(() {
+      ifLogin = (logIn.getBool('isLogin')?? false);
+      print(ifLogin);
+    });
+    // final logIn = isLogin.getBool('isLogin');
   }
 
   goHomePage() {
-    Timer(const Duration(seconds: 5), () {
+    Timer(const Duration(seconds: 5), () { ifLogin == false?
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const OnBoarding()));
+          context, MaterialPageRoute(builder: (context) => const OnBoarding())) 
+          :Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
     });
   }
 
