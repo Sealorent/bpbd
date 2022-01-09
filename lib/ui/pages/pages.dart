@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bpbd/theme/shared.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +14,8 @@ part 'onboarding.dart';
 part 'login.dart';
 part 'main.dart';
 part 'menu.dart';
+part 'laporkan.dart';
+part 'mitigasi.dart';
 part 'notifikasi.dart';
 part '../widget/notif.dart';
 part '../widget/splash.dart';
