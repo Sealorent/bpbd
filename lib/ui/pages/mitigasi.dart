@@ -21,138 +21,257 @@ class _MitigasiState extends State<Mitigasi> {
         foregroundColor: Colors.black,
         shadowColor: Colors.white,
       ),
-      body: SafeArea(
-        child: SizedBox(
-            width: SizeConfig.screenWidth,
-            height: SizeConfig.screenHeight,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 30, 20, 0),
-                  child: RichText(
-                      textAlign: TextAlign.left,
-                      text: const TextSpan(
-                        text:
-                            'Berikut informasi yang harus dipersiapkan sebelum terjadinya bencana disekitar anda',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.5,
-                        ),
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 20, 25, 0),
-                  child: RichText(
-                      textAlign: TextAlign.left,
-                      text: const TextSpan(
-                        text:
-                            'Pilih bencananya untuk melihat rekomendasi mitigasinya.',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 15,
-                        ),
-                      )),
-                ),
-                Container(
-                  width: SizeConfig.screenWidth,
-                  height: SizeConfig.screenHeight,
-                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-                  child: GridView(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.red,
-                        ),
-                        child: Column(
-                          children: const [
-                            Icon(
-                              Icons.home,
-                              size: 50,
-                              color: Colors.white,
+      body: ListView(
+        children: [
+          SafeArea(
+            child: SizedBox(
+                width: SizeConfig.screenWidth,
+                height: SizeConfig.screenHeight,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 30, 20, 0),
+                      child: RichText(
+                          textAlign: TextAlign.left,
+                          text: const TextSpan(
+                            text:
+                                'Berikut informasi yang harus dipersiapkan sebelum terjadinya bencana disekitar anda',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.5,
                             ),
-                            Text(
-                              "Home",
-                              textAlign: TextAlign.left,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 30),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.black,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.home,
-                              size: 50,
-                              color: Colors.white,
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 20, 25, 0),
+                      child: RichText(
+                          textAlign: TextAlign.left,
+                          text: const TextSpan(
+                            text:
+                                'Pilih bencananya untuk melihat rekomendasi mitigasinya.',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 15,
                             ),
-                            Text(
-                              "Home",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 30),
-                            )
-                          ],
-                        ),
+                          )),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 44,
+                                height: SizeConfig.blockSizeVertical * 20,
+                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: orangeColor,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RawMaterialButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const Mitigasi()));
+                                        },
+                                        fillColor: Colors.white,
+                                        shape: const CircleBorder(),
+                                        child: FaIcon(
+                                          FontAwesomeIcons.virus,
+                                          size: 18,
+                                          color: orangeColor,
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Covid-19',
+                                            style: onBoardStyle.copyWith(
+                                                color: Colors.white),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            color: whiteColor,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 44,
+                                height: SizeConfig.blockSizeVertical * 20,
+                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: orangeColor,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RawMaterialButton(
+                                        onPressed: () {},
+                                        fillColor: Colors.white,
+                                        shape: const CircleBorder(),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/banjir.svg',
+                                          height: 18,
+                                          width: 18,
+                                          color: orangeColor,
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Banjir',
+                                            style: onBoardStyle.copyWith(
+                                                color: Colors.white),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            color: whiteColor,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 44,
+                                height: SizeConfig.blockSizeVertical * 20,
+                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: orangeColor,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RawMaterialButton(
+                                        onPressed: () {},
+                                        fillColor: Colors.white,
+                                        shape: const CircleBorder(),
+                                        child: Image.asset(
+                                          'assets/icons/gempa.png',
+                                          height: 18,
+                                          width: 18,
+                                          color: orangeColor,
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Gempa Bumi',
+                                            style: onBoardStyle.copyWith(
+                                                color: Colors.white),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            color: whiteColor,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 44,
+                                height: SizeConfig.blockSizeVertical * 20,
+                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: orangeColor,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RawMaterialButton(
+                                        onPressed: () {},
+                                        fillColor: Colors.white,
+                                        shape: const CircleBorder(),
+                                        child: Image.asset(
+                                          'assets/icons/longsor.png',
+                                          height: 18,
+                                          width: 18,
+                                          color: orangeColor,
+                                        )),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  5),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          FittedBox(
+                                            fit: BoxFit.fill,
+                                            child: Text(
+                                              'Tanah Longsor',
+                                              style: onBoardStyle.copyWith(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            color: whiteColor,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.green,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.home,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              "Home",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 30),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.blue,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Icon(
-                              Icons.home,
-                              size: 50,
-                              color: Colors.white,
-                            ),
-                            Text(
-                              "Home",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 30),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10),
-                  ),
-                ),
-              ],
-            )),
+                    ),
+                  ],
+                )),
+          ),
+        ],
       ),
     );
   }
