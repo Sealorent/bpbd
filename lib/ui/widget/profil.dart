@@ -48,7 +48,12 @@ class _InformasiAkunState extends State<InformasiAkun> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Laporkan()));
+                  },
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: Column(
@@ -83,7 +88,12 @@ class _InformasiAkunState extends State<InformasiAkun> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Mitigasi()));
+                  },
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: Column(
@@ -134,7 +144,12 @@ class _InformasiAkunState extends State<InformasiAkun> {
                   ),
                 ),
                 ListTile(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Tentang()));
+                  },
                   title: Align(
                     alignment: Alignment.centerLeft,
                     child: Column(

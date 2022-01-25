@@ -25,21 +25,22 @@ class _DaftarPageState extends State<DaftarPage> {
             children: [
               Image.asset(
                 'assets/images/logobpbd.png',
-                height: SizeConfig.blockSizeHorizontal * 16,
+                // height: SizeConfig.blockSizeHorizontal * 18,
+                width: SizeConfig.blockSizeVertical * 8,
               ),
               SizedBox(
-                width: SizeConfig.blockSizeHorizontal * 2,
+                width: SizeConfig.blockSizeHorizontal * 4,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'BPBD',
-                    style: onBoardStyle.copyWith(fontSize: 20),
+                    style: onBoardStyle.copyWith(fontSize: 18),
                   ),
                   Text(
                     'BONDOWOSO',
-                    style: onBoardStyle.copyWith(fontSize: 20),
+                    style: onBoardStyle.copyWith(fontSize: 18),
                   )
                 ],
               )
@@ -65,15 +66,15 @@ class _DaftarPageState extends State<DaftarPage> {
           Text(
             'Daftarkan Identitas Anda Terlebih Dahulu',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200, color: const Color(0xFF858585)),
+                fontWeight: FontWeight.w200,fontSize: 12, color: const Color(0xFF1F1F1F).withOpacity(0.8)),
           ),
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 3,
+            height: SizeConfig.blockSizeVertical * 2,
           ),
           Text(
             'Nama Lengkap',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w400,
                 fontSize: 18,
                 color: const Color(0xFF444444)),
           ),
@@ -88,7 +89,7 @@ class _DaftarPageState extends State<DaftarPage> {
                   Icons.person_outline,
                 ),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide())),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
@@ -107,7 +108,7 @@ class _DaftarPageState extends State<DaftarPage> {
           Text(
             'Email',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w400,
                 fontSize: 18,
                 color: const Color(0xFF444444)),
           ),
@@ -122,7 +123,7 @@ class _DaftarPageState extends State<DaftarPage> {
                   Icons.email_outlined,
                 ),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide())),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
@@ -141,7 +142,7 @@ class _DaftarPageState extends State<DaftarPage> {
           Text(
             'Password',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w400,
                 fontSize: 18,
                 color: const Color(0xFF444444)),
           ),
@@ -153,12 +154,13 @@ class _DaftarPageState extends State<DaftarPage> {
             decoration: InputDecoration(
                 hintText: 'Masukkan Password',
                 suffixIcon: const Icon(
-                  Icons.lock,
+                  Icons.lock_outlined,
                 ),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide())),
             keyboardType: TextInputType.text,
+            obscureText: true,
             textInputAction: TextInputAction.next,
             // focusNode: userFocus,
 
@@ -179,13 +181,13 @@ class _DaftarPageState extends State<DaftarPage> {
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                          borderRadius: BorderRadius.circular(12.0),
                           side: BorderSide(color: orangeColor))),
                   backgroundColor: MaterialStateProperty.all(orangeColor),
                 ),
                 child: Text(
-                  'Masuk',
-                  style: onBoardStyle.copyWith(fontSize: 20),
+                  'Daftar',
+                  style: onBoardStyle.copyWith(fontSize: 18),
                 )),
           ),
           SizedBox(
@@ -195,9 +197,8 @@ class _DaftarPageState extends State<DaftarPage> {
             child: Text(
               'Atau dengan',
               style: onBoardStyle.copyWith(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 15,
-                  color: const Color(0xFFACA9A9)),
+                  fontSize: 14,
+                  color: const Color(0xFF444444).withOpacity(0.7)),
             ),
           ),
           SizedBox(
@@ -211,7 +212,7 @@ class _DaftarPageState extends State<DaftarPage> {
                   shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                          borderRadius: BorderRadius.circular(12.0),
                           side: const BorderSide(color: Colors.white))),
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
@@ -223,11 +224,11 @@ class _DaftarPageState extends State<DaftarPage> {
                       height: SizeConfig.blockSizeVertical * 4,
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 2,
+                      width: SizeConfig.blockSizeHorizontal * 6,
                     ),
                     Text(
                       'Lanjutkan melalui Google',
-                      style: onBoardStyle.copyWith(fontSize: 18),
+                      style: onBoardStyle.copyWith(fontSize: 16),
                     ),
                   ],
                 )),
@@ -238,7 +239,7 @@ class _DaftarPageState extends State<DaftarPage> {
               Text(
                 'Sudah Punya Akun ?',
                 style: onBoardStyle.copyWith(
-                    fontSize: 14, color: const Color(0xFFACA9A9)),
+                    fontSize: 14, color: const Color(0xFF444444).withOpacity(0.7)),
               ),
               TextButton(
                 onPressed: () {

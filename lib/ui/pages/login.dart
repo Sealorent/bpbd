@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Image.asset(
             'assets/images/logo.png',
             // height: SizeConfig.safeBlockVertical * ,
-            width: SizeConfig.safeBlockHorizontal * 25,
+            width: SizeConfig.safeBlockVertical * 14,
           )),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 2,
@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             'Masuk Terlebih Dahulu Untuk Mendapatkan Informasi',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200, color: const Color(0xFFB1B1B1)),
+                fontWeight: FontWeight.w200, fontSize: 12, color: const Color(0xFF1F1F1F).withOpacity(0.8)),
           ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 2,
@@ -58,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             'Email',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w400,
                 fontSize: 18,
                 color: const Color(0xFF444444)),
           ),
@@ -69,9 +69,9 @@ class _LoginPageState extends State<LoginPage> {
             // controller: usernameController,
             decoration: InputDecoration(
                 hintText: 'Masukkan Email',
-                suffixIcon: const Icon(Icons.email),
+                suffixIcon: const Icon(Icons.email_outlined),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide())),
             keyboardType: TextInputType.text,
             textInputAction: TextInputAction.next,
@@ -90,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             'Password',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200,
+                fontWeight: FontWeight.w400,
                 fontSize: 18,
                 color: const Color(0xFF444444)),
           ),
@@ -101,11 +101,12 @@ class _LoginPageState extends State<LoginPage> {
             // controller: usernameController,
             decoration: InputDecoration(
                 hintText: 'Masukkan Password',
-                suffixIcon: const Icon(Icons.lock),
+                suffixIcon: const Icon(Icons.lock_outlined),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(12.0),
                     borderSide: const BorderSide())),
             keyboardType: TextInputType.text,
+            obscureText: true,
             textInputAction: TextInputAction.next,
             // focusNode: userFocus,
 
@@ -131,13 +132,13 @@ class _LoginPageState extends State<LoginPage> {
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                          borderRadius: BorderRadius.circular(12.0),
                           side: BorderSide(color: orangeColor))),
                   backgroundColor: MaterialStateProperty.all(orangeColor),
                 ),
                 child: Text(
                   'Masuk',
-                  style: onBoardStyle.copyWith(fontSize: 20),
+                  style: onBoardStyle.copyWith(fontSize: 18),
                 )),
           ),
           SizedBox(
@@ -147,9 +148,9 @@ class _LoginPageState extends State<LoginPage> {
             child: Text(
               'Atau dengan',
               style: onBoardStyle.copyWith(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 15,
-                  color: const Color(0xFFACA9A9)),
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: const Color(0xFF444444).withOpacity(0.7)),
             ),
           ),
           SizedBox(
@@ -163,7 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                   shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
+                          borderRadius: BorderRadius.circular(12.0),
                           side: const BorderSide(color: Colors.white))),
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
@@ -175,11 +176,11 @@ class _LoginPageState extends State<LoginPage> {
                       height: SizeConfig.blockSizeVertical * 4,
                     ),
                     SizedBox(
-                      width: SizeConfig.blockSizeHorizontal * 2,
+                      width: SizeConfig.blockSizeHorizontal * 6,
                     ),
                     Text(
                       'Lanjutkan melalui Google',
-                      style: onBoardStyle.copyWith(fontSize: 18),
+                      style: onBoardStyle.copyWith(fontSize: 16),
                     ),
                   ],
                 )),
@@ -193,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'Tidak Punya Akun ?',
                   style: onBoardStyle.copyWith(
-                      fontSize: 14, color: const Color(0xFFACA9A9)),
+                      fontSize: 14, color: const Color(0xFF444444).withOpacity(0.7)),
                 ),
                 TextButton(
                   onPressed: () {
