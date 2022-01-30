@@ -1,6 +1,7 @@
 part of '../pages/pages.dart';
 
 // String JenisKelamin { "laki-laki", "jefferson" };
+enum JenisKelamin { pria, wanita }
 
 class AkunPage extends StatefulWidget {
   const AkunPage({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class AkunPage extends StatefulWidget {
 
 class _AkunPageState extends State<AkunPage> {
   SizeConfig sizeConfig = SizeConfig();
+  JenisKelamin? _kelamin = JenisKelamin.pria;
 
   @override
   Widget build(BuildContext context) {
@@ -71,15 +73,16 @@ class _AkunPageState extends State<AkunPage> {
                         // height: 40,
                         // width: 200,
                         child: RawMaterialButton(
-                          fillColor: orangeColor,
-                          onPressed: () {
-                            setState(() {
-                              // banjir = !banjir;
-                            });
-                          },
-                          // fillColor: banjir ? Colors.grey : orangeColor,
-                          shape: const CircleBorder(),
-                        ),
+                            fillColor: orangeColor,
+                            onPressed: () {
+                              setState(() {
+                                // banjir = !banjir;
+                              });
+                            },
+                            // fillColor: banjir ? Colors.grey : orangeColor,
+                            shape: const CircleBorder(),
+                            child:
+                                const Icon(Icons.create, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -187,34 +190,36 @@ class _AkunPageState extends State<AkunPage> {
                         color: const Color(0xFF444444)),
                   ),
                 ),
-                // Row(
-                //     mainAxisAlignment: MainAxisAlignment.start,
-                //     children: <Widget>[
-                //       Radio(
-                //         groupValue: _kelamin,
-                //         onChanged: (JenisKelamin? value) {
-                //           setState(() {
-                //             _kelamin = value;
-                //           });
-                //         },
-                //       ),
-                //       const Text(
-                //         'Pria',
-                //         style: TextStyle(fontSize: 17.0),
-                //       ),
-                //       Radio(
-                //         groupValue: _kelamin,
-                //         onChanged: (JenisKelamin? value) {
-                //           setState(() {
-                //             _kelamin = value;
-                //           });
-                //         },
-                //       ),
-                //       const Text(
-                //         'Wanita',
-                //         style: TextStyle(fontSize: 17.0),
-                //       ),
-                //     ]),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Radio(
+                        value: JenisKelamin.pria,
+                        groupValue: _kelamin,
+                        onChanged: (JenisKelamin? value) {
+                          setState(() {
+                            _kelamin = value;
+                          });
+                        },
+                      ),
+                      const Text(
+                        'Pria',
+                        style: TextStyle(fontSize: 17.0),
+                      ),
+                      Radio(
+                        value: JenisKelamin.wanita,
+                        groupValue: _kelamin,
+                        onChanged: (JenisKelamin? value) {
+                          setState(() {
+                            _kelamin = value;
+                          });
+                        },
+                      ),
+                      const Text(
+                        'Wanita',
+                        style: TextStyle(fontSize: 17.0),
+                      ),
+                    ]),
                 SizedBox(
                   height: SizeConfig.safeBlockVertical * 5,
                 ),
