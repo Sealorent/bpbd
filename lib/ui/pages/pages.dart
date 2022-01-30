@@ -19,6 +19,7 @@ part 'mitigasi.dart';
 part 'notifikasi.dart';
 part 'tentang.dart';
 part 'detail.dart';
+part 'berita.dart';
 part '../widget/notif.dart';
 part '../widget/splash.dart';
 part '../widget/google_maps.dart';

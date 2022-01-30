@@ -92,6 +92,46 @@ class _InformasiAkunState extends State<InformasiAkun> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+                            builder: (context) => const Berita()));
+                  },
+                  title: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Berita Terbaru',
+                            style: onBoardStyle.copyWith(
+                              color: Colors.black,
+                            )),
+                      ],
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    color: orangeColor,
+                  ),
+                  leading: SvgPicture.asset('assets/icons/berita.svg',
+                      height: 30, width: 30),
+                ),
+              ],
+            ),
+            Stack(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5,
+                      left: SizeConfig.blockSizeHorizontal * 18,
+                      right: SizeConfig.blockSizeHorizontal * 5),
+                  child: Divider(
+                    // height: SizeConfig.blockSizeVertical * 15,
+                    thickness: 1,
+                  ),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
                             builder: (context) => const Mitigasi()));
                   },
                   title: Align(
