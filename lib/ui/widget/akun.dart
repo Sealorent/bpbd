@@ -1,6 +1,7 @@
 part of '../pages/pages.dart';
 
 // String JenisKelamin { "laki-laki", "jefferson" };
+enum JenisKelamin { pria, wanita }
 
 class AkunPage extends StatefulWidget {
   const AkunPage({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class AkunPage extends StatefulWidget {
 
 class _AkunPageState extends State<AkunPage> {
   SizeConfig sizeConfig = SizeConfig();
+  JenisKelamin? _kelamin = JenisKelamin.pria;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +81,8 @@ class _AkunPageState extends State<AkunPage> {
                             },
                             // fillColor: banjir ? Colors.grey : orangeColor,
                             shape: const CircleBorder(),
+                            child:
+                                const Icon(Icons.create, color: Colors.white)),
                       ),
                     ],
                   ),
@@ -190,6 +194,7 @@ class _AkunPageState extends State<AkunPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Radio(
+                        value: JenisKelamin.pria,
                         groupValue: _kelamin,
                         onChanged: (JenisKelamin? value) {
                           setState(() {
@@ -202,6 +207,7 @@ class _AkunPageState extends State<AkunPage> {
                         style: TextStyle(fontSize: 17.0),
                       ),
                       Radio(
+                        value: JenisKelamin.wanita,
                         groupValue: _kelamin,
                         onChanged: (JenisKelamin? value) {
                           setState(() {

@@ -50,7 +50,9 @@ class _LoginPageState extends State<LoginPage> {
           Text(
             'Masuk Terlebih Dahulu Untuk Mendapatkan Informasi',
             style: onBoardStyle.copyWith(
-                fontWeight: FontWeight.w200, fontSize: 12, color: const Color(0xFF1F1F1F).withOpacity(0.8)),
+                fontWeight: FontWeight.w200,
+                fontSize: 12,
+                color: const Color(0xFF1F1F1F).withOpacity(0.8)),
           ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 2,
@@ -194,7 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                 Text(
                   'Tidak Punya Akun ?',
                   style: onBoardStyle.copyWith(
-                      fontSize: 14, color: const Color(0xFF444444).withOpacity(0.7)),
+                      fontSize: 14,
+                      color: const Color(0xFF444444).withOpacity(0.7)),
                 ),
                 TextButton(
                   onPressed: () {
