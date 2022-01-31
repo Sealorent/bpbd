@@ -204,7 +204,7 @@ class _LaporkanState extends State<Laporkan> {
                           ),
                           SizedBox(
                             height: SizeConfig.blockSizeVertical * 7,
-                            width: SizeConfig.blockSizeHorizontal * 20,
+                            width: SizeConfig.blockSizeHorizontal * 100,
                             child: ElevatedButton(
                                 onPressed: () {},
                                 style: ButtonStyle(
