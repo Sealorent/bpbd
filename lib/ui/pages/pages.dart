@@ -1,11 +1,6 @@
 import 'dart:async';
-<<<<<<< Updated upstream
-
-import 'package:flutter/cupertino.dart';
-=======
 // import 'package:bpbd/provider/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
->>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 import 'package:bpbd/theme/shared.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,20 +27,13 @@ part 'daftar.dart';
 part 'onboarding.dart';
 part 'login.dart';
 part 'main.dart';
-<<<<<<< Updated upstream
-part 'menu.dart';
-part 'laporkan.dart';
-part 'mitigasi.dart';
 part 'notifikasi.dart';
-part 'tentang.dart';
 part 'detail.dart';
+part 'mitigasi.dart';
+part 'tentang.dart';
 part 'berita.dart';
-=======
-part 'notifikasi.dart';
-part 'detail.dart';
-part 'mitigasi.dart';
-part 'tentang.dart';
->>>>>>> Stashed changes
+part 'laporkan.dart';
+part '../widget/detail_menu.dart';
 part '../widget/notif.dart';
 part '../widget/splash.dart';
 part '../widget/google_maps.dart';

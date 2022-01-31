@@ -143,11 +143,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                               'Aplikasi ini dibuat untuk menampilkan informasi Bencana Alam yang berada di sekitar',
                                               style: onBoardStyle.copyWith(
                                                 color: const Color(0xFFC4C4C4),
-<<<<<<< HEAD
                                                 fontSize: 14,
-=======
-                                                fontSize: 16,
->>>>>>> 61bcf90672aa61303c35cdbdf1acfc8c7f6adece
                                               ))
                                         ],
                                       ),
@@ -199,11 +195,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                           Text(
                                             'Untuk Kesehjateraan Bersama',
                                             style: onBoardStyle.copyWith(
-<<<<<<< HEAD
                                                 fontSize: 23),
-=======
-                                                fontSize: 27),
->>>>>>> 61bcf90672aa61303c35cdbdf1acfc8c7f6adece
                                           ),
                                           SizedBox(
                                             height:
@@ -214,11 +206,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                               'Agar terciptanya lingkungan yang bersih, dan mengurangi resiko bencana alam',
                                               style: onBoardStyle.copyWith(
                                                 color: const Color(0xFFC4C4C4),
-<<<<<<< HEAD
                                                 fontSize: 14,
-=======
-                                                fontSize: 16,
->>>>>>> 61bcf90672aa61303c35cdbdf1acfc8c7f6adece
                                               ))
                                         ],
                                       ),

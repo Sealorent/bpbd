@@ -81,11 +81,7 @@ class _MitigasiState extends State<Mitigasi> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-<<<<<<< Updated upstream
                                                       const Detail()));
-=======
-                                                      const Mitigasi()));
->>>>>>> Stashed changes
                                         },
                                         fillColor: Colors.white,
                                         shape: const CircleBorder(),
