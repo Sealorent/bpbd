@@ -19,7 +19,13 @@ Depends on all your plugins, and provides a function to register them.
   s.static_framework    = true
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.dependency 'Flutter'
+  s.dependency 'cloud_firestore'
+  s.dependency 'firebase_analytics'
+  s.dependency 'firebase_auth'
+  s.dependency 'firebase_core'
+  s.dependency 'fluttertoast'
   s.dependency 'google_maps_flutter'
+  s.dependency 'google_sign_in'
   s.dependency 'path_provider_ios'
   s.dependency 'shared_preferences_ios'
 end

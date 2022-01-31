@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
   int selectedIndex = 1;
 
   final _listPage = <Widget>[
-    const InformasiAkun(),
+    const PilihanMenu(),
     const GoogleMapsPage(),
     const AkunPage()
   ];
