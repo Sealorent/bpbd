@@ -29,6 +29,7 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           toolbarHeight: SizeConfig.blockSizeVertical * 10,
           backgroundColor: orangeColor,
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

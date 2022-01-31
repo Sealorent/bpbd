@@ -7,8 +7,8 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
-  static late SharedPreferences isLogin ;
-  
+  static late SharedPreferences isLogin;
+
   bool logIn = false;
   final int _numpages = 2;
   final PageController _pageController = PageController(initialPage: 0);
@@ -35,13 +35,13 @@ class _OnBoardingState extends State<OnBoarding> {
     );
   }
 
-   static Future init() async {
+  static Future init() async {
     isLogin = await SharedPreferences.getInstance();
-    }
+  }
+
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {
-    
     sizeConfig.init(context);
     return Scaffold(
         body: Column(
@@ -98,11 +98,11 @@ class _OnBoardingState extends State<OnBoarding> {
                                 child: Column(
                                   children: <Widget>[
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 5,
+                                      height: SizeConfig.blockSizeVertical * 4,
                                     ),
                                     SvgPicture.asset('assets/images/ilus.svg'),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical * 5,
+                                      height: SizeConfig.blockSizeVertical * 4,
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -114,12 +114,12 @@ class _OnBoardingState extends State<OnBoarding> {
                                           Text(
                                             'Kami Siap Untuk',
                                             style: onBoardStyle.copyWith(
-                                                fontSize: 30),
+                                                fontSize: 25),
                                           ),
                                           RichText(
                                             text: TextSpan(
                                               style: onBoardStyle.copyWith(
-                                                  fontSize: 30),
+                                                  fontSize: 25),
                                               children: [
                                                 TextSpan(
                                                     text: 'Membantu',
@@ -141,10 +141,9 @@ class _OnBoardingState extends State<OnBoarding> {
                                           Text(
                                               'Aplikasi ini dibuat untuk menampilkan informasi Bencana Alam yang berada di sekitar',
                                               style: onBoardStyle.copyWith(
-                                                  color:
-                                                      const Color(0xFFC4C4C4),
-                                                  fontSize: 16,
-                                                  ))
+                                                color: const Color(0xFFC4C4C4),
+                                                fontSize: 14,
+                                              ))
                                         ],
                                       ),
                                     )
@@ -164,7 +163,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                     ),
                                     SvgPicture.asset('assets/images/ilust.svg'),
                                     SizedBox(
-                                      height: SizeConfig.blockSizeVertical *8,
+                                      height: SizeConfig.blockSizeVertical * 8,
                                     ),
                                     Align(
                                       alignment: Alignment.centerLeft,
@@ -176,7 +175,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                           RichText(
                                             text: TextSpan(
                                               style: onBoardStyle.copyWith(
-                                                  fontSize: 27),
+                                                  fontSize: 23),
                                               children: [
                                                 TextSpan(
                                                     text: 'Jagalah',
@@ -192,10 +191,11 @@ class _OnBoardingState extends State<OnBoarding> {
                                               ],
                                             ),
                                           ),
-                                          Text('Untuk Kesehjateraan Bersama',
-                                          style: onBoardStyle.copyWith(
-                                            fontSize: 27
-                                          ),),
+                                          Text(
+                                            'Untuk Kesehjateraan Bersama',
+                                            style: onBoardStyle.copyWith(
+                                                fontSize: 23),
+                                          ),
                                           SizedBox(
                                             height:
                                                 SizeConfig.safeBlockVertical *
@@ -204,9 +204,9 @@ class _OnBoardingState extends State<OnBoarding> {
                                           Text(
                                               'Agar terciptanya lingkungan yang bersih, dan mengurangi resiko bencana alam',
                                               style: onBoardStyle.copyWith(
-                                                  color:
-                                                      const Color(0xFFC4C4C4),
-                                                  fontSize: 16,))
+                                                color: const Color(0xFFC4C4C4),
+                                                fontSize: 14,
+                                              ))
                                         ],
                                       ),
                                     )
@@ -241,7 +241,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                     ? () => Navigator.of(context)
                                             .pushReplacement(
                                                 MaterialPageRoute(builder: (_) {
-                                                  save();
+                                          save();
                                           return const LoginPage();
                                         }))
                                     : () => _pageController.nextPage(
@@ -284,9 +284,9 @@ class _OnBoardingState extends State<OnBoarding> {
       ],
     ));
   }
-save()async{
- await _OnBoardingState.init(); 
- isLogin.setBool('isLogin',true);
- 
-}
+
+  save() async {
+    await _OnBoardingState.init();
+    isLogin.setBool('isLogin', true);
+  }
 }
