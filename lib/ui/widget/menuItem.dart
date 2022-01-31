@@ -1,13 +1,13 @@
 part of '../pages/pages.dart';
 
-class InformasiAkun extends StatefulWidget {
-  const InformasiAkun({Key? key}) : super(key: key);
+class PilihanMenu extends StatefulWidget {
+  const PilihanMenu({Key? key}) : super(key: key);
 
   @override
-  _InformasiAkunState createState() => _InformasiAkunState();
+  _PilihanMenuState createState() => _PilihanMenuState();
 }
 
-class _InformasiAkunState extends State<InformasiAkun> {
+class _PilihanMenuState extends State<PilihanMenu> {
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _InformasiAkunState extends State<InformasiAkun> {
                       top: SizeConfig.blockSizeVertical * 5,
                       left: SizeConfig.blockSizeHorizontal * 18,
                       right: SizeConfig.blockSizeHorizontal * 5),
-                  child: Divider(
+                  child: const Divider(
                     // height: SizeConfig.blockSizeVertical * 15,
                     thickness: 1,
                   ),
@@ -82,7 +82,7 @@ class _InformasiAkunState extends State<InformasiAkun> {
                       top: SizeConfig.blockSizeVertical * 5,
                       left: SizeConfig.blockSizeHorizontal * 18,
                       right: SizeConfig.blockSizeHorizontal * 5),
-                  child: Divider(
+                  child: const Divider(
                     // height: SizeConfig.blockSizeVertical * 15,
                     thickness: 1,
                   ),
@@ -92,6 +92,7 @@ class _InformasiAkunState extends State<InformasiAkun> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+<<<<<<< Updated upstream:lib/ui/widget/profil.dart
                             builder: (context) => const Berita()));
                   },
                   title: Align(
@@ -132,6 +133,8 @@ class _InformasiAkunState extends State<InformasiAkun> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+=======
+>>>>>>> Stashed changes:lib/ui/widget/menuItem.dart
                             builder: (context) => const Mitigasi()));
                   },
                   title: Align(
@@ -178,7 +181,7 @@ class _InformasiAkunState extends State<InformasiAkun> {
                       top: SizeConfig.blockSizeVertical * 5,
                       left: SizeConfig.blockSizeHorizontal * 18,
                       right: SizeConfig.blockSizeHorizontal * 5),
-                  child: Divider(
+                  child: const Divider(
                     // height: SizeConfig.blockSizeVertical * 15,
                     thickness: 1,
                   ),
@@ -188,7 +191,11 @@ class _InformasiAkunState extends State<InformasiAkun> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
+<<<<<<< Updated upstream:lib/ui/widget/profil.dart
                             builder: (context) => const Tentang()));
+=======
+                            builder: (context) => const Detail()));
+>>>>>>> Stashed changes:lib/ui/widget/menuItem.dart
                   },
                   title: Align(
                     alignment: Alignment.centerLeft,
@@ -216,7 +223,7 @@ class _InformasiAkunState extends State<InformasiAkun> {
             ),
             ListTile(
               onTap: () {},
-              leading: Icon(
+              leading: const Icon(
                 Icons.exit_to_app,
                 size: 30,
                 color: Colors.red,

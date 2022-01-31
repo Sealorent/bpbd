@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
   int selectedIndex = 1;
 
   final _listPage = <Widget>[
-    const InformasiAkun(),
+    const PilihanMenu(),
     const GoogleMapsPage(),
     const AkunPage()
   ];
@@ -29,6 +29,7 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           toolbarHeight: SizeConfig.blockSizeVertical * 10,
           backgroundColor: orangeColor,
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
