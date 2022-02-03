@@ -175,7 +175,9 @@ class _PilihanMenuState extends State<PilihanMenu> {
               ],
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                logoutUser();
+              },
               leading: const Icon(
                 Icons.exit_to_app,
                 size: 30,
@@ -190,5 +192,39 @@ class _PilihanMenuState extends State<PilihanMenu> {
         ),
       ),
     );
+  }
+
+  void logoutUser() async {
+    FirebaseService service = FirebaseService();
+    try {
+      service.signOutFromGoogle();
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.clear();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
+    } catch (e) {
+      if (e is FirebaseAuthException) {
+        showMessage(e.message!);
+      }
+    }
+  }
+
+  void showMessage(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text(message),
+            actions: [
+              TextButton(
+                child: Text("Ok"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }

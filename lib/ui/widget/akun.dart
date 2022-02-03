@@ -14,6 +14,7 @@ class _AkunPageState extends State<AkunPage> {
   // GoogleSignInAccount _userObj;
   SizeConfig sizeConfig = SizeConfig();
   JenisKelamin? _kelamin = JenisKelamin.pria;
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +48,24 @@ class _AkunPageState extends State<AkunPage> {
                                       // banjir = !banjir;
                                     });
                                   },
-                                  // fillColor: banjir ? Colors.grey : orangeColor,
                                   shape: const CircleBorder(
                                       side: BorderSide(
                                     color: Colors.white,
                                     width: 4,
                                   )),
-                                  child: Image.asset(
-                                    'assets/icons/photo.png',
-                                    height: 120,
-                                    width: 120,
-                                  )),
+                                  child: user != null
+                                      ? ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(50.0),
+                                          child: Image.network(
+                                            user!.photoURL!,
+                                          ),
+                                        )
+                                      : Image.asset(
+                                          'assets/icons/photo.png',
+                                          height: 120,
+                                          width: 120,
+                                        )),
                               SizedBox(
                                 height: SizeConfig.blockSizeVertical * 1,
                               ),
@@ -72,8 +80,6 @@ class _AkunPageState extends State<AkunPage> {
                         Positioned(
                           bottom: 25,
                           right: 0,
-                          // height: 40,
-                          // width: 200,
                           child: RawMaterialButton(
                               fillColor: orangeColor,
                               onPressed: () {
@@ -117,6 +123,7 @@ class _AkunPageState extends State<AkunPage> {
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (_) {},
+
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,

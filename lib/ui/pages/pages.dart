@@ -1,19 +1,25 @@
 import 'dart:async';
-// import 'package:bpbd/provider/google_sign_in.dart';
+import 'dart:convert';
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:bpbd/theme/shared.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:bpbd/provider/google_sign_in.dart';
+import 'package:bpbd/utils/api.dart';
 import 'package:bpbd/auth/auth_google.dart';
+// import 'dart:math';
+// import 'package:google_sign_in/google_sign_in.dart';
+// import 'package:bpbd/provider/google_sign_in.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// // import 'package:provider/provider.dart';
+// // import 'package:bpbd/provider/google_sign_in.dart';
+// import 'package:bpbd/auth/auth_google.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:firebase_core/firebase_core.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 // import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 // import 'package:google_api_headers/google_api_headers.dart';
