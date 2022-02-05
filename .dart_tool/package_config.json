@@ -164,6 +164,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_mapbox_autocomplete",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_mapbox_autocomplete-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5",
       "packageUri": "lib/",
@@ -644,7 +650,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-02-05T06:43:50.786919Z",
+  "generated": "2022-02-05T17:01:12.915649Z",
   "generator": "pub",
   "generatorVersion": "2.15.1"
 }

@@ -334,9 +334,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                             child: TextField(
                                 readOnly: true,
                                 onTap: () {
-                                  // generate a new token here
                                   _handlePressButton();
                                 },
+                                enabled: true,
                                 decoration: const InputDecoration(
                                     icon: Icon(Icons.search),
                                     hintText: 'Cari Daerah',

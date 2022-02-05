@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_google_places: ^0.3.0
+  flutter_mapbox_autocomplete: ^2.0.0
   flutter_svg: ^1.0.0
   fluttertoast: ^8.0.8
   font_awesome_flutter: ^9.2.0
