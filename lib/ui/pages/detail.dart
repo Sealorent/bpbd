@@ -36,25 +36,25 @@ class _DetailState extends State<Detail> {
           padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
           child: Column(
             children: [
-              Image.asset(
-                'assets/icons/longsor.png',
-                height: 200,
-                width: 200,
-                color: orangeColor,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal * 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tanah Longsor',
-                      style: onBoardStyle.copyWith(color: orangeColor),
-                    ),
-                  ],
+              Center(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Tanah Longsor',
+                    style: onBoardStyle.copyWith(color: orangeColor),
+                  ),
                 ),
               ),
+              RawMaterialButton(
+                  padding: EdgeInsets.all(15),
+                  onPressed: () {},
+                  fillColor: Colors.grey[50],
+                  shape: const CircleBorder(),
+                  child: Image.asset(
+                    'assets/icons/longsor.png',
+                    height: SizeConfig.blockSizeVertical * 10,
+                    width: SizeConfig.blockSizeHorizontal * 10,
+                  )),
               Padding(
                 padding: const EdgeInsets.fromLTRB(10, 30, 0, 0),
                 child: RichText(
