@@ -102,9 +102,7 @@ class _DaftarPageState extends State<DaftarPage> {
             TextFormField(
                 // controller: usernameController,
                 decoration: InputDecoration(
-                    hintText: user != null
-                        ? user!.displayName!
-                        : 'Masukkan Nama Lengkap',
+                    hintText: 'Masukkan Nama Lengkap',
                     suffixIcon: const Icon(
                       Icons.person_outline,
                     ),
@@ -115,8 +113,8 @@ class _DaftarPageState extends State<DaftarPage> {
                 textInputAction: TextInputAction.next,
                 validator: (namaValue) {
                   if (namaValue!.isEmpty) {
-                    name = user != null ? user!.displayName! : null;
-                    // return 'Please enter your name';
+                    // user != null ? user!.displayName! : null;
+                    return 'masukkan nama';
                   }
                   name = namaValue;
                   return null;
@@ -136,7 +134,7 @@ class _DaftarPageState extends State<DaftarPage> {
             ),
             TextFormField(
                 decoration: InputDecoration(
-                    hintText: user != null ? user!.email : 'Masukkan Email',
+                    hintText: 'Masukkan Email',
                     suffixIcon: const Icon(
                       Icons.email_outlined,
                     ),
@@ -147,8 +145,7 @@ class _DaftarPageState extends State<DaftarPage> {
                 textInputAction: TextInputAction.next,
                 validator: (emailValue) {
                   if (emailValue!.isEmpty) {
-                    name = user != null ? user!.email! : null;
-                    // return 'Please enter your email';
+                    return 'Please enter your email';
                   }
                   email = emailValue;
                   return null;

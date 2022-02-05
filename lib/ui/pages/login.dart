@@ -206,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DaftarPage()));
+                                    builder: (context) => MainPage()));
                           } catch (e) {
                             if (e is FirebaseAuthException) {
                               showMessage(e.message!);

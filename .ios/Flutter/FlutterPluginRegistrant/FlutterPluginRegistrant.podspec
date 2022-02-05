@@ -24,8 +24,11 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'firebase_auth'
   s.dependency 'firebase_core'
   s.dependency 'fluttertoast'
+  s.dependency 'geocoding'
+  s.dependency 'geolocator_apple'
   s.dependency 'google_maps_flutter'
   s.dependency 'google_sign_in'
+  s.dependency 'package_info_plus'
   s.dependency 'path_provider_ios'
   s.dependency 'shared_preferences_ios'
 end

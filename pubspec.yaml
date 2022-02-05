@@ -25,21 +25,27 @@ dependencies:
   convert: ^3.0.1
   cupertino_icons: ^1.0.2
   firebase_analytics: ^9.0.5
-  firebase_auth: ^3.3.5
+  firebase_auth: ^3.3.6
   firebase_core: ^1.11.0
   flutter:
     sdk: flutter
+  flutter_google_places: ^0.3.0
   flutter_svg: ^1.0.0
   fluttertoast: ^8.0.8
   font_awesome_flutter: ^9.2.0
-  google_fonts: ^2.1.1
-  google_maps_flutter: ^2.1.1
-  google_sign_in: ^5.2.3
-  http: ^0.13.4
+  geocoding: any
+  geolocator: any
+  google_api_headers: ^1.1.1
+  google_fonts: any
+  google_maps_flutter: any
+  google_maps_webservice: ^0.0.19
+  google_sign_in: any
+  http: any
   onboarding: ^2.1.0
-  provider: ^6.0.2
+  provider: any
   shared_preferences: ^2.0.11
   sizer: ^2.0.15
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_lints: ^1.0.0

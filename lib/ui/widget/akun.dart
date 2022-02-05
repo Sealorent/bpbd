@@ -122,8 +122,8 @@ class _AkunPageState extends State<AkunPage> {
                             borderSide: const BorderSide())),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
+                    initialValue: user != null ? user!.displayName! : 'you',
                     onFieldSubmitted: (_) {},
-
                   ),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 2,
@@ -152,6 +152,7 @@ class _AkunPageState extends State<AkunPage> {
                             borderSide: const BorderSide())),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
+                    initialValue: user != null ? user!.email! : "name",
                     onFieldSubmitted: (_) {},
                   ),
                   SizedBox(
@@ -182,6 +183,7 @@ class _AkunPageState extends State<AkunPage> {
                             borderSide: const BorderSide())),
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.next,
+                    // initialValue: user!.phoneNumber!,
                     onFieldSubmitted: (_) {},
                   ),
                   SizedBox(
