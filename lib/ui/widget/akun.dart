@@ -15,6 +15,26 @@ class _AkunPageState extends State<AkunPage> {
   SizeConfig sizeConfig = SizeConfig();
   JenisKelamin? _kelamin = JenisKelamin.pria;
   User? user = FirebaseAuth.instance.currentUser;
+  bool update = true;
+  var _image;
+
+  final ImagePicker _picker = ImagePicker();
+
+  _imgFromCamera() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = image;
+    });
+  }
+
+  _imgFromGallery() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +65,7 @@ class _AkunPageState extends State<AkunPage> {
                               RawMaterialButton(
                                   onPressed: () {
                                     setState(() {
-                                      // banjir = !banjir;
+                                      _showPicker(context); // banjir = !banjir;
                                     });
                                   },
                                   shape: const CircleBorder(
@@ -53,12 +73,15 @@ class _AkunPageState extends State<AkunPage> {
                                     color: Colors.white,
                                     width: 4,
                                   )),
-                                  child: user != null
+                                  child: _image != null
                                       ? ClipRRect(
                                           borderRadius:
-                                              BorderRadius.circular(50.0),
-                                          child: Image.network(
-                                            user!.photoURL!,
+                                              BorderRadius.circular(50),
+                                          child: Image.file(
+                                            _image,
+                                            width: 100,
+                                            height: 100,
+                                            fit: BoxFit.fitHeight,
                                           ),
                                         )
                                       : Image.asset(
@@ -84,12 +107,13 @@ class _AkunPageState extends State<AkunPage> {
                               fillColor: orangeColor,
                               onPressed: () {
                                 setState(() {
-                                  // banjir = !banjir;
+                                  _showPicker(context);
                                 });
                               },
                               // fillColor: banjir ? Colors.grey : orangeColor,
                               shape: const CircleBorder(),
-                              child: Icon(Icons.create, color: Colors.white)),
+                              child: const Icon(Icons.create,
+                                  color: Colors.white)),
                         ),
                       ],
                     ),
@@ -259,5 +283,33 @@ class _AkunPageState extends State<AkunPage> {
         ),
       ),
     );
+  }
+
+  void _showPicker(context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: const Icon(Icons.photo_library),
+                    title: const Text('Photo Library'),
+                    onTap: () {
+                      _imgFromGallery();
+                      Navigator.of(context).pop();
+                    }),
+                ListTile(
+                  leading: const Icon(Icons.photo_camera),
+                  title: const Text('Camera'),
+                  onTap: () {
+                    _imgFromCamera();
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

@@ -28,6 +28,7 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'geolocator_apple'
   s.dependency 'google_maps_flutter'
   s.dependency 'google_sign_in'
+  s.dependency 'image_picker'
   s.dependency 'package_info_plus'
   s.dependency 'path_provider_ios'
   s.dependency 'shared_preferences_ios'

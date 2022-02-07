@@ -1,6 +1,4 @@
-import 'package:bpbd/models/place_search.dart';
 import 'package:bpbd/services/geolocator_services.dart';
-import 'package:bpbd/services/place_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -9,6 +7,7 @@ class ApplicationBloc with ChangeNotifier {
   // final placeService = PlaceService();
 
   late Position currentLocation;
+
   // late List<PlaceSearch> searchResults;
 
   ApplicationBloc() {

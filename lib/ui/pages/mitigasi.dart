@@ -9,8 +9,18 @@ class Mitigasi extends StatefulWidget {
 
 class _MitigasiState extends State<Mitigasi> {
   SizeConfig sizeConfig = SizeConfig();
+  String? _token;
+  Future<Kategori>? _dataKategori;
+
+  @override
+  void initState() {
+    _dataKategori = Network.getListKategori();
+  }
+
   @override
   Widget build(BuildContext context) {
+    sizeConfig.init(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -21,257 +31,127 @@ class _MitigasiState extends State<Mitigasi> {
         foregroundColor: Colors.black,
         shadowColor: Colors.white,
       ),
-      body: ListView(
-        children: [
-          SafeArea(
-            child: SizedBox(
-                width: SizeConfig.screenWidth,
-                height: SizeConfig.screenHeight,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 30, 20, 0),
-                      child: RichText(
-                          textAlign: TextAlign.left,
-                          text: const TextSpan(
-                            text:
-                                'Berikut informasi yang harus dipersiapkan sebelum terjadinya bencana disekitar anda',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.5,
-                            ),
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(18, 20, 25, 0),
-                      child: RichText(
-                          textAlign: TextAlign.left,
-                          text: const TextSpan(
-                            text:
-                                'Pilih bencananya untuk melihat rekomendasi mitigasinya.',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15,
-                            ),
-                          )),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 44,
-                                height: SizeConfig.blockSizeVertical * 20,
-                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: orangeColor,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RawMaterialButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Detail()));
-                                        },
-                                        fillColor: Colors.white,
-                                        shape: const CircleBorder(),
-                                        child: FaIcon(
-                                          FontAwesomeIcons.virus,
-                                          size: 18,
-                                          color: orangeColor,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height -
+            MediaQuery.of(context).padding.top,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Berikut informasi yang harus dipersiapkan sebelum terjadinya bencana disekitar anda',
+                  style: onBoardStyle.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Pilih bencananya untuk melihat rekomendasi mitigasinya.',
+                  style: onBoardStyle.copyWith(
+                    fontSize: 18,
+                    color: Colors.grey.withOpacity(0.8),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: 350,
+                  child: FutureBuilder(
+                    future: Network.getListKategori(),
+                    builder: (context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasError) return Text('Error');
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.none:
+                        case ConnectionState.waiting:
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        case ConnectionState.active:
+                        case ConnectionState.done:
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 200,
+                                        childAspectRatio: 3 / 2,
+                                        crossAxisSpacing: 20,
+                                        mainAxisSpacing: 20),
+                                itemCount: snapshot.data.data.length,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            'Covid-19',
-                                            style: onBoardStyle.copyWith(
-                                                color: Colors.white),
+                                          const SizedBox(
+                                            height: 2,
                                           ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: whiteColor,
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                snapshot.data.data![index].name,
+                                                style: onBoardStyle.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 16),
+                                              ),
+                                              const Icon(
+                                                Icons.chevron_right_sharp,
+                                                color: Colors.white,
+                                              ),
+                                            ],
                                           )
                                         ],
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 44,
-                                height: SizeConfig.blockSizeVertical * 20,
-                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: orangeColor,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RawMaterialButton(
-                                        onPressed: () {},
-                                        fillColor: Colors.white,
-                                        shape: const CircleBorder(),
-                                        child: SvgPicture.asset(
-                                          'assets/icons/banjir.svg',
-                                          height: 18,
-                                          width: 18,
-                                          color: orangeColor,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Banjir',
-                                            style: onBoardStyle.copyWith(
-                                                color: Colors.white),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: whiteColor,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 2,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 44,
-                                height: SizeConfig.blockSizeVertical * 20,
-                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: orangeColor,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RawMaterialButton(
-                                        onPressed: () {},
-                                        fillColor: Colors.white,
-                                        shape: const CircleBorder(),
-                                        child: Image.asset(
-                                          'assets/icons/gempa.png',
-                                          height: 18,
-                                          width: 18,
-                                          color: orangeColor,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Gempa Bumi',
-                                            style: onBoardStyle.copyWith(
-                                                color: Colors.white),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: whiteColor,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 44,
-                                height: SizeConfig.blockSizeVertical * 20,
-                                padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: orangeColor,
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    RawMaterialButton(
-                                        onPressed: () {},
-                                        fillColor: Colors.white,
-                                        shape: const CircleBorder(),
-                                        child: Image.asset(
-                                          'assets/icons/longsor.png',
-                                          height: 18,
-                                          width: 18,
-                                          color: orangeColor,
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  5),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          FittedBox(
-                                            fit: BoxFit.fill,
-                                            child: Text(
-                                              'Tanah Longsor',
-                                              style: onBoardStyle.copyWith(
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            color: whiteColor,
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                )),
+                                    ),
+                                    // const Text("hai"),
+                                    decoration: BoxDecoration(
+                                        color: Colors.amber,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                  );
+                                });
+                          }
+                      }
+                      return const Center(
+                        child: Text(
+                          "Loading ...",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w900, fontSize: 30.0),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }
