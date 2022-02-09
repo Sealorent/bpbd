@@ -6,7 +6,7 @@ class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
   // final placeService = PlaceService();
 
-  late Position currentLocation;
+  late final Position currentLocation;
 
   // late List<PlaceSearch> searchResults;
 
@@ -18,10 +18,4 @@ class ApplicationBloc with ChangeNotifier {
     currentLocation = await geoLocatorService.getCurrentLocation();
     notifyListeners();
   }
-
-  // ignore: non_constant_identifier_names
-  // SearchPlaces(String searchTerm) async {
-  //   searchResults = await placeService.getAutoComplete(searchTerm);
-  //   notifyListeners();
-  // }
 }

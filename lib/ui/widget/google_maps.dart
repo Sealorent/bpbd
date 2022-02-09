@@ -15,13 +15,34 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   bool banjir = true;
   bool gempa = true;
   bool longsor = true;
+  bool search = false;
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
   final _controller = TextEditingController();
 
+  List _items = [];
+  List _itemsResult = [];
+
+  Future<void> readJson() async {
+    final String response =
+        await rootBundle.loadString('assets/jsonkecamatan/kecamatan.json');
+    final data = await json.decode(response);
+    setState(() {
+      _items = data["data"];
+    });
+  }
+
+  // void dispose() {
+  //   // Clean up the controller when the widget is removed from the
+  //   // widget tree.
+  //   _controller.dispose();
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController controller = new TextEditingController();
     sizeConfig.init(context);
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     return (applicationBloc.currentLocation == null)
@@ -309,62 +330,169 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                   // left: 20,
                   width: SizeConfig.safeBlockHorizontal * 100,
                   // padding: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 70,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 2,
-                                blurRadius: 1,
-                                offset: const Offset(
-                                    1, 2), // changes position of shadow
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 70,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    spreadRadius: 2,
+                                    blurRadius: 1,
+                                    offset: const Offset(
+                                        1, 2), // changes position of shadow
+                                  ),
+                                ],
+                                borderRadius: BorderRadius.circular(14),
                               ),
-                            ],
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: SizeConfig.blockSizeHorizontal * 4),
-                            child: TextField(
-                                readOnly: true,
-                                onTap: () {
-                                  _handlePressButton();
-                                },
-                                enabled: true,
-                                decoration: const InputDecoration(
-                                    icon: Icon(Icons.search),
-                                    hintText: 'Cari Daerah',
-                                    // contentPadding: EdgeInsets.all(15),
-                                    border: InputBorder.none),
-                                onChanged: (value) {}),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 4,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NotifikasiPage()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14.0),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        SizeConfig.blockSizeHorizontal * 4),
+                                child: TextFieldSearch(
+                                    label: 'Cari Kecamatan',
+                                    controller: _controller,
+                                    future: () {
+                                      return Network.getListKecamatan();
+                                    }),
+                                // child: TextFormField(
+                                //     // readOnly: true,Binabi
+                                //     controller: controller,
+                                //     onTap: () {
+                                //       setState(() {
+                                //         readJson();
+                                //       });
+                                //     },
+                                //     decoration: const InputDecoration(
+                                //         icon: Icon(Icons.search),
+                                //         hintText: 'Cari Kecamatan',
+                                //         // contentPadding: EdgeInsets.all(15),
+                                //         border: InputBorder.none),
+                                //     onChanged: onSearchTextChanged),
+                              ),
                             ),
-                            primary: Colors.white,
-                            fixedSize: const Size(20, 48),
                           ),
-                          child: SvgPicture.asset('assets/icons/alert.svg'))
+                          SizedBox(
+                            width: SizeConfig.blockSizeHorizontal * 4,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NotifikasiPage()));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14.0),
+                                ),
+                                primary: Colors.white,
+                                fixedSize: const Size(20, 48),
+                              ),
+                              child: SvgPicture.asset('assets/icons/alert.svg'))
+                        ],
+                      ),
+                      // _items.isNotEmpty
+                      //     ? _itemsResult.length != 0 ||
+                      //             controller.text.isNotEmpty
+                      //         ? Padding(
+                      //             padding: EdgeInsets.only(
+                      //                 left: SizeConfig.blockSizeHorizontal * 5),
+                      //             child: Stack(
+                      //               alignment: Alignment.center,
+                      //               children: [
+                      //                 Container(
+                      //                     height:
+                      //                         SizeConfig.blockSizeVertical * 20,
+                      //                     width:
+                      //                         SizeConfig.blockSizeHorizontal *
+                      //                             70,
+                      //                     decoration: BoxDecoration(
+                      //                       color:
+                      //                           Colors.black.withOpacity(0.8),
+                      //                       borderRadius:
+                      //                           const BorderRadius.only(
+                      //                               bottomLeft:
+                      //                                   Radius.circular(10),
+                      //                               bottomRight:
+                      //                                   Radius.circular(10)),
+                      //                     )),
+                      //                 SizedBox(
+                      //                   height:
+                      //                       SizeConfig.blockSizeVertical * 20,
+                      //                   width:
+                      //                       SizeConfig.blockSizeHorizontal * 70,
+                      //                   child: ListView.builder(
+                      //                       itemCount: _itemsResult.length,
+                      //                       itemBuilder: (context, index) {
+                      //                         return ListTile(
+                      //                           onTap: () {},
+                      //                           title: Text(
+                      //                               _itemsResult[index]
+                      //                                   ["label"],
+                      //                               style:
+                      //                                   onBoardStyle.copyWith(
+                      //                                       color:
+                      //                                           Colors.white)),
+                      //                         );
+                      //                       }),
+                      //                 )
+                      //               ],
+                      //             ),
+                      //           )
+                      //         : Padding(
+                      //             padding: EdgeInsets.only(
+                      //                 left: SizeConfig.blockSizeHorizontal * 5),
+                      //             child: Stack(
+                      //               alignment: Alignment.center,
+                      //               children: [
+                      //                 Container(
+                      //                     height:
+                      //                         SizeConfig.blockSizeVertical * 20,
+                      //                     width:
+                      //                         SizeConfig.blockSizeHorizontal *
+                      //                             70,
+                      //                     decoration: BoxDecoration(
+                      //                       color:
+                      //                           Colors.black.withOpacity(0.8),
+                      //                       borderRadius:
+                      //                           const BorderRadius.only(
+                      //                               bottomLeft:
+                      //                                   Radius.circular(10),
+                      //                               bottomRight:
+                      //                                   Radius.circular(10)),
+                      //                     )),
+                      //                 SizedBox(
+                      //                   height:
+                      //                       SizeConfig.blockSizeVertical * 20,
+                      //                   width:
+                      //                       SizeConfig.blockSizeHorizontal * 70,
+                      //                   child: ListView.builder(
+                      //                       itemCount: _items.length,
+                      //                       itemBuilder: (context, index) {
+                      //                         return ListTile(
+                      //                           onTap: () {},
+                      //                           title: Text(
+                      //                               _items[index]["kecamatan"],
+                      //                               style:
+                      //                                   onBoardStyle.copyWith(
+                      //                                       color:
+                      //                                           Colors.white)),
+                      //                         );
+                      //                       }),
+                      //                 )
+                      //               ],
+                      //             ),
+                      //           )
+                      //     : Container()
                     ],
                   ),
                 ),
@@ -373,45 +501,17 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
           );
   }
 
-  Future<void> _handlePressButton() async {
-    // show input autocomplete with selected mode
-    // then get the Prediction selected
-    Prediction? p = await PlacesAutocomplete.show(
-      context: context,
-      apiKey: kGoogleApiKey,
-      // onError: onError,
-      mode: Mode.overlay,
-      language: "id",
-      decoration: InputDecoration(
-        hintText: 'Search',
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
-          borderSide: const BorderSide(
-            color: Colors.white,
-          ),
-        ),
-      ),
-      components: [Component(Component.country, "id")],
-    );
+  // onSearchTextChanged(String text) async {
+  //   // _itemsResult.clear();
+  //   if (text.isEmpty) {
+  //     setState(() {});
+  //     return;
+  //   }
 
-    displayPrediction(p, homeScaffoldKey.currentState!);
-  }
+  //   _items.forEach((userDetail) {
+  //     if (userDetail["label"].contains(text)) _itemsResult.add(userDetail);
+  //   });
 
-  Future<void> displayPrediction(Prediction? p, ScaffoldState scaffold) async {
-    if (p != null) {
-      // get detail (lat/lng)
-      GoogleMapsPlaces _places = GoogleMapsPlaces(
-        apiKey: kGoogleApiKey,
-        apiHeaders: await const GoogleApiHeaders().getHeaders(),
-      );
-      PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId!);
-      final lat = detail.result.geometry!.location.lat;
-      final lng = detail.result.geometry!.location.lng;
-
-      scaffold.showSnackBar(
-        SnackBar(content: Text("${p.description} - $lat/$lng")),
-      );
-    }
-  }
+  //   setState(() {});
+  // }
 }

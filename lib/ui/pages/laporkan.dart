@@ -115,60 +115,24 @@ class _LaporkanState extends State<Laporkan> {
                             textInputAction: TextInputAction.next,
                             onFieldSubmitted: (_) {},
                           ),
-                          Center(
-                            child: Stack(
-                              children: [
-                                Container(
-                                  width: SizeConfig.safeBlockHorizontal * 40,
-                                  color: Colors.transparent,
-                                  child: Column(
-                                    children: [
-                                      RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              // banjir = !banjir;
-                                            });
-                                          },
-                                          // fillColor: banjir ? Colors.grey : orangeColor,
-                                          shape: const CircleBorder(
-                                              side: BorderSide(
-                                            color: Colors.white,
-                                            width: 4,
-                                          )),
-                                          child: Image.asset(
-                                            'assets/icons/photo.png',
-                                            height: 120,
-                                            width: 120,
-                                          )),
-                                      SizedBox(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 1,
-                                      ),
-                                      Text(
-                                        "Profil",
-                                        style: onBoardStyle.copyWith(
-                                            color: Colors.grey, fontSize: 20),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 25,
-                                  right: 0,
-                                  // height: 40,
-                                  // width: 200,
-                                  child: RawMaterialButton(
-                                    fillColor: orangeColor,
-                                    onPressed: () {
-                                      setState(() {
-                                        // banjir = !banjir;
-                                      });
-                                    },
-                                    // fillColor: banjir ? Colors.grey : orangeColor,
-                                    shape: const CircleBorder(),
-                                  ),
-                                ),
-                              ],
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 2,
+                          ),
+                          ListTile(
+                            leading: Container(
+                              width: SizeConfig.blockSizeHorizontal * 15,
+                              height: SizeConfig.blockSizeVertical * 15,
+                              child: Icon(
+                                Icons.add_a_photo,
+                                color: Colors.white,
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                  borderRadius: BorderRadius.circular(50)),
+                            ),
+                            title: Text(
+                              'Masukkan foto kejadian',
+                              style: onBoardStyle.copyWith(color: orangeColor),
                             ),
                           ),
                           SizedBox(
@@ -196,6 +160,7 @@ class _LaporkanState extends State<Laporkan> {
                                     borderRadius: BorderRadius.circular(10.0),
                                     borderSide: const BorderSide())),
                             keyboardType: TextInputType.text,
+                            maxLines: 4,
                             textInputAction: TextInputAction.next,
                             onFieldSubmitted: (_) {},
                           ),

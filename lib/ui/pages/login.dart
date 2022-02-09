@@ -145,17 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                         }
                         password = passwordValue;
                         return null;
-                      }
-                      // controller: usernameController,
-                      // focusNode: userFocus,
-
-                      // onFieldSubmitted: (_) {
-                      //   // FocusScope.of(context).requestFocus(passFocus);
-                      // },
-                      // validator: (value) => emptyValidation(value),
-                      // decoration: CommonStyle.textFieldStyle(
-                      //     labelTextStr: "Username", hintTextStr: "Enter Username"),
-                      ),
+                      }),
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 5,
                   ),

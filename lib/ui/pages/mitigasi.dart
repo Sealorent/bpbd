@@ -10,12 +10,12 @@ class Mitigasi extends StatefulWidget {
 class _MitigasiState extends State<Mitigasi> {
   SizeConfig sizeConfig = SizeConfig();
   String? _token;
-  Future<Kategori>? _dataKategori;
+  // Future<Kategori>? _dataKategori;
 
-  @override
-  void initState() {
-    _dataKategori = Network.getListKategori();
-  }
+  // @override
+  // void initState() {
+  //   _dataKategori = Network.getListKategori();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class _MitigasiState extends State<Mitigasi> {
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
-                  height: 350,
+                  height: SizeConfig.blockSizeVertical * 60,
                   child: FutureBuilder(
                     future: Network.getListKategori(),
                     builder: (context, AsyncSnapshot snapshot) {
@@ -89,51 +89,63 @@ class _MitigasiState extends State<Mitigasi> {
                                         mainAxisSpacing: 20),
                                 itemCount: snapshot.data.data.length,
                                 itemBuilder: (BuildContext ctx, index) {
-                                  return Container(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(
-                                            height: 2,
-                                          ),
-                                          Container(
-                                            width: 40,
-                                            height: 40,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                snapshot.data.data![index].name,
-                                                style: onBoardStyle.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 16),
-                                              ),
-                                              const Icon(
-                                                Icons.chevron_right_sharp,
-                                                color: Colors.white,
-                                              ),
-                                            ],
-                                          )
-                                        ],
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const DetailMitigasi()));
+                                    },
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
+                                            Container(
+                                              width: 40,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20)),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  snapshot
+                                                      .data.data![index].name,
+                                                  style: onBoardStyle.copyWith(
+                                                      color: Colors.white,
+                                                      fontSize: 16),
+                                                ),
+                                                const Icon(
+                                                  Icons.chevron_right_sharp,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       ),
+                                      // const Text("hai"),
+                                      decoration: BoxDecoration(
+                                          color: Colors.amber,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
                                     ),
-                                    // const Text("hai"),
-                                    decoration: BoxDecoration(
-                                        color: Colors.amber,
-                                        borderRadius:
-                                            BorderRadius.circular(15)),
                                   );
                                 });
                           }
