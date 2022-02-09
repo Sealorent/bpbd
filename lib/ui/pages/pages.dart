@@ -35,6 +35,7 @@ part 'tentang.dart';
 part 'beritaPage.dart';
 part 'laporkan.dart';
 part 'rawanBencana.dart';
+part 'kontak.dart';
 // part 'beritaDetailPage.dart';
 part '../widget/detail_menu.dart';
 part '../widget/notif.dart';
