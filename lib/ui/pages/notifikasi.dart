@@ -8,11 +8,8 @@ class NotifikasiPage extends StatefulWidget {
 }
 
 class _NotifikasiPageState extends State<NotifikasiPage> {
-<<<<<<< Updated upstream
-=======
   late TabController _tabController;
 
->>>>>>> Stashed changes
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {

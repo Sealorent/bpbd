@@ -131,11 +131,11 @@ class _BeritaPageState extends State<BeritaPage>
                                           Colors.black.withOpacity(0.9),
                                       child: ListTile(
                                           onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BeritaDetailPage()));
+                                            // Navigator.push(
+                                            //     context,
+                                            //     MaterialPageRoute(
+                                            //         builder: (context) =>
+                                            //             BeritaDetailPage()));
                                           },
                                           leading: Container(
                                             color: Colors.blue,
