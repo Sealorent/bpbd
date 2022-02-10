@@ -135,7 +135,20 @@ class _BeritaPageState extends State<BeritaPage>
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        BeritaDetailPage()));
+                                                        BeritaDetailPage(
+                                                          title: snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .title,
+                                                          publishedAt: snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .updatedAt,
+                                                          content: snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .deskripsi,
+                                                        )));
                                           },
                                           leading: Container(
                                             color: Colors.blue,

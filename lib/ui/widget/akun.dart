@@ -88,11 +88,15 @@ class _AkunPageState extends State<AkunPage> {
                                               fit: BoxFit.fitHeight,
                                             ),
                                           )
-                                        : Image.asset(
-                                            'assets/icons/photo.png',
-                                            height: 120,
-                                            width: 120,
-                                          )),
+                                        : user != null
+                                            ? ClipOval(
+                                                child: Image.network(
+                                                    user!.photoURL!))
+                                            : Image.asset(
+                                                'assets/icons/photo.png',
+                                                height: 120,
+                                                width: 120,
+                                              )),
                                 SizedBox(
                                   height: SizeConfig.blockSizeVertical * 1,
                                 ),
