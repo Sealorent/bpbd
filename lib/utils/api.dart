@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = '192.168.1.11:8000';
-  final String _url = 'http://192.168.1.11:8000/api/auth';
+  static const _DOMAIN = '192.168.1.2:8000';
+  final String _url = 'http://192.168.1.2:8000/api/auth';
   // 192.168.1.2 is my IP, change with your IP address
   var token;
 
