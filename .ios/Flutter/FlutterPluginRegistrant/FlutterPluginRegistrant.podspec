@@ -32,5 +32,6 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'package_info_plus'
   s.dependency 'path_provider_ios'
   s.dependency 'shared_preferences_ios'
+  s.dependency 'url_launcher_ios'
   s.dependency 'webview_flutter_wkwebview'
 end

@@ -44,4 +44,3 @@ part '../widget/splash.dart';
 part '../widget/google_maps.dart';
 part '../widget/menuItem.dart';
 part '../widget/akun.dart';
-part '../widget/detail_menu.dart';
