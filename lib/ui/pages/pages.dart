@@ -22,6 +22,7 @@ import 'package:bpbd/bloc/application_bloc.dart';
 import 'package:bpbd/theme/shared.dart';
 import 'package:bpbd/utils/api.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'splashscreen.dart';
 part 'daftar.dart';
@@ -42,3 +43,4 @@ part '../widget/splash.dart';
 part '../widget/google_maps.dart';
 part '../widget/menuItem.dart';
 part '../widget/akun.dart';
+part '../widget/detail_menu.dart';

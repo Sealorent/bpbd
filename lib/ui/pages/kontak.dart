@@ -3,6 +3,10 @@ part of 'pages.dart';
 class Kontak extends StatelessWidget {
   const Kontak({Key? key}) : super(key: key);
 
+  void _launchURL(String _url) async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,10 +56,7 @@ class Kontak extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Laporkan()));
+                      _launchURL('https://wa.me/6281331988998');
                     },
                     title: Align(
                       alignment: Alignment.centerLeft,
@@ -91,10 +92,7 @@ class Kontak extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const BeritaPage()));
+                      _launchURL('https://www.facebook.com/bpbdkabbondowoso');
                     },
                     title: Align(
                       alignment: Alignment.centerLeft,
@@ -130,10 +128,7 @@ class Kontak extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Mitigasi()));
+                      _launchURL('https://www.instagram.com/bpbdbondowoso/');
                     },
                     title: Align(
                       alignment: Alignment.centerLeft,
@@ -168,10 +163,7 @@ class Kontak extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => RawanBencanaPage()));
+                      _launchURL('https://twitter.com/BondowosoBpbd');
                     },
                     title: Align(
                       alignment: Alignment.centerLeft,
@@ -207,10 +199,8 @@ class Kontak extends StatelessWidget {
                   ),
                   ListTile(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const Mitigasi()));
+                      _launchURL(
+                          'https://www.youtube.com/channel/UCwpF9IRdJuDwJD9iNYTrd5A');
                     },
                     title: Align(
                       alignment: Alignment.centerLeft,
@@ -226,6 +216,42 @@ class Kontak extends StatelessWidget {
                     ),
                     leading: FaIcon(
                       FontAwesomeIcons.youtube,
+                      color: orangeColor,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+              Stack(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: SizeConfig.blockSizeVertical * 5,
+                        left: SizeConfig.blockSizeHorizontal * 18,
+                        right: SizeConfig.blockSizeHorizontal * 5),
+                    child: const Divider(
+                      // height: SizeConfig.blockSizeVertical * 15,
+                      thickness: 1,
+                    ),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      _launchURL('https://bpbd.bondowosokab.go.id/');
+                    },
+                    title: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Website',
+                              style: onBoardStyle.copyWith(
+                                color: Colors.black,
+                              )),
+                        ],
+                      ),
+                    ),
+                    leading: Icon(
+                      Icons.language,
                       color: orangeColor,
                       size: 30,
                     ),
