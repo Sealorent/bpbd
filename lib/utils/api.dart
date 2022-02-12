@@ -67,7 +67,25 @@ class Network {
 
   static Future<Mitigasi> getListKategori() async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/mitigasi-bencana');
+      var url = Uri.http(_DOMAIN, '/api/mitigasi-bencana/');
+      var response = await http.get(url, headers: {
+        'Accept': '*/*',
+      });
+
+      if (response.statusCode == 200) {
+        final Mitigasi data = mitigasiFromJson(response.body);
+        return data;
+      } else {
+        return Mitigasi();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
+  static Future<Mitigasi> getListKategoriId(int id) async {
+    try {
+      var url = Uri.http(_DOMAIN, '/api/mitigasi-bencana/$id');
       var response = await http.get(url, headers: {
         'Accept': '*/*',
       });

@@ -38,21 +38,24 @@ class MitigasiData {
     this.id,
     this.name,
     this.icon,
+    this.mitigasi,
   });
 
   int? id;
   String? name;
   String? icon;
+  String? mitigasi;
 
   factory MitigasiData.fromJson(Map<String, dynamic> json) => MitigasiData(
-        id: json["id"],
-        name: json["name"],
-        icon: json["icon"],
-      );
+      id: json["id"],
+      name: json["name"],
+      icon: json["icon"],
+      mitigasi: json["mitigasi"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "icon": icon,
+        "mitigasi": mitigasi,
       };
 }

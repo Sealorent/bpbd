@@ -77,8 +77,8 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                         ),
                       )),
                   Positioned(
-                      height: SizeConfig.safeBlockVertical * 14,
-                      bottom: 15,
+                      height: SizeConfig.safeBlockVertical * 17,
+                      bottom: 10,
                       width: SizeConfig.blockSizeHorizontal * 100,
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -100,7 +100,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                               ),
                               Container(
                                 width: SizeConfig.blockSizeHorizontal * 90,
-                                height: SizeConfig.blockSizeVertical * 10,
+                                height: SizeConfig.blockSizeVertical * 12,
                                 color: Colors.white,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,

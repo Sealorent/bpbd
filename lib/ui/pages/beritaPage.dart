@@ -150,8 +150,9 @@ class _BeritaPageState extends State<BeritaPage>
                                                               .deskripsi,
                                                         )));
                                           },
-                                          leading: Container(
-                                            color: Colors.blue,
+                                          leading: Image.network(
+                                            'http://192.168.1.2:8000/upload/berita/' +
+                                                snapshot.data.data[index].cover,
                                             height:
                                                 SizeConfig.blockSizeVertical *
                                                     8,
