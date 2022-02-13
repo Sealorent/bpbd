@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bpbd/models/bencana.dart';
 import 'package:bpbd/models/berita.dart';
 import 'package:bpbd/models/kategori.dart';
+import 'package:bpbd/models/simple_response.dart';
 import 'package:bpbd/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -157,6 +158,33 @@ class Network {
         return data;
       } else {
         return User();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
+  static Future<SimpleResponse> sendLaporan(var data, String token) async {
+    try {
+      var url = Uri.http(_DOMAIN, '/api/laporan-bencana/');
+      var response = await http.post(url, headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      }, body: {
+        "title": data['title'],
+        "desc": data['desc'],
+        "alamat": data['alamat'],
+        "longitude": data['longitude'],
+        "latitude": data['latitude'],
+        "file": data['img'],
+        "tmpfile": data['base64'],
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 202) {
+        final SimpleResponse data = simpleResponseFromJson(response.body);
+        return data;
+      } else {
+        return SimpleResponse();
       }
     } catch (e) {
       throw Exception('error : ' + e.toString());

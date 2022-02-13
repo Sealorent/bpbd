@@ -42,7 +42,7 @@ class _AkunPageState extends State<AkunPage> {
   }
 
   _imgFromCamera() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
       final bytes = File(_image.path).readAsBytesSync();
@@ -51,7 +51,7 @@ class _AkunPageState extends State<AkunPage> {
   }
 
   _imgFromGallery() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
       final bytes = File(_image.path).readAsBytesSync();
