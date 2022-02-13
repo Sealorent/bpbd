@@ -18,35 +18,23 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   bool longsor = true;
   bool search = false;
   int selectedIndex = 0;
+  int inT = 0;
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
+  // final _key = GlobalKey<WebViewController>();
 
   final _controller = TextEditingController();
+  late WebViewController _webViewController;
 
-  var _listUrl = <Widget>[
-    Container(
-      child: WebView(
-        initialUrl:
-            'https://www.google.com/maps/place/Nangkaan,+Kec.+Bondowoso,+Kabupaten+Bondowoso,+Jawa+Timur/@-7.9284984,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
-    ),
-    Container(
-      child: WebView(
-        initialUrl:
-            'https://www.google.com/maps/d/u/0/embed?mid=1AUHQPrCXVX-wVTuTVg1VsbfbAachLttD&usp=sharing',
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
-    ),
-
-    // Default Home
-    // Gempa Bumi
-    // 'https://www.google.com/maps/d/u/0/embed?mid=14rJkIe3l_rvXgTr5-UBRvnP7N0xxuQH4&usp=sharing', // Tanah Longsor
-    // 'https://www.google.com/maps/d/u/0/embed?mid=1FEV8WUN82ov_ug6wiEVpwvxZsuW05cv9&usp=sharing', // Gunung Api
-    // 'https://www.google.com/maps/d/u/0/embed?mid=1djBME9l-eJS5c35YLOw8rHrv-qXwwAMv&usp=sharing', // Angin Puting Beliung
-    // 'https://www.google.com/maps/d/u/0/embed?mid=1Ltx2B1SUL7o0zT9XcGTiN7LjQOhD9Gab&usp=sharing', // Kebakaran Hutan
-    // 'https://www.google.com/maps/d/u/0/embed?mid=1H6S2GO3DTeymvPY2ipgCOJjkG-c-Q36Z&usp=sharing', // Likuifaksi
-    // 'https://www.google.com/maps/d/u/0/embed?mid=1INe8PyPTth40NGjYloGLGpgx9kUee1ud&usp=sharing', // Banjir
+  var _listUrl = <String>[
+    'https://www.google.com/maps/place/Nangkaan,+Kec.+Bondowoso,+Kabupaten+Bondowoso,+Jawa+Timur/@-7.9284984,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931', // Default Home
+    'https://www.google.com/maps/d/u/0/embed?mid=1AUHQPrCXVX-wVTuTVg1VsbfbAachLttD&usp=sharing', // Gempa Bumi
+    'https://www.google.com/maps/d/u/0/embed?mid=14rJkIe3l_rvXgTr5-UBRvnP7N0xxuQH4&usp=sharing', // Tanah Longsor
+    'https://www.google.com/maps/d/u/0/embed?mid=1FEV8WUN82ov_ug6wiEVpwvxZsuW05cv9&usp=sharing', // Gunung Api
+    'https://www.google.com/maps/d/u/0/embed?mid=1djBME9l-eJS5c35YLOw8rHrv-qXwwAMv&usp=sharing', // Angin Puting Beliung
+    'https://www.google.com/maps/d/u/0/embed?mid=1Ltx2B1SUL7o0zT9XcGTiN7LjQOhD9Gab&usp=sharing', // Kebakaran Hutan
+    'https://www.google.com/maps/d/u/0/embed?mid=1H6S2GO3DTeymvPY2ipgCOJjkG-c-Q36Z&usp=sharing', // Likuifaksi
+    'https://www.google.com/maps/d/u/0/embed?mid=1INe8PyPTth40NGjYloGLGpgx9kUee1ud&usp=sharing', // Banjir
   ];
 
   @override
@@ -74,7 +62,15 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                 children: [
                   Container(
                     height: SizeConfig.blockSizeVertical * 120,
-                    child: _listUrl[selectedIndex],
+                    child: WebView(
+                      // key: _key,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      initialUrl:
+                          'https://www.google.com/maps/place/Nangkaan,+Kec.+Bondowoso,+Kabupaten+Bondowoso,+Jawa+Timur/@-7.9284984,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
+                      onWebViewCreated: (WebViewController webViewController) {
+                        _webViewController = webViewController;
+                      },
+                    ),
                   ),
                   Positioned(
                       height: SizeConfig.safeBlockVertical * 11,
@@ -129,11 +125,26 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               RawMaterialButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      covid = !covid;
-                                                      selectedIndex = 1;
+                                                      if (covid == true) {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[1]);
+                                                        covid = false;
+                                                        banjir = true;
+                                                        gempa = true;
+                                                        longsor = true;
+                                                      } else {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[0]);
+                                                        covid = true;
+                                                        banjir = true;
+                                                        gempa = true;
+                                                        longsor = true;
+                                                      }
                                                     });
                                                   },
-                                                  fillColor: covid
+                                                  fillColor: covid == true
                                                       ? Colors.grey
                                                       : orangeColor,
                                                   shape: const CircleBorder(),
@@ -145,7 +156,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               Text(
                                                 'Covid-19',
                                                 style: onBoardStyle.copyWith(
-                                                    color: covid
+                                                    color: covid == true
                                                         ? Colors.grey
                                                         : orangeColor,
                                                     fontSize: 12),
@@ -157,11 +168,26 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               RawMaterialButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      banjir = !banjir;
-                                                      selectedIndex == 2;
+                                                      if (banjir == true) {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[2]);
+                                                        covid = true;
+                                                        banjir = false;
+                                                        gempa = true;
+                                                        longsor = true;
+                                                      } else {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[0]);
+                                                        covid = true;
+                                                        banjir = true;
+                                                        gempa = true;
+                                                        longsor = true;
+                                                      }
                                                     });
                                                   },
-                                                  fillColor: banjir
+                                                  fillColor: banjir == true
                                                       ? Colors.grey
                                                       : orangeColor,
                                                   shape: const CircleBorder(),
@@ -173,7 +199,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               Text(
                                                 'Banjir',
                                                 style: onBoardStyle.copyWith(
-                                                    color: banjir
+                                                    color: banjir == true
                                                         ? Colors.grey
                                                         : orangeColor,
                                                     fontSize: 12),
@@ -185,10 +211,26 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               RawMaterialButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      gempa = !gempa;
+                                                      if (gempa == true) {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[3]);
+                                                        covid = true;
+                                                        banjir = true;
+                                                        gempa = false;
+                                                        longsor = true;
+                                                      } else {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[0]);
+                                                        covid = true;
+                                                        banjir = true;
+                                                        gempa = true;
+                                                        longsor = true;
+                                                      }
                                                     });
                                                   },
-                                                  fillColor: gempa
+                                                  fillColor: gempa == true
                                                       ? Colors.grey
                                                       : orangeColor,
                                                   shape: const CircleBorder(),
@@ -200,7 +242,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               Text(
                                                 'Gempa',
                                                 style: onBoardStyle.copyWith(
-                                                    color: gempa
+                                                    color: gempa == true
                                                         ? Colors.grey
                                                         : orangeColor,
                                                     fontSize: 12),
@@ -212,10 +254,26 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               RawMaterialButton(
                                                   onPressed: () {
                                                     setState(() {
-                                                      longsor = !longsor;
+                                                      if (longsor == true) {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[4]);
+                                                        covid = true;
+                                                        banjir = true;
+                                                        gempa = true;
+                                                        longsor = false;
+                                                      } else {
+                                                        _webViewController
+                                                            .loadUrl(
+                                                                _listUrl[0]);
+                                                        covid = true;
+                                                        banjir = true;
+                                                        gempa = true;
+                                                        longsor = true;
+                                                      }
                                                     });
                                                   },
-                                                  fillColor: longsor
+                                                  fillColor: longsor == true
                                                       ? Colors.grey
                                                       : orangeColor,
                                                   shape: const CircleBorder(),
@@ -229,39 +287,12 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                                 child: Text(
                                                   'Longsor',
                                                   style: onBoardStyle.copyWith(
-                                                      color: longsor
+                                                      color: longsor == true
                                                           ? Colors.grey
                                                           : orangeColor,
                                                       fontSize: 12),
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          Column(
-                                            children: [
-                                              RawMaterialButton(
-                                                  onPressed: () {
-                                                    setState(() {
-                                                      covid = !covid;
-                                                    });
-                                                  },
-                                                  fillColor: covid
-                                                      ? Colors.grey
-                                                      : orangeColor,
-                                                  shape: const CircleBorder(),
-                                                  child: const FaIcon(
-                                                    FontAwesomeIcons.virus,
-                                                    size: 18,
-                                                    color: Colors.white,
-                                                  )),
-                                              Text(
-                                                'Covid-19',
-                                                style: onBoardStyle.copyWith(
-                                                    color: covid
-                                                        ? Colors.grey
-                                                        : orangeColor,
-                                                    fontSize: 12),
-                                              )
                                             ],
                                           ),
                                         ],

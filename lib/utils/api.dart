@@ -8,9 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = '192.168.1.16:8000';
-  static const IMG_PATH = 'http://192.168.1.16:8000/upload/berita/';
-  final String _url = 'http://192.168.1.16:8000/api/';
+  static const _DOMAIN = '192.168.1.7:8000';
+  static const IMG_PATH = 'http://192.168.1.7:8000/upload/berita/';
+  final String _url = 'http://192.168.1.7:8000/api/';
 
   // 192.168.1.2 is my IP, change with your IP address
   var token;
