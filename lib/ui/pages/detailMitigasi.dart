@@ -1,21 +1,18 @@
 part of 'pages.dart';
 
-class DetailMitigasi extends StatefulWidget {
-  const DetailMitigasi({Key? key}) : super(key: key);
+class DetailMitigasi extends StatelessWidget {
+  final id, name, icon, mitigasi;
+  DetailMitigasi({Key? key, this.id, this.name, this.icon, this.mitigasi})
+      : super(key: key);
 
-  @override
-  _DetailMitigasiState createState() => _DetailMitigasiState();
-}
-
-class _DetailMitigasiState extends State<DetailMitigasi> {
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
     return Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "Mitigasi Bencana",
+          title: Text(
+            "Mitigasi " + '$name',
           ),
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -30,79 +27,54 @@ class _DetailMitigasiState extends State<DetailMitigasi> {
   }
 
   Widget _buildContent() {
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-          child: Column(
-            children: [
-              Image.asset(
-                'assets/icons/longsor.png',
-                height: 200,
-                width: 200,
-                color: orangeColor,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.blockSizeHorizontal * 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tanah Longsor',
-                      style: onBoardStyle.copyWith(color: orangeColor),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 30, 0, 0),
-                child: RichText(
-                    textAlign: TextAlign.left,
-                    text: const TextSpan(
-                      text: 'Cara mencegah penularan Virus Covid ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 0, 0),
-                child: Column(
-                  children: const [
-                    Text(
-                        '1. Keluar rumah jika ada keperluan saja.\n2. Menjaga jarak 1-2 meter jika keluar rumah dan menghindari kerumunan.\n3. Jangan berjabat tangan.\n4. Memakai masker sesuai dengan ketentuan Kementrian Kesehatan.'),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 30, 0, 0),
-                child: RichText(
-                    textAlign: TextAlign.left,
-                    text: const TextSpan(
-                      text: 'Dan juga terapkan hidup sehat, dengan cara :',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                      ),
-                    )),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 0, 20),
-                child: Column(
-                  children: const [
-                    Text(
-                        '1. Mencuci tangan menggunakan sabun dan air mengalir sesering mungkin, dan sebelum makan.\n2. Mandi dan mengganti pakaian setelah bepergian.\n3. Mengkonsumsi makanan yang bergizi seimbang.\n4. Olahraga yang teratur.\n5. Serta menciptakan lingkungan yang sehat.'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
+    return FutureBuilder(
+        future: Network.getListKategoriId(id),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) return Text('Error');
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            case ConnectionState.active:
+            case ConnectionState.done:
+              if (snapshot.hasData) {
+                return ListView.builder(
+                    itemCount: snapshot.data.data.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                        child: Column(
+                          children: [
+                            Image.network(
+                              'http://192.168.1.2:8000/upload/kategori/' +
+                                  '$icon',
+                              height: 200,
+                              width: 200,
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      snapshot.data.data[index].name,
+                                      style: onBoardStyle.copyWith(
+                                          color: orangeColor, fontSize: 25),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Html(data: snapshot.data.data[index].mitigasi),
+                          ],
+                        ),
+                      );
+                    });
+              }
+          }
+          return Container();
+        });
   }
 }

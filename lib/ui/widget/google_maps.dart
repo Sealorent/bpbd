@@ -11,15 +11,51 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   SizeConfig sizeConfig = SizeConfig();
   bool onLocation = true;
   bool onSearching = true;
+  bool defaultMaps = true;
   bool covid = true;
   bool banjir = true;
   bool gempa = true;
   bool longsor = true;
   bool search = false;
+<<<<<<< HEAD
 
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
+=======
+  int selectedIndex = 0;
+  static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
+  final homeScaffoldKey = GlobalKey<ScaffoldState>();
+
+  final _controller = TextEditingController();
+
+  var _listUrl = <Widget>[
+    Container(
+      child: WebView(
+        initialUrl:
+            'https://www.google.com/maps/place/Nangkaan,+Kec.+Bondowoso,+Kabupaten+Bondowoso,+Jawa+Timur/@-7.9284984,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
+    ),
+    Container(
+      child: WebView(
+        initialUrl:
+            'https://www.google.com/maps/d/u/0/embed?mid=1AUHQPrCXVX-wVTuTVg1VsbfbAachLttD&usp=sharing',
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
+    ),
+
+    // Default Home
+    // Gempa Bumi
+    // 'https://www.google.com/maps/d/u/0/embed?mid=14rJkIe3l_rvXgTr5-UBRvnP7N0xxuQH4&usp=sharing', // Tanah Longsor
+    // 'https://www.google.com/maps/d/u/0/embed?mid=1FEV8WUN82ov_ug6wiEVpwvxZsuW05cv9&usp=sharing', // Gunung Api
+    // 'https://www.google.com/maps/d/u/0/embed?mid=1djBME9l-eJS5c35YLOw8rHrv-qXwwAMv&usp=sharing', // Angin Puting Beliung
+    // 'https://www.google.com/maps/d/u/0/embed?mid=1Ltx2B1SUL7o0zT9XcGTiN7LjQOhD9Gab&usp=sharing', // Kebakaran Hutan
+    // 'https://www.google.com/maps/d/u/0/embed?mid=1H6S2GO3DTeymvPY2ipgCOJjkG-c-Q36Z&usp=sharing', // Likuifaksi
+    // 'https://www.google.com/maps/d/u/0/embed?mid=1INe8PyPTth40NGjYloGLGpgx9kUee1ud&usp=sharing', // Banjir
+  ];
+
+>>>>>>> 79d4ae35d26dce9e008608c9ff7592381b6570ac
   @override
   void initState() {
     if (Platform.isAndroid) {
@@ -45,6 +81,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                 children: [
                   Container(
                     height: SizeConfig.blockSizeVertical * 120,
+<<<<<<< HEAD
                     child: const WebView(
                       initialUrl:
                           'https://www.google.com/maps/place/@,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
@@ -53,6 +90,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                     // GoogleMap(
                     //   initialCameraPosition: applicationBloc.currentLocation.,
                     // ),
+=======
+                    child: _listUrl[selectedIndex],
+>>>>>>> 79d4ae35d26dce9e008608c9ff7592381b6570ac
                   ),
                   Positioned(
                       height: SizeConfig.safeBlockVertical * 11,
@@ -68,8 +108,8 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                         ),
                       )),
                   Positioned(
-                      height: SizeConfig.safeBlockVertical * 14,
-                      bottom: 15,
+                      height: SizeConfig.safeBlockVertical * 17,
+                      bottom: 10,
                       width: SizeConfig.blockSizeHorizontal * 100,
                       child: Padding(
                         padding: EdgeInsets.symmetric(
@@ -91,7 +131,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                               ),
                               Container(
                                 width: SizeConfig.blockSizeHorizontal * 90,
-                                height: SizeConfig.blockSizeVertical * 10,
+                                height: SizeConfig.blockSizeVertical * 12,
                                 color: Colors.white,
                                 child: ListView(
                                   scrollDirection: Axis.horizontal,
@@ -108,6 +148,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                                   onPressed: () {
                                                     setState(() {
                                                       covid = !covid;
+                                                      selectedIndex = 1;
                                                     });
                                                   },
                                                   fillColor: covid
@@ -135,6 +176,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                                   onPressed: () {
                                                     setState(() {
                                                       banjir = !banjir;
+                                                      selectedIndex == 2;
                                                     });
                                                   },
                                                   fillColor: banjir

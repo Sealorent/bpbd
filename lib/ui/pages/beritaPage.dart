@@ -166,6 +166,7 @@ class _BeritaPageState extends State<BeritaPage>
                                     ],
                                   )),
                             );
+<<<<<<< HEAD
                           })
                       : const Center(
                           child: Text(
@@ -174,6 +175,77 @@ class _BeritaPageState extends State<BeritaPage>
                                 fontWeight: FontWeight.w900, fontSize: 30.0),
                           ),
                         ),
+=======
+                          case ConnectionState.active:
+                          case ConnectionState.done:
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                  itemCount: snapshot.data.data.length,
+                                  itemBuilder: (BuildContext ctx, index) {
+                                    return Card(
+                                      elevation: 2,
+                                      borderOnForeground: true,
+                                      shadowColor:
+                                          Colors.black.withOpacity(0.9),
+                                      child: ListTile(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        BeritaDetailPage(
+                                                          title: snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .title,
+                                                          publishedAt: snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .updatedAt,
+                                                          content: snapshot
+                                                              .data
+                                                              .data[index]
+                                                              .deskripsi,
+                                                        )));
+                                          },
+                                          leading: Image.network(
+                                            'http://192.168.1.2:8000/upload/berita/' +
+                                                snapshot.data.data[index].cover,
+                                            height:
+                                                SizeConfig.blockSizeVertical *
+                                                    8,
+                                            width:
+                                                SizeConfig.blockSizeVertical *
+                                                    8,
+                                          ),
+                                          title: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(snapshot
+                                                  .data.data[index].title),
+                                              Text(
+                                                  snapshot.data.data[index]
+                                                      .updatedAt
+                                                      .toString(),
+                                                  style: onBoardStyle.copyWith(
+                                                      fontSize: 12)),
+                                            ],
+                                          )),
+                                    );
+                                  });
+                            }
+                            return const Center(
+                              child: Text(
+                                "Loading ...",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 30.0),
+                              ),
+                            );
+                        }
+                      }),
+>>>>>>> 79d4ae35d26dce9e008608c9ff7592381b6570ac
                   FutureBuilder(
                       future: Network.getListBeritaKategori('banjir'),
                       builder: (context, AsyncSnapshot snapshot) {

@@ -34,15 +34,15 @@ class Berita {
 }
 
 class BeritaData {
-  BeritaData({
-    this.title,
-    this.deskripsi,
-    this.kategoriId,
-    this.userId,
-    this.updatedAt,
-    this.id,
-    this.name,
-  });
+  BeritaData(
+      {this.title,
+      this.deskripsi,
+      this.kategoriId,
+      this.userId,
+      this.updatedAt,
+      this.id,
+      this.name,
+      this.cover});
 
   String? title;
   String? deskripsi;
@@ -51,6 +51,7 @@ class BeritaData {
   DateTime? updatedAt;
   int? id;
   String? name;
+  String? cover;
 
   factory BeritaData.fromJson(Map<String, dynamic> json) => BeritaData(
         title: json["title"],
@@ -60,6 +61,7 @@ class BeritaData {
         updatedAt: DateTime.parse(json["updated_at"]),
         id: json["id"],
         name: json["name"],
+        cover: json["cover"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -70,5 +72,6 @@ class BeritaData {
         "updated_at": updatedAt!.toIso8601String(),
         "id": id,
         "name": name,
+        "cover": cover,
       };
 }

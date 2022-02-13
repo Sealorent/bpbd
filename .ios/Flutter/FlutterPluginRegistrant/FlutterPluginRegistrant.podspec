@@ -33,5 +33,7 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'path_provider_ios'
   s.dependency 'shared_preferences_ios'
   s.dependency 'url_launcher_ios'
+  s.dependency 'video_player_avfoundation'
+  s.dependency 'wakelock'
   s.dependency 'webview_flutter_wkwebview'
 end

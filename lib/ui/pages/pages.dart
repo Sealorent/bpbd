@@ -25,6 +25,7 @@ import 'package:bpbd/theme/shared.dart';
 import 'package:bpbd/utils/api.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 part 'splashscreen.dart';
 part 'daftar.dart';
