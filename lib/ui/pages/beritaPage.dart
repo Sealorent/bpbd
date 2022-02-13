@@ -166,16 +166,6 @@ class _BeritaPageState extends State<BeritaPage>
                                     ],
                                   )),
                             );
-<<<<<<< HEAD
-                          })
-                      : const Center(
-                          child: Text(
-                            "Loading ...",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w900, fontSize: 30.0),
-                          ),
-                        ),
-=======
                           case ConnectionState.active:
                           case ConnectionState.done:
                             if (snapshot.hasData) {
@@ -245,7 +235,6 @@ class _BeritaPageState extends State<BeritaPage>
                             );
                         }
                       }),
->>>>>>> 79d4ae35d26dce9e008608c9ff7592381b6570ac
                   FutureBuilder(
                       future: Network.getListBeritaKategori('banjir'),
                       builder: (context, AsyncSnapshot snapshot) {
