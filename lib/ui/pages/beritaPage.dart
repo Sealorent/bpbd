@@ -14,15 +14,13 @@ class _BeritaPageState extends State<BeritaPage>
   final myController = TextEditingController();
 
   Berita? berita;
+  Kategori? kategori;
 
   @override
   void initState() {
     super.initState();
-    _controller = TabController(
-      length: 4,
-      vsync: this,
-    );
     _initBerita();
+    _initKategori();
   }
 
   _initBerita() {
@@ -31,6 +29,26 @@ class _BeritaPageState extends State<BeritaPage>
         berita = response;
       });
     });
+  }
+
+  _initKategori() {
+    Network.getListKategori().then((response) {
+      setState(() {
+        kategori = response;
+        _controller = TabController(
+          length: (1 + response.data!.length),
+          vsync: this,
+        );
+      });
+    });
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -75,8 +93,8 @@ class _BeritaPageState extends State<BeritaPage>
                         if (response.data != null) {
                           print('berita ditemukan');
                           setState(() {
-                            // berita = response;
                             berita!.data!.clear();
+                            berita = response;
                           });
                         } else {
                           print('berita tidak ditemukan');
@@ -111,24 +129,13 @@ class _BeritaPageState extends State<BeritaPage>
                       style: defaultStyle.copyWith(fontSize: 16),
                     ),
                   ),
-                  Tab(
-                    child: Text(
-                      'Banjir',
-                      style: defaultStyle.copyWith(fontSize: 16),
+                  for (var item in kategori!.data!)
+                    Tab(
+                      child: Text(
+                        item.name.toString(),
+                        style: defaultStyle.copyWith(fontSize: 16),
+                      ),
                     ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Tanah Longsor',
-                      style: defaultStyle.copyWith(fontSize: 16),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Gempa Bumi',
-                      style: defaultStyle.copyWith(fontSize: 16),
-                    ),
-                  )
                 ],
               ),
             ),
@@ -146,28 +153,159 @@ class _BeritaPageState extends State<BeritaPage>
                               borderOnForeground: true,
                               shadowColor: Colors.black.withOpacity(0.9),
                               child: ListTile(
-                                  onTap: () {},
+                                  onTap: () {
+                                    if (berita!.data![index].link_artikel !=
+                                        null) {
+                                      _launchURL(
+                                          berita!.data![index].link_artikel!);
+                                    } else {
+                                      print('url kosong');
+                                      Fluttertoast.showToast(
+                                          msg: "Artikel tidak tersedia",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.CENTER,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor: Colors.red,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                    }
+                                  },
                                   leading: Container(
-                                    color: Colors.blue,
-                                    height: SizeConfig.blockSizeVertical * 8,
-                                    width: SizeConfig.blockSizeVertical * 8,
-                                  ),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text((berita!.data![index].title)
-                                          .toString()),
-                                      Text(
-                                          berita!.data![index].updatedAt
-                                              .toString(),
-                                          style: onBoardStyle.copyWith(
-                                              fontSize: 12)),
-                                    ],
+                                      height: SizeConfig.blockSizeVertical * 8,
+                                      width: SizeConfig.blockSizeVertical * 8,
+                                      decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Image.network(
+                                        Network.IMG_PATH +
+                                            berita!.data![index].cover!,
+                                        fit: BoxFit.contain,
+                                      )),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text((berita!.data![index].title)
+                                            .toString()),
+                                        Text(
+                                            berita!.data![index].createdAt
+                                                .toString(),
+                                            style: onBoardStyle.copyWith(
+                                                fontSize: 12)),
+                                      ],
+                                    ),
                                   )),
                             );
                           })
-                      : Container()
+                      : const Center(
+                          child: Text(
+                            "Loading ...",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900, fontSize: 30.0),
+                          ),
+                        ),
+                  for (var item in kategori!.data!)
+                    FutureBuilder(
+                        future: myController.text.isNotEmpty
+                            ? Network.getListBeritaKategoriTitle(
+                                item.id.toString(), myController.text)
+                            : Network.getListBeritaKategori(item.id.toString()),
+                        builder: (context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasError) {
+                            return const Center(child: Text("can't connect"));
+                          }
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none:
+                            case ConnectionState.waiting:
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            case ConnectionState.active:
+                            case ConnectionState.done:
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                    itemCount: snapshot.data.data.length,
+                                    itemBuilder: (BuildContext ctx, index) {
+                                      return Card(
+                                        elevation: 2,
+                                        borderOnForeground: true,
+                                        shadowColor:
+                                            Colors.black.withOpacity(0.9),
+                                        child: ListTile(
+                                            leading: Container(
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    8,
+                                                width: SizeConfig
+                                                        .blockSizeVertical *
+                                                    8,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.grey[200],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                child: Image.network(
+                                                  Network.IMG_PATH +
+                                                      snapshot.data.data[index]
+                                                          .cover,
+                                                  fit: BoxFit.contain,
+                                                )),
+                                            onTap: () {
+                                              if (snapshot.data.data[index]
+                                                      .link_artikel !=
+                                                  null) {
+                                                _launchURL(snapshot.data
+                                                    .data[index].link_artikel);
+                                              } else {
+                                                print('url kosong');
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "Artikel tidak tersedia",
+                                                    toastLength:
+                                                        Toast.LENGTH_SHORT,
+                                                    gravity:
+                                                        ToastGravity.CENTER,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor: Colors.red,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0);
+                                              }
+                                            },
+                                            title: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(snapshot
+                                                      .data.data[index].title),
+                                                  Text(
+                                                      snapshot.data.data[index]
+                                                          .createdAt,
+                                                      style:
+                                                          onBoardStyle.copyWith(
+                                                              fontSize: 12)),
+                                                ],
+                                              ),
+                                            )),
+                                      );
+                                    });
+                              } else {
+                                return const Center(
+                                  child: Text(
+                                    "Data tidak ada...",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        fontSize: 30.0),
+                                  ),
+                                );
+                              }
+                          }
+                        }),
                 ],
               ),
             ),

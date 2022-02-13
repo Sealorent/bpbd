@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:bpbd/models/berita.dart';
 import 'package:bpbd/models/kecamatan.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:textfield_search/textfield_search.dart';
 import 'package:bpbd/models/kategori.dart';
 import 'package:firebase_auth/firebase_auth.dart';

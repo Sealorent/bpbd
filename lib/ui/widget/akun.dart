@@ -32,14 +32,14 @@ class _AkunPageState extends State<AkunPage> {
     _scaffold.currentState!.showSnackBar(snackBar);
   }
 
-  _getData() async {
-    SharedPreferences data = await SharedPreferences.getInstance();
-    _token = data.getString('token').toString();
-    _id = data.getInt('id')!.toInt();
-    // _id = data.getInt('id')!.toInt();
-    // print(_token);
-    // print(_id);
-  }
+  // _getData() async {
+  //   SharedPreferences data = await SharedPreferences.getInstance();
+  //   _token = data.getString('token').toString();
+  //   _id = data.getInt('id')!.toInt();
+  //   // _id = data.getInt('id')!.toInt();
+  //   // print(_token);
+  //   // print(_id);
+  // }
 
   _imgFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -61,7 +61,6 @@ class _AkunPageState extends State<AkunPage> {
 
   @override
   Widget build(BuildContext context) {
-    _getData();
     // print(_id);
     // print(_token);
     sizeConfig.init(context);
@@ -383,9 +382,11 @@ class _AkunPageState extends State<AkunPage> {
     //   _isLoading = true;
     // });
     int? id;
+    String? _Token;
     SharedPreferences dataUrl = await SharedPreferences.getInstance();
     _token = dataUrl.getString('token')!;
     id = dataUrl.getInt('id');
+    _Token = _token.replaceAll("", "");
     String fileName = _image.path.split('/').last;
 
     try {
@@ -397,11 +398,13 @@ class _AkunPageState extends State<AkunPage> {
         'tmpfile': _img64,
         'file': fileName
       };
+      print(data);
       var res = await Network().postUrl(
         data,
         'update-profile/$id/',
-        _token,
+        _Token,
       );
+
       var bod = json.decode(res.body);
       if (bod['success']) {
         Navigator.pushReplacement(
