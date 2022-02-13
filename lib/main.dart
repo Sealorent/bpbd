@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainPage(),
+      home: SplashScreen(),
     );
   }
 }
@@ -57,7 +57,7 @@ class _CheckAuthState extends State<CheckAuth> {
     if (isAuth) {
       child = const SplashScreen();
     } else {
-      child = const LoginPage();
+      child = const GuestPage();
     }
 
     return Scaffold(

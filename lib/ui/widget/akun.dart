@@ -1,7 +1,7 @@
 part of '../pages/pages.dart';
 
 // String JenisKelamin { "laki-laki", "jefferson" };
-enum JenisKelamin { pria, wanita }
+// enum JenisKelamin { p, l }
 
 class AkunPage extends StatefulWidget {
   const AkunPage({Key? key}) : super(key: key);
@@ -16,16 +16,37 @@ class _AkunPageState extends State<AkunPage> {
   final _akunKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   final _scaffold = GlobalKey<ScaffoldState>();
-  JenisKelamin? _kelamin = JenisKelamin.pria;
+  // JenisKelamin? _kelamin = JenisKelamin.p;
+  String _selectedGender = 'p';
   User? user = FirebaseAuth.instance.currentUser;
+  late String _token;
+  int? _id;
   bool update = true;
   var _image, name, email, noTlp;
+  String? _img64;
+
+  _showMsg(msg) {
+    final snackBar = SnackBar(
+      content: Text(msg),
+    );
+    _scaffold.currentState!.showSnackBar(snackBar);
+  }
+
+  _getData() async {
+    SharedPreferences data = await SharedPreferences.getInstance();
+    _token = data.getString('token').toString();
+    _id = data.getInt('id')!.toInt();
+    // _id = data.getInt('id')!.toInt();
+    // print(_token);
+    // print(_id);
+  }
 
   _imgFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
-      File file = File(_image.path);
+      final bytes = File(_image.path).readAsBytesSync();
+      _img64 = "data:image/png;base64," + base64Encode(bytes);
     });
   }
 
@@ -33,11 +54,16 @@ class _AkunPageState extends State<AkunPage> {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
+      final bytes = File(_image.path).readAsBytesSync();
+      _img64 = "data:image/png;base64," + base64Encode(bytes);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _getData();
+    // print(_id);
+    // print(_token);
     sizeConfig.init(context);
     return Scaffold(
       key: _scaffold,
@@ -154,15 +180,18 @@ class _AkunPageState extends State<AkunPage> {
                               borderSide: const BorderSide())),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
-                      initialValue: user != null ? user!.displayName! : 'you',
-                      onFieldSubmitted: (_) {},
-                      //  validator: (passwordValue) {
-                      //     if (passwordValue!.isEmpty) {
-                      //       return 'Please enter your password';
-                      //     }
-                      //     password = passwordValue;
-                      //     return null;
-                      //   }
+                      initialValue: name != null
+                          ? name
+                          : user != null
+                              ? user!.displayName!
+                              : 'data masih kosong',
+                      validator: (nameValue) {
+                        if (nameValue!.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        name = nameValue;
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 2,
@@ -191,8 +220,18 @@ class _AkunPageState extends State<AkunPage> {
                               borderSide: const BorderSide())),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
-                      initialValue: user != null ? user!.email! : "name",
-                      onFieldSubmitted: (_) {},
+                      initialValue: email == null
+                          ? user != null
+                              ? user!.email!
+                              : ''
+                          : email,
+                      validator: (emailValue) {
+                        if (emailValue!.isEmpty) {
+                          return 'Please enter your password';
+                        }
+                        email = emailValue;
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 2,
@@ -222,8 +261,14 @@ class _AkunPageState extends State<AkunPage> {
                               borderSide: const BorderSide())),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
-                      // initialValue: user!.phoneNumber!,
                       onFieldSubmitted: (_) {},
+                      validator: (noTelp) {
+                        if (noTelp!.isEmpty) {
+                          return 'Maukkan No Telepon';
+                        }
+                        noTlp = noTelp;
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: SizeConfig.blockSizeVertical * 2,
@@ -242,12 +287,12 @@ class _AkunPageState extends State<AkunPage> {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Radio(
-                            value: JenisKelamin.pria,
-                            groupValue: _kelamin,
-                            onChanged: (JenisKelamin? value) {
+                          Radio<String>(
+                            value: 'p',
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
                               setState(() {
-                                _kelamin = value;
+                                _selectedGender = value!;
                               });
                             },
                           ),
@@ -255,12 +300,12 @@ class _AkunPageState extends State<AkunPage> {
                             'Pria',
                             style: TextStyle(fontSize: 17.0),
                           ),
-                          Radio(
-                            value: JenisKelamin.wanita,
-                            groupValue: _kelamin,
-                            onChanged: (JenisKelamin? value) {
+                          Radio<String>(
+                            value: 'l',
+                            groupValue: _selectedGender,
+                            onChanged: (value) {
                               setState(() {
-                                _kelamin = value;
+                                _selectedGender = value!;
                               });
                             },
                           ),
@@ -276,7 +321,11 @@ class _AkunPageState extends State<AkunPage> {
                       height: SizeConfig.blockSizeVertical * 7,
                       width: SizeConfig.blockSizeHorizontal * 100,
                       child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_akunKey.currentState!.validate()) {
+                              _updateProfile();
+                            }
+                          },
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
@@ -327,5 +376,54 @@ class _AkunPageState extends State<AkunPage> {
             ),
           );
         });
+  }
+
+  void _updateProfile() async {
+    // setState(() {
+    //   _isLoading = true;
+    // });
+    int? id;
+    SharedPreferences dataUrl = await SharedPreferences.getInstance();
+    _token = dataUrl.getString('token')!;
+    id = dataUrl.getInt('id');
+    String fileName = _image.path.split('/').last;
+
+    try {
+      var data = {
+        'email': email,
+        'name': name,
+        'no_telp': noTlp,
+        'gender': _selectedGender,
+        'tmpfile': _img64,
+        'file': fileName
+      };
+      var res = await Network().postUrl(
+        data,
+        'update-profile/$id/',
+        _token,
+      );
+      var bod = json.decode(res.body);
+      if (bod['success']) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+        );
+      } else {
+        if (bod['message']['name'] != null) {
+          _showMsg(bod['message']['name'][0].toString());
+        } else if (bod['message']['email'] != null) {
+          _showMsg(bod['message']['email'][0].toString());
+        }
+      }
+    } catch (e) {
+      _showMsg(e.toString());
+    }
+    // print(fileName);
+    // print(_img64);
+    // print(id);
+
+    // setState(() {
+    //   _isLoading = false;
+    // });
   }
 }

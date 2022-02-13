@@ -270,12 +270,12 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     var data = {'email': email, 'password': password};
-    var res = await Network().auth(data, '/login');
+    var res = await Network().auth(data, 'auth/login/');
     var body = json.decode(res.body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
-      localStorage.setString('user', json.encode(body['user']));
+      localStorage.setInt('id', int.parse(json.encode(body['data']['id'])));
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MainPage()),

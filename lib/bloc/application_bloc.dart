@@ -4,9 +4,10 @@ import 'package:geolocator/geolocator.dart';
 
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
+
   // final placeService = PlaceService();
 
-  late final Position currentLocation;
+  late Position currentLocation;
 
   // late List<PlaceSearch> searchResults;
 

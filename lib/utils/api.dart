@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'package:bpbd/models/bencana.dart';
 import 'package:bpbd/models/berita.dart';
 import 'package:bpbd/models/kategori.dart';
+import 'package:bpbd/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = '192.168.1.2:8000';
-  final String _url = 'http://192.168.1.2:8000/api/auth';
+  static const _DOMAIN = '192.168.1.7:8000';
+  final String _url = 'http://192.168.1.7:8000/api/';
+
   // 192.168.1.2 is my IP, change with your IP address
   var token;
 
@@ -37,6 +39,26 @@ class Network {
       });
 
       if (response.statusCode == 200) {
+        final Berita data = beritaFromJson(response.body);
+        return data;
+      } else {
+        return Berita();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
+  static Future<Berita> searchBerita(String judul) async {
+    try {
+      var url = Uri.http(_DOMAIN, '/api/search-berita/');
+      var response = await http.post(url, headers: {
+        'Accept': 'application/json',
+      }, body: {
+        "judul": judul
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 202) {
         final Berita data = beritaFromJson(response.body);
         return data;
       } else {
@@ -83,18 +105,38 @@ class Network {
     }
   }
 
-  static Future<List> getListKecamatan() async {
-    await Future.delayed(Duration(milliseconds: 2000));
-    List _list = <dynamic>[];
-    _list.add('Text' + ' Item 1');
-    _list.add('Test' + ' Item 2');
-    _list.add('Test' + ' Item 3');
-    return _list;
+  static Future<User> getUser(int id, String token) async {
+    try {
+      var url = Uri.http(_DOMAIN, '/api/profile/$id');
+      var response = await http.get(url, headers: {
+        'Content-type': 'application/json',
+        'Accept': '*/*',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        final User data = userFromJson(response.body);
+        return data;
+      } else {
+        return User();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
   }
 
   _getToken() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     token = jsonDecode((localStorage.getString('token')).toString())['token'];
+  }
+
+  postUrl(dat, apUrl, String token) async {
+    var ful = Uri.parse(_url + apUrl);
+    return await http.post(ful, body: jsonEncode(dat), headers: {
+      'Content-type': 'application/json',
+      'Accept': '*/*',
+      'Authorization': 'Bearer $token',
+    });
   }
 
   auth(data, apiURL) async {
@@ -115,5 +157,6 @@ class Network {
   _setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
       };
 }

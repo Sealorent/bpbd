@@ -243,7 +243,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                             .pushReplacement(
                                                 MaterialPageRoute(builder: (_) {
                                           save();
-                                          return const LoginPage();
+                                          return const GuestPage();
                                         }))
                                     : () => _pageController.nextPage(
                                         duration:

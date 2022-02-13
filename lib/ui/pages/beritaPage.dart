@@ -11,6 +11,10 @@ class _BeritaPageState extends State<BeritaPage>
     with SingleTickerProviderStateMixin {
   TabController? _controller;
 
+  final myController = TextEditingController();
+
+  Berita? berita;
+
   @override
   void initState() {
     super.initState();
@@ -18,6 +22,15 @@ class _BeritaPageState extends State<BeritaPage>
       length: 4,
       vsync: this,
     );
+    _initBerita();
+  }
+
+  _initBerita() {
+    Network.getListBerita().then((response) {
+      setState(() {
+        berita = response;
+      });
+    });
   }
 
   @override
@@ -52,10 +65,27 @@ class _BeritaPageState extends State<BeritaPage>
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
-                    // readOnly: true,Binabi
-                    // controller: controller,
-                    onTap: () {
-                      setState(() {});
+                    controller: myController,
+                    onChanged: (text) {
+                      print(text);
+                      Network.searchBerita(text).then((response) {
+                        var res = response;
+                        print(res);
+
+                        if (response.data != null) {
+                          print('berita ditemukan');
+                          setState(() {
+                            // berita = response;
+                            berita!.data!.clear();
+                          });
+                        } else {
+                          print('berita tidak ditemukan');
+                          if (berita!.data!.isNotEmpty) {
+                            print('berita di clear');
+                            setState(() => berita!.data!.clear());
+                          }
+                        }
+                      });
                     },
                     decoration: const InputDecoration(
                         icon: Icon(Icons.search),
@@ -107,85 +137,43 @@ class _BeritaPageState extends State<BeritaPage>
               child: TabBarView(
                 controller: _controller,
                 children: <Widget>[
-                  FutureBuilder(
-                      future: Network.getListBerita(),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasError)
-                          return Center(child: Text("can't connect"));
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                          case ConnectionState.waiting:
-                            return const Center(
-                              child: CircularProgressIndicator(),
+                  berita != null
+                      ? ListView.builder(
+                          itemCount: berita!.data!.length,
+                          itemBuilder: (BuildContext ctx, index) {
+                            return Card(
+                              elevation: 2,
+                              borderOnForeground: true,
+                              shadowColor: Colors.black.withOpacity(0.9),
+                              child: ListTile(
+                                  onTap: () {},
+                                  leading: Container(
+                                    color: Colors.blue,
+                                    height: SizeConfig.blockSizeVertical * 8,
+                                    width: SizeConfig.blockSizeVertical * 8,
+                                  ),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text((berita!.data![index].title)
+                                          .toString()),
+                                      Text(
+                                          berita!.data![index].updatedAt
+                                              .toString(),
+                                          style: onBoardStyle.copyWith(
+                                              fontSize: 12)),
+                                    ],
+                                  )),
                             );
-                          case ConnectionState.active:
-                          case ConnectionState.done:
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                  itemCount: snapshot.data.data.length,
-                                  itemBuilder: (BuildContext ctx, index) {
-                                    return Card(
-                                      elevation: 2,
-                                      borderOnForeground: true,
-                                      shadowColor:
-                                          Colors.black.withOpacity(0.9),
-                                      child: ListTile(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BeritaDetailPage(
-                                                          title: snapshot
-                                                              .data
-                                                              .data[index]
-                                                              .title,
-                                                          publishedAt: snapshot
-                                                              .data
-                                                              .data[index]
-                                                              .updatedAt,
-                                                          content: snapshot
-                                                              .data
-                                                              .data[index]
-                                                              .deskripsi,
-                                                        )));
-                                          },
-                                          leading: Container(
-                                            color: Colors.blue,
-                                            height:
-                                                SizeConfig.blockSizeVertical *
-                                                    8,
-                                            width:
-                                                SizeConfig.blockSizeVertical *
-                                                    8,
-                                          ),
-                                          title: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(snapshot
-                                                  .data.data[index].title),
-                                              Text(
-                                                  snapshot.data.data[index]
-                                                      .updatedAt
-                                                      .toString(),
-                                                  style: onBoardStyle.copyWith(
-                                                      fontSize: 12)),
-                                            ],
-                                          )),
-                                    );
-                                  });
-                            }
-                            return const Center(
-                              child: Text(
-                                "Loading ...",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 30.0),
-                              ),
-                            );
-                        }
-                      }),
+                          })
+                      : const Center(
+                          child: Text(
+                            "Loading ...",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900, fontSize: 30.0),
+                          ),
+                        ),
                   FutureBuilder(
                       future: Network.getListBeritaKategori('banjir'),
                       builder: (context, AsyncSnapshot snapshot) {

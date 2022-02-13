@@ -16,22 +16,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   bool gempa = true;
   bool longsor = true;
   bool search = false;
+
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
-
-  final _controller = TextEditingController();
-
-  List _items = [];
-  List _itemsResult = [];
-
-  Future<void> readJson() async {
-    final String response =
-        await rootBundle.loadString('assets/jsonkecamatan/kecamatan.json');
-    final data = await json.decode(response);
-    setState(() {
-      _items = data["data"];
-    });
-  }
 
   @override
   void initState() {
@@ -46,6 +33,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     TextEditingController controller = new TextEditingController();
     sizeConfig.init(context);
     final applicationBloc = Provider.of<ApplicationBloc>(context);
+    print(applicationBloc.currentLocation.latitude);
     return (applicationBloc.currentLocation == null)
         ? Center(
             child: const CircularProgressIndicator(),
@@ -59,9 +47,12 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                     height: SizeConfig.blockSizeVertical * 120,
                     child: const WebView(
                       initialUrl:
-                          'https://www.google.com/maps/place/Nangkaan,+Kec.+Bondowoso,+Kabupaten+Bondowoso,+Jawa+Timur/@-7.9284984,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
+                          'https://www.google.com/maps/place/@,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
                       javascriptMode: JavascriptMode.unrestricted,
                     ),
+                    // GoogleMap(
+                    //   initialCameraPosition: applicationBloc.currentLocation.,
+                    // ),
                   ),
                   Positioned(
                       height: SizeConfig.safeBlockVertical * 11,
