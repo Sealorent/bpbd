@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final mitigasi = mitigasiFromJson(jsonString);
+//     final Kategori = KategoriFromJson(jsonString);
 
 import 'dart:convert';
 
-Mitigasi mitigasiFromJson(String str) => Mitigasi.fromJson(json.decode(str));
+Kategori kategoriFromJson(String str) => Kategori.fromJson(json.decode(str));
 
-String mitigasiToJson(Mitigasi data) => json.encode(data.toJson());
+String KategoriToJson(Kategori data) => json.encode(data.toJson());
 
-class Mitigasi {
-  Mitigasi({
+class Kategori {
+  Kategori({
     this.success,
     this.message,
     this.data,
@@ -17,13 +17,13 @@ class Mitigasi {
 
   bool? success;
   String? message;
-  List<MitigasiData>? data;
+  List<KategoriData>? data;
 
-  factory Mitigasi.fromJson(Map<String, dynamic> json) => Mitigasi(
+  factory Kategori.fromJson(Map<String, dynamic> json) => Kategori(
         success: json["success"],
         message: json["message"],
-        data: List<MitigasiData>.from(
-            json["data"].map((x) => MitigasiData.fromJson(x))),
+        data: List<KategoriData>.from(
+            json["data"].map((x) => KategoriData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,29 +33,29 @@ class Mitigasi {
       };
 }
 
-class MitigasiData {
-  MitigasiData({
+class KategoriData {
+  KategoriData({
     this.id,
     this.name,
     this.icon,
-    this.mitigasi,
+    this.Kategori,
   });
 
   int? id;
   String? name;
   String? icon;
-  String? mitigasi;
+  String? Kategori;
 
-  factory MitigasiData.fromJson(Map<String, dynamic> json) => MitigasiData(
+  factory KategoriData.fromJson(Map<String, dynamic> json) => KategoriData(
       id: json["id"],
       name: json["name"],
       icon: json["icon"],
-      mitigasi: json["mitigasi"]);
+      Kategori: json["Kategori"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "icon": icon,
-        "mitigasi": mitigasi,
+        "Kategori": Kategori,
       };
 }

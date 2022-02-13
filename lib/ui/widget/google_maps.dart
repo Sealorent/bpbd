@@ -17,12 +17,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   bool gempa = true;
   bool longsor = true;
   bool search = false;
-<<<<<<< HEAD
-
-  static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
-  final homeScaffoldKey = GlobalKey<ScaffoldState>();
-
-=======
   int selectedIndex = 0;
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
@@ -55,7 +49,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     // 'https://www.google.com/maps/d/u/0/embed?mid=1INe8PyPTth40NGjYloGLGpgx9kUee1ud&usp=sharing', // Banjir
   ];
 
->>>>>>> 79d4ae35d26dce9e008608c9ff7592381b6570ac
   @override
   void initState() {
     if (Platform.isAndroid) {
@@ -81,18 +74,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                 children: [
                   Container(
                     height: SizeConfig.blockSizeVertical * 120,
-<<<<<<< HEAD
-                    child: const WebView(
-                      initialUrl:
-                          'https://www.google.com/maps/place/@,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931',
-                      javascriptMode: JavascriptMode.unrestricted,
-                    ),
-                    // GoogleMap(
-                    //   initialCameraPosition: applicationBloc.currentLocation.,
-                    // ),
-=======
                     child: _listUrl[selectedIndex],
->>>>>>> 79d4ae35d26dce9e008608c9ff7592381b6570ac
                   ),
                   Positioned(
                       height: SizeConfig.safeBlockVertical * 11,

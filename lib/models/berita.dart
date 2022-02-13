@@ -36,29 +36,29 @@ class Berita {
 class BeritaData {
   BeritaData(
       {this.title,
-      this.deskripsi,
+      this.link_artikel,
       this.kategoriId,
       this.userId,
-      this.updatedAt,
+      this.createdAt,
       this.id,
       this.name,
       this.cover});
 
   String? title;
-  String? deskripsi;
+  String? link_artikel;
   int? kategoriId;
   int? userId;
-  DateTime? updatedAt;
+  String? createdAt;
   int? id;
   String? name;
   String? cover;
 
   factory BeritaData.fromJson(Map<String, dynamic> json) => BeritaData(
         title: json["title"],
-        deskripsi: json["deskripsi"],
+        link_artikel: json["link_artikel"],
         kategoriId: json["kategori_id"],
         userId: json["user_id"],
-        updatedAt: DateTime.parse(json["updated_at"]),
+        createdAt: json["created_at"].toString().substring(0, 10),
         id: json["id"],
         name: json["name"],
         cover: json["cover"],
@@ -66,10 +66,10 @@ class BeritaData {
 
   Map<String, dynamic> toJson() => {
         "title": title,
-        "deskripsi": deskripsi,
+        "link_artikel": link_artikel,
         "kategori_id": kategoriId,
         "user_id": userId,
-        "updated_at": updatedAt!.toIso8601String(),
+        "updated_at": createdAt,
         "id": id,
         "name": name,
         "cover": cover,
