@@ -88,7 +88,6 @@ class _BeritaPageState extends State<BeritaPage>
                       print(text);
                       Network.searchBerita(text).then((response) {
                         var res = response;
-                        print(res);
 
                         if (response.data != null) {
                           print('berita ditemukan');

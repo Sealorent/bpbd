@@ -1,8 +1,5 @@
 part of '../pages/pages.dart';
 
-// String JenisKelamin { "laki-laki", "jefferson" };
-// enum JenisKelamin { p, l }
-
 class AkunPage extends StatefulWidget {
   const AkunPage({Key? key}) : super(key: key);
 
@@ -11,17 +8,18 @@ class AkunPage extends StatefulWidget {
 }
 
 class _AkunPageState extends State<AkunPage> {
-  // GoogleSignInAccount _userObj;
+  UserApi? _userApi;
+
   SizeConfig sizeConfig = SizeConfig();
   final _akunKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   final _scaffold = GlobalKey<ScaffoldState>();
-  // JenisKelamin? _kelamin = JenisKelamin.p;
   String _selectedGender = 'p';
   User? user = FirebaseAuth.instance.currentUser;
-  late String _token;
+  var _token;
   int? _id;
   bool update = true;
+  var _isGoogle;
   var _image, name, email, noTlp;
   String? _img64;
 
@@ -32,17 +30,48 @@ class _AkunPageState extends State<AkunPage> {
     _scaffold.currentState!.showSnackBar(snackBar);
   }
 
-  // _getData() async {
-  //   SharedPreferences data = await SharedPreferences.getInstance();
-  //   _token = data.getString('token').toString();
-  //   _id = data.getInt('id')!.toInt();
-  //   // _id = data.getInt('id')!.toInt();
-  //   // print(_token);
-  //   // print(_id);
+  _getToken() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    _token = jsonDecode((localStorage.getString('token')).toString());
+    _id = localStorage.getInt('id');
+    _isGoogle = localStorage.getBool('isLogin');
+    if (_isGoogle == false) {
+      if (_token == null) {
+        Fluttertoast.showToast(
+            msg: "Harap login untuk melaporkan bencana",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 12.0);
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+            (route) => false);
+      } else {
+        return _token;
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getToken();
+  }
+
+  // _initUser() {
+  //   Network.getUser(_id!, _token).then((response) {
+  //     setState(() {
+  //       _userApi = response;
+  //     });
+  //   });
   // }
 
   _imgFromCamera() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
       final bytes = File(_image.path).readAsBytesSync();
@@ -51,7 +80,7 @@ class _AkunPageState extends State<AkunPage> {
   }
 
   _imgFromGallery() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
       final bytes = File(_image.path).readAsBytesSync();
@@ -378,17 +407,7 @@ class _AkunPageState extends State<AkunPage> {
   }
 
   void _updateProfile() async {
-    // setState(() {
-    //   _isLoading = true;
-    // });
-    int? id;
-    String? _Token;
-    SharedPreferences dataUrl = await SharedPreferences.getInstance();
-    _token = dataUrl.getString('token')!;
-    id = dataUrl.getInt('id');
-    _Token = _token.replaceAll("", "");
     String fileName = _image.path.split('/').last;
-
     try {
       var data = {
         'email': email,
@@ -398,11 +417,11 @@ class _AkunPageState extends State<AkunPage> {
         'tmpfile': _img64,
         'file': fileName
       };
-      print(data);
+
       var res = await Network().postUrl(
         data,
-        'update-profile/$id/',
-        _Token,
+        'update-profile/$_id/',
+        _token,
       );
 
       var bod = json.decode(res.body);
@@ -421,9 +440,6 @@ class _AkunPageState extends State<AkunPage> {
     } catch (e) {
       _showMsg(e.toString());
     }
-    // print(fileName);
-    // print(_img64);
-    // print(id);
 
     // setState(() {
     //   _isLoading = false;

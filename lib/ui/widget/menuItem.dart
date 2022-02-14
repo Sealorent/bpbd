@@ -412,8 +412,8 @@ class _PilihanMenuState extends State<PilihanMenu> {
   }
 
   void logoutUser() async {
-    FirebaseService service = FirebaseService();
     try {
+      FirebaseService service = FirebaseService();
       service.signOutFromGoogle();
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.clear();

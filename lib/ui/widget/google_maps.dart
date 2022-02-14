@@ -62,7 +62,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     TextEditingController controller = new TextEditingController();
     sizeConfig.init(context);
     final applicationBloc = Provider.of<ApplicationBloc>(context);
-    print(applicationBloc.currentLocation.latitude);
     return (applicationBloc.currentLocation == null)
         ? Center(
             child: const CircularProgressIndicator(),

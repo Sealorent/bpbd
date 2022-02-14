@@ -10,10 +10,62 @@ class Laporkan extends StatefulWidget {
 class _LaporkanState extends State<Laporkan> {
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
-  var judul, alamat, pesan;
-  // final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // bool _secureText = true;
+  final ImagePicker _picker = ImagePicker();
+  var judul, alamat, pesan, _image;
+  String? _img64;
+  var _token;
   SizeConfig sizeConfig = SizeConfig();
+  double _longitude = 0.0;
+  double _latitude = 0.0;
+
+  _imgFromCamera() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = image;
+      final bytes = File(_image.path).readAsBytesSync();
+      _img64 = "data:image/png;base64," + base64Encode(bytes);
+    });
+  }
+
+  _imgFromGallery() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      final bytes = File(_image.path).readAsBytesSync();
+      _img64 = "data:image/png;base64," + base64Encode(bytes);
+    });
+  }
+
+  _getToken() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    _token = jsonDecode((localStorage.getString('token')).toString());
+    if (_token == null) {
+      Fluttertoast.showToast(
+          msg: "Harap login untuk update profil",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 12.0);
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (route) => false);
+    } else {
+      _token = _token['token'];
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getToken();
+    _getCurrentLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -138,27 +190,6 @@ class _LaporkanState extends State<Laporkan> {
                             SizedBox(
                               height: SizeConfig.blockSizeVertical * 2,
                             ),
-                            ListTile(
-                              leading: Container(
-                                width: SizeConfig.blockSizeHorizontal * 15,
-                                height: SizeConfig.blockSizeVertical * 15,
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                ),
-                                decoration: BoxDecoration(
-                                    color: Colors.grey,
-                                    borderRadius: BorderRadius.circular(50)),
-                              ),
-                              title: Text(
-                                'Masukkan foto kejadian',
-                                style:
-                                    onBoardStyle.copyWith(color: orangeColor),
-                              ),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 2,
-                            ),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
@@ -192,6 +223,67 @@ class _LaporkanState extends State<Laporkan> {
                                   pesan = pesanValue;
                                   return null;
                                 }),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            ListTile(
+                              leading: Container(
+                                width: SizeConfig.blockSizeHorizontal * 15,
+                                height: SizeConfig.blockSizeVertical * 15,
+                                child: _image == null
+                                    ? const Icon(
+                                        Icons.add_a_photo,
+                                        color: Colors.white,
+                                      )
+                                    : ClipRRect(
+                                        borderRadius: BorderRadius.circular(50),
+                                        child: Image.file(
+                                          File(_image.path),
+                                          width: 100,
+                                          height: 100,
+                                          fit: BoxFit.fitHeight,
+                                        ),
+                                      ),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey,
+                                    borderRadius: BorderRadius.circular(50)),
+                              ),
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext bc) {
+                                      return SafeArea(
+                                        child: Wrap(
+                                          children: <Widget>[
+                                            ListTile(
+                                                leading: const Icon(
+                                                    Icons.photo_library),
+                                                title:
+                                                    const Text('Photo Library'),
+                                                onTap: () {
+                                                  _imgFromGallery();
+                                                  Navigator.of(context).pop();
+                                                }),
+                                            ListTile(
+                                              leading: const Icon(
+                                                  Icons.photo_camera),
+                                              title: const Text('Camera'),
+                                              onTap: () {
+                                                _imgFromCamera();
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    });
+                              },
+                              title: Text(
+                                'Masukkan foto kejadian',
+                                style:
+                                    onBoardStyle.copyWith(color: orangeColor),
+                              ),
+                            ),
                             SizedBox(
                               height: SizeConfig.safeBlockVertical * 5,
                             ),
@@ -237,24 +329,60 @@ class _LaporkanState extends State<Laporkan> {
       _isLoading = true;
     });
 
-    var data = {'title': judul, 'alamat': alamat, 'desc': pesan};
-    var res = await Network().auth(data, '/laporan-bencana');
-    var body = json.decode(res.body);
-    if (body['success']) {
-      // SharedPreferences localStorage = await SharedPreferences.getInstance();
-      // localStorage.setString('token', json.encode(body['token']));
-      // localStorage.setString('user', json.encode(body['user']));
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const PilihanMenu()),
-      );
-    } else {
-      // _showMsg(body['message']);
-      print('object');
-    }
+    var data = {
+      'title': judul,
+      'alamat': alamat,
+      'desc': pesan,
+      'longitude': _longitude.toString(),
+      'latitude': _latitude.toString(),
+      'img': _image.name,
+      'base64': _img64,
+    };
+
+    print(_token);
+
+    Network.sendLaporan(data, _token!).then((response) {
+      if (response.success!) {
+        Fluttertoast.showToast(
+            msg: "Berhasil mengirim laporan",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 12.0);
+      } else {
+        Fluttertoast.showToast(
+            msg: "Gagal mengirim laporan",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 12.0);
+      }
+      Navigator.pop(context);
+    });
 
     setState(() {
       _isLoading = false;
+    });
+  }
+
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _longitude = position.longitude;
+        _latitude = position.latitude;
+      });
+      var d = position;
+      print('long : $_longitude');
+      print('lat : $_latitude');
+    }).catchError((e) {
+      print('geolocation error : $e');
     });
   }
 }
