@@ -53,250 +53,305 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   Widget build(BuildContext context) {
     sizeConfig.init(context);
     return Scaffold(
-        key: homeScaffoldKey,
-        body: Stack(children: [
-          Stack(
-            children: [
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 120,
-                child: WebView(
-                  // key: _key,
-                  javascriptMode: JavascriptMode.unrestricted,
-                  initialUrl:
-                      'https://www.google.com/maps/place/@$_longitude,$_latitude,15z',
-                  onWebViewCreated: (WebViewController webViewController) {
-                    _webViewController = webViewController;
-                  },
+      key: homeScaffoldKey,
+      body: Stack(
+        children: [
+          SizedBox(
+            height: SizeConfig.blockSizeVertical * 120,
+            child: WebView(
+              // key: _key,
+              javascriptMode: JavascriptMode.unrestricted,
+              initialUrl:
+                  'https://www.google.com/maps/place/@$_longitude,$_latitude,15z',
+              onWebViewCreated: (WebViewController webViewController) {
+                _webViewController = webViewController;
+              },
+            ),
+          ),
+          Positioned(
+              height: SizeConfig.safeBlockVertical * 11,
+              bottom: 0,
+              width: SizeConfig.blockSizeHorizontal * 100,
+              child: Container(
+                // color: orangeColor,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30)),
+                  color: orangeColor,
+                ),
+              )),
+          Positioned(
+            height: SizeConfig.safeBlockVertical * 4.5,
+            top: 70,
+            right: 10,
+            width: SizeConfig.blockSizeHorizontal * 20,
+            child: Container(
+              // color: orangeColor,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: whiteColor,
+              ),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Mitigasi()));
+                },
+                child: Center(
+                  child: Text(
+                    'Info Bahaya',
+                    textAlign: TextAlign.center,
+                    style:
+                        defaultStyle.copyWith(fontSize: 10, color: blackColor),
+                  ),
                 ),
               ),
-              Positioned(
-                  height: SizeConfig.safeBlockVertical * 11,
-                  bottom: 0,
-                  width: SizeConfig.blockSizeHorizontal * 100,
-                  child: Container(
-                    // color: orangeColor,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30)),
-                      color: orangeColor,
+            ),
+          ),
+          Positioned(
+            height: SizeConfig.safeBlockVertical * 4,
+            top: 105,
+            right: 10,
+            width: SizeConfig.blockSizeHorizontal * 20,
+            child: Center(
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const NotifikasiPage()));
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
                     ),
+                    primary: whiteColor,
+                    fixedSize: Size(20, 48),
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/icons/alert.svg',
+                    height: 20,
+                    width: 20,
                   )),
-              Positioned(
-                  height: SizeConfig.safeBlockVertical * 17,
-                  bottom: 10,
-                  width: SizeConfig.blockSizeHorizontal * 100,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: SizeConfig.safeBlockHorizontal * 5),
-                    child: Container(
-                      // color: orangeColor,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        color: Colors.white,
+            ),
+          ),
+          Positioned(
+              height: SizeConfig.safeBlockVertical * 17,
+              bottom: 10,
+              width: SizeConfig.blockSizeHorizontal * 100,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.safeBlockHorizontal * 5),
+                child: Container(
+                  // color: orangeColor,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: SizeConfig.blockSizeHorizontal * 10,
+                        child: const Divider(
+                          thickness: 4,
+                          color: Colors.grey,
+                        ),
                       ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            width: SizeConfig.blockSizeHorizontal * 10,
-                            child: const Divider(
-                              thickness: 4,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Container(
-                            width: SizeConfig.blockSizeHorizontal * 90,
-                            height: SizeConfig.blockSizeVertical * 12,
-                            color: Colors.white,
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Row(
-                                    // mainAxisAlignment: MainAxisAlignment.,
-                                    // mainAxisSize: MainAxisSize.max,
+                      Container(
+                        width: SizeConfig.blockSizeHorizontal * 90,
+                        height: SizeConfig.blockSizeVertical * 12,
+                        color: Colors.white,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Row(
+                                // mainAxisAlignment: MainAxisAlignment.,
+                                // mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Column(
                                     children: [
-                                      Column(
-                                        children: [
-                                          RawMaterialButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  if (covid == true) {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[1]);
-                                                    covid = false;
-                                                    banjir = true;
-                                                    gempa = true;
-                                                    longsor = true;
-                                                  } else {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[0]);
-                                                    covid = true;
-                                                    banjir = true;
-                                                    gempa = true;
-                                                    longsor = true;
-                                                  }
-                                                });
-                                              },
-                                              fillColor: covid == true
+                                      RawMaterialButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (covid == true) {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[1]);
+                                                covid = false;
+                                                banjir = true;
+                                                gempa = true;
+                                                longsor = true;
+                                              } else {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[0]);
+                                                covid = true;
+                                                banjir = true;
+                                                gempa = true;
+                                                longsor = true;
+                                              }
+                                            });
+                                          },
+                                          fillColor: covid == true
+                                              ? Colors.grey
+                                              : orangeColor,
+                                          shape: const CircleBorder(),
+                                          child: const FaIcon(
+                                            FontAwesomeIcons.virus,
+                                            size: 18,
+                                            color: Colors.white,
+                                          )),
+                                      Text(
+                                        'Covid-19',
+                                        style: onBoardStyle.copyWith(
+                                            color: covid == true
+                                                ? Colors.grey
+                                                : orangeColor,
+                                            fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      RawMaterialButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (banjir == true) {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[2]);
+                                                covid = true;
+                                                banjir = false;
+                                                gempa = true;
+                                                longsor = true;
+                                              } else {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[0]);
+                                                covid = true;
+                                                banjir = true;
+                                                gempa = true;
+                                                longsor = true;
+                                              }
+                                            });
+                                          },
+                                          fillColor: banjir == true
+                                              ? Colors.grey
+                                              : orangeColor,
+                                          shape: const CircleBorder(),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/banjir.svg',
+                                            height: 18,
+                                            width: 18,
+                                          )),
+                                      Text(
+                                        'Banjir',
+                                        style: onBoardStyle.copyWith(
+                                            color: banjir == true
+                                                ? Colors.grey
+                                                : orangeColor,
+                                            fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      RawMaterialButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (gempa == true) {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[3]);
+                                                covid = true;
+                                                banjir = true;
+                                                gempa = false;
+                                                longsor = true;
+                                              } else {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[0]);
+                                                covid = true;
+                                                banjir = true;
+                                                gempa = true;
+                                                longsor = true;
+                                              }
+                                            });
+                                          },
+                                          fillColor: gempa == true
+                                              ? Colors.grey
+                                              : orangeColor,
+                                          shape: const CircleBorder(),
+                                          child: Image.asset(
+                                            'assets/icons/gempa.png',
+                                            height: 18,
+                                            width: 18,
+                                          )),
+                                      Text(
+                                        'Gempa',
+                                        style: onBoardStyle.copyWith(
+                                            color: gempa == true
+                                                ? Colors.grey
+                                                : orangeColor,
+                                            fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      RawMaterialButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              if (longsor == true) {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[4]);
+                                                covid = true;
+                                                banjir = true;
+                                                gempa = true;
+                                                longsor = false;
+                                              } else {
+                                                _webViewController
+                                                    .loadUrl(_listUrl[0]);
+                                                covid = true;
+                                                banjir = true;
+                                                gempa = true;
+                                                longsor = true;
+                                              }
+                                            });
+                                          },
+                                          fillColor: longsor == true
+                                              ? Colors.grey
+                                              : orangeColor,
+                                          shape: const CircleBorder(),
+                                          child: Image.asset(
+                                            'assets/icons/longsor.png',
+                                            height: 18,
+                                            width: 18,
+                                          )),
+                                      Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          'Longsor',
+                                          style: onBoardStyle.copyWith(
+                                              color: longsor == true
                                                   ? Colors.grey
                                                   : orangeColor,
-                                              shape: const CircleBorder(),
-                                              child: const FaIcon(
-                                                FontAwesomeIcons.virus,
-                                                size: 18,
-                                                color: Colors.white,
-                                              )),
-                                          Text(
-                                            'Covid-19',
-                                            style: onBoardStyle.copyWith(
-                                                color: covid == true
-                                                    ? Colors.grey
-                                                    : orangeColor,
-                                                fontSize: 12),
-                                          )
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          RawMaterialButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  if (banjir == true) {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[2]);
-                                                    covid = true;
-                                                    banjir = false;
-                                                    gempa = true;
-                                                    longsor = true;
-                                                  } else {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[0]);
-                                                    covid = true;
-                                                    banjir = true;
-                                                    gempa = true;
-                                                    longsor = true;
-                                                  }
-                                                });
-                                              },
-                                              fillColor: banjir == true
-                                                  ? Colors.grey
-                                                  : orangeColor,
-                                              shape: const CircleBorder(),
-                                              child: SvgPicture.asset(
-                                                'assets/icons/banjir.svg',
-                                                height: 18,
-                                                width: 18,
-                                              )),
-                                          Text(
-                                            'Banjir',
-                                            style: onBoardStyle.copyWith(
-                                                color: banjir == true
-                                                    ? Colors.grey
-                                                    : orangeColor,
-                                                fontSize: 12),
-                                          )
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          RawMaterialButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  if (gempa == true) {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[3]);
-                                                    covid = true;
-                                                    banjir = true;
-                                                    gempa = false;
-                                                    longsor = true;
-                                                  } else {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[0]);
-                                                    covid = true;
-                                                    banjir = true;
-                                                    gempa = true;
-                                                    longsor = true;
-                                                  }
-                                                });
-                                              },
-                                              fillColor: gempa == true
-                                                  ? Colors.grey
-                                                  : orangeColor,
-                                              shape: const CircleBorder(),
-                                              child: Image.asset(
-                                                'assets/icons/gempa.png',
-                                                height: 18,
-                                                width: 18,
-                                              )),
-                                          Text(
-                                            'Gempa',
-                                            style: onBoardStyle.copyWith(
-                                                color: gempa == true
-                                                    ? Colors.grey
-                                                    : orangeColor,
-                                                fontSize: 12),
-                                          )
-                                        ],
-                                      ),
-                                      Column(
-                                        children: [
-                                          RawMaterialButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  if (longsor == true) {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[4]);
-                                                    covid = true;
-                                                    banjir = true;
-                                                    gempa = true;
-                                                    longsor = false;
-                                                  } else {
-                                                    _webViewController
-                                                        .loadUrl(_listUrl[0]);
-                                                    covid = true;
-                                                    banjir = true;
-                                                    gempa = true;
-                                                    longsor = true;
-                                                  }
-                                                });
-                                              },
-                                              fillColor: longsor == true
-                                                  ? Colors.grey
-                                                  : orangeColor,
-                                              shape: const CircleBorder(),
-                                              child: Image.asset(
-                                                'assets/icons/longsor.png',
-                                                height: 18,
-                                                width: 18,
-                                              )),
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              'Longsor',
-                                              style: onBoardStyle.copyWith(
-                                                  color: longsor == true
-                                                      ? Colors.grey
-                                                      : orangeColor,
-                                                  fontSize: 12),
-                                            ),
-                                          ),
-                                        ],
+                                              fontSize: 12),
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  )),
-            ],
-          ),
-        ]));
+                    ],
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
   }
 
   _getCurrentLocation() async {

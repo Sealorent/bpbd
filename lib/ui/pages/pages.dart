@@ -32,6 +32,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:dio/dio.dart';
+import 'package:ext_storage/ext_storage.dart';
 
 part 'splashscreen.dart';
 part 'daftar.dart';
