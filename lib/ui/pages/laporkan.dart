@@ -369,7 +369,9 @@ class _LaporkanState extends State<Laporkan> {
     });
   }
 
-  _getCurrentLocation() {
+  _getCurrentLocation() async {
+    await Geolocator.isLocationServiceEnabled();
+    await Geolocator.requestPermission();
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)

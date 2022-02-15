@@ -31,6 +31,7 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'image_picker'
   s.dependency 'package_info_plus'
   s.dependency 'path_provider_ios'
+  s.dependency 'permission_handler'
   s.dependency 'shared_preferences_ios'
   s.dependency 'url_launcher_ios'
   s.dependency 'video_player_avfoundation'

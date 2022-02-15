@@ -76,6 +76,8 @@ class Data {
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 
+  get length => null;
+
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,

@@ -264,7 +264,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailMitigasi()));
+                                builder: (context) => IKDPages()));
                       },
                       title: Align(
                         alignment: Alignment.centerLeft,

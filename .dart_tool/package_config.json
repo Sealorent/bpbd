@@ -483,7 +483,7 @@
     },
     {
       "name": "path_provider",
-      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.8",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider-2.0.9",
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
@@ -528,6 +528,18 @@
       "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "permission_handler",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler-8.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "permission_handler_platform_interface",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/permission_handler_platform_interface-3.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "petitparser",
@@ -860,7 +872,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-02-13T11:45:55.781294Z",
+  "generated": "2022-02-15T04:55:07.921927Z",
   "generator": "pub",
   "generatorVersion": "2.15.1"
 }

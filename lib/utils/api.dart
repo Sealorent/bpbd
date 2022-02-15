@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
   static const _DOMAIN = 'https://bsorumahinspirasi.com';
+  static const _DOMAINI = 'bsorumahinspirasi.com';
   static const IMG_PATH = 'https://bsorumahinspirasi.com/upload/berita/';
   final String _url = 'https://bsorumahinspirasi.com/api/';
 
@@ -19,6 +20,7 @@ class Network {
   static Future<Bencana> getListBencana() async {
     try {
       var url = Uri.http(_DOMAIN, '/api/bencana');
+
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -36,10 +38,12 @@ class Network {
 
   static Future<Berita> getListBerita() async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/berita/');
+      var url = Uri.https(_DOMAINI, '/api/berita/');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
+
+      print(response);
 
       if (response.statusCode == 200) {
         final Berita data = beritaFromJson(response.body);
@@ -74,7 +78,7 @@ class Network {
 
   static Future<Berita> getListBeritaKategori(String kategori) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/berita/$kategori');
+      var url = Uri.http(_DOMAINI, '/api/berita/$kategori');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -111,7 +115,7 @@ class Network {
 
   static Future<Kategori> getListKategori() async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/mitigasi-bencana/');
+      var url = Uri.https(_DOMAINI, '/api/mitigasi-bencana/');
       var response = await http.get(url, headers: {
         'Accept': '*/*',
       });
@@ -129,7 +133,7 @@ class Network {
 
   static Future<Kategori> getListKategoriId(int id) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/mitigasi-bencana/$id');
+      var url = Uri.https(_DOMAINI, '/api/mitigasi-bencana/$id');
       var response = await http.get(url, headers: {
         'Accept': '*/*',
       });
@@ -147,10 +151,10 @@ class Network {
 
   static Future<UserApi> getUser(int id, String token) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/profile/$id');
+      var url = Uri.https(_DOMAINI, '/api/profile/$id');
       var response = await http.get(url, headers: {
         'Content-type': 'application/json',
-        'Accept': '*/*',
+        'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
 
@@ -167,8 +171,9 @@ class Network {
 
   static Future<SimpleResponse> sendLaporan(var data, String token) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/laporan-bencana/');
+      var url = Uri.https(_DOMAINI, '/api/laporan-bencana/');
       var response = await http.post(url, headers: {
+        'Content-type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }, body: {

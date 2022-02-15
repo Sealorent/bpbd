@@ -7,14 +7,12 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:label="bpbd"
         android:icon="@mipmap/ic_launcher">
-        <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -40,26 +38,4 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-    <queries>
-    <!-- If your app opens https URLs -->
-    <intent>
-        <action android:name="android.intent.action.VIEW" />
-        <data android:scheme="https" />
-    </intent>
-    <!-- If your app makes calls -->
-    <intent>
-        <action android:name="android.intent.action.DIAL" />
-        <data android:scheme="tel" />
-    </intent>
-    <!-- If your sends SMS messages -->
-    <intent>
-        <action android:name="android.intent.action.SENDTO" />
-        <data android:scheme="smsto" />
-    </intent>
-    <!-- If your app sends emails -->
-    <intent>
-        <action android:name="android.intent.action.SEND" />
-        <data android:mimeType="*/*" />
-    </intent>
-    </queries>
 </manifest>

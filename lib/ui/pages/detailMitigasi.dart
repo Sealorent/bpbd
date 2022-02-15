@@ -45,11 +45,17 @@ class DetailMitigasi extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
                         child: Column(
                           children: [
-                            Image.network(
-                              'http://192.168.1.2:8000/upload/kategori/' +
-                                  '$icon',
-                              height: 200,
-                              width: 200,
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Image.network(
+                                'https://bsorumahinspirasi.com/public/upload/kategori/' +
+                                    '$icon',
+                                color: orangeColor,
+                              ),
                             ),
                             Center(
                               child: Padding(

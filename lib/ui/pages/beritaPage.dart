@@ -88,7 +88,6 @@ class _BeritaPageState extends State<BeritaPage>
                       print(text);
                       Network.searchBerita(text).then((response) {
                         var res = response;
-
                         if (response.data != null) {
                           print('berita ditemukan');
                           setState(() {
@@ -145,7 +144,7 @@ class _BeritaPageState extends State<BeritaPage>
                 children: <Widget>[
                   berita != null
                       ? ListView.builder(
-                          itemCount: berita!.data!.length,
+                          itemCount: 1,
                           itemBuilder: (BuildContext ctx, index) {
                             return Card(
                               elevation: 2,
