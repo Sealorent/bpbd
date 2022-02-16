@@ -307,7 +307,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     var data = {'email': email, 'password': password};
-    var res = await Network().auth(data, 'auth/login/');
+    var res = await Network().auth(data, 'auth/login');
     var body = json.decode(res.body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();

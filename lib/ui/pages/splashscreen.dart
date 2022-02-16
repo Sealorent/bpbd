@@ -14,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     goHomePage();
     super.initState();
-    _isLogin();
+    // _isLogin();
   }
 
   void _isLogin() async {
@@ -26,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   goHomePage() {
+    _isLogin();
     Timer(const Duration(seconds: 5), () {
       ifLogin == false
           ? Navigator.pushAndRemoveUntil(

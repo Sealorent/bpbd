@@ -21,7 +21,7 @@ class _GuestPageState extends State<GuestPage> {
 
     localStorage = await SharedPreferences.getInstance();
 
-    if(todayDate == localStorage!.get('last_visit')) {
+    if (todayDate == localStorage!.get('last_visit')) {
       // Jika sudah pernah berkunjung hari ini
       setState(() => visitToday = true);
     }
@@ -56,15 +56,16 @@ class _GuestPageState extends State<GuestPage> {
               width: SizeConfig.blockSizeHorizontal * 80,
               child: ElevatedButton(
                 onPressed: () async {
-                  if(!visitToday) {
-                    SharedPreferences localStorage = await SharedPreferences.getInstance();
+                  if (!visitToday) {
+                    SharedPreferences localStorage =
+                        await SharedPreferences.getInstance();
                     localStorage.setString('last_visit', todayDate);
                     Network.visitor('0').then((response) {
-                      if(response.success!) {
+                      if (response.success!) {
                         print('berhasil merekap visitor');
                       }
                     }).catchError((e) {
-                        print('terjadi error saat merekap visitor : $e');
+                      print('terjadi error saat merekap visitor : $e');
                     });
                   }
 
