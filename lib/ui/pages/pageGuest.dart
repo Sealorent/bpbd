@@ -9,6 +9,31 @@ class GuestPage extends StatefulWidget {
 
 class _GuestPageState extends State<GuestPage> {
   SizeConfig sizeConfig = SizeConfig();
+  bool visitToday = false;
+  SharedPreferences? localStorage;
+  late String todayDate;
+
+  _checkVisit() async {
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+
+    setState(() => todayDate = formatter.format(now));
+
+    localStorage = await SharedPreferences.getInstance();
+
+    if(todayDate == localStorage!.get('last_visit')) {
+      // Jika sudah pernah berkunjung hari ini
+      setState(() => visitToday = true);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkVisit();
+  }
+
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
@@ -30,7 +55,19 @@ class _GuestPageState extends State<GuestPage> {
               height: SizeConfig.blockSizeVertical * 7,
               width: SizeConfig.blockSizeHorizontal * 80,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  if(!visitToday) {
+                    SharedPreferences localStorage = await SharedPreferences.getInstance();
+                    localStorage.setString('last_visit', todayDate);
+                    Network.visitor('0').then((response) {
+                      if(response.success!) {
+                        print('berhasil merekap visitor');
+                      }
+                    }).catchError((e) {
+                        print('terjadi error saat merekap visitor : $e');
+                    });
+                  }
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(

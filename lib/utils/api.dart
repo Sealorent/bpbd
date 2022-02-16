@@ -8,9 +8,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = '192.168.1.7:8000';
-  static const IMG_PATH = 'http://192.168.1.7:8000/upload/berita/';
-  final String _url = 'http://192.168.1.7:8000/api/';
+  static const _DOMAIN = '192.168.1.16:8000';
+  static const IMG_PATH = 'http://192.168.1.16:8000/upload/berita/';
+  final String _url = 'http://192.168.1.16:8000/api/';
 
   // 192.168.1.2 is my IP, change with your IP address
   var token;
@@ -178,6 +178,25 @@ class Network {
         "latitude": data['latitude'],
         "file": data['img'],
         "tmpfile": data['base64'],
+      });
+
+      if (response.statusCode == 200 || response.statusCode == 202) {
+        final SimpleResponse data = simpleResponseFromJson(response.body);
+        return data;
+      } else {
+        return SimpleResponse();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
+  static Future<SimpleResponse> visitor(String id_user) async {
+    try {
+      var url = Uri.http(_DOMAIN, '/api/add-visitor/$id_user');
+      var response = await http.get(url, headers: {
+        'Content-type': 'application/json',
+        'Accept': '*/*',
       });
 
       if (response.statusCode == 200 || response.statusCode == 202) {

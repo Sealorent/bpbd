@@ -15,6 +15,23 @@ class _LoginPageState extends State<LoginPage> {
   bool _secureText = true;
   SizeConfig sizeConfig = SizeConfig();
   User? user = FirebaseAuth.instance.currentUser;
+  bool visitToday = false;
+  SharedPreferences? localStorage;
+  late String todayDate;
+
+  _checkVisit() async {
+    var now = DateTime.now();
+    var formatter = DateFormat('yyyy-MM-dd');
+
+    setState(() => todayDate = formatter.format(now));
+
+    localStorage = await SharedPreferences.getInstance();
+
+    if (todayDate == localStorage!.get('last_visit')) {
+      // Jika sudah pernah berkunjung hari ini
+      setState(() => visitToday = true);
+    }
+  }
 
   showHide() {
     setState(() {
@@ -27,6 +44,13 @@ class _LoginPageState extends State<LoginPage> {
       content: Text(msg),
     );
     _scaffoldKey.currentState!.showSnackBar(snackBar);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _checkVisit();
   }
 
   @override
@@ -193,10 +217,23 @@ class _LoginPageState extends State<LoginPage> {
                           FirebaseService service = FirebaseService();
                           try {
                             await service.signInwithGoogle();
-                            Navigator.push(
+                            if (!visitToday) {
+                              localStorage!.setString('last_visit', todayDate);
+
+                              Network.visitor('0').then((response) {
+                                if (response.success!) {
+                                  print('berhasil merekap visitor');
+                                }
+                              }).catchError((e) {
+                                print(
+                                    'terjadi error saat merekap visitor : $e');
+                              });
+                            }
+                            Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MainPage()));
+                                    builder: (context) => const MainPage()),
+                                (route) => false);
                           } catch (e) {
                             if (e is FirebaseAuthException) {
                               showMessage(e.message!);
@@ -276,10 +313,20 @@ class _LoginPageState extends State<LoginPage> {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
       localStorage.setInt('id', int.parse(json.encode(body['data']['id'])));
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
-      );
+      if (!visitToday) {
+        localStorage.setString('last_visit', todayDate);
+        Network.visitor(json.encode(body['data']['id'])).then((response) {
+          if (response.success!) {
+            print('berhasil merekap visitor');
+          }
+        }).catchError((e) {
+          print('terjadi error saat merekap visitor : $e');
+        });
+      }
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainPage()),
+          (route) => false);
     } else {
       _showMsg(body['message']);
     }

@@ -62,10 +62,11 @@ class _OnBoardingState extends State<OnBoarding> {
                     children: [
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
+                          Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
+                                  builder: (context) => const GuestPage()),
+                              (route) => false);
                         },
                         child: Text(
                           _currentPage == _numpages - 1 ? '' : 'Skip',
@@ -110,7 +111,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        textDirection: TextDirection.ltr,
+                                        // textDirection: TextDirection.ltr,
                                         children: [
                                           Text(
                                             'Kami Siap Untuk',
@@ -171,7 +172,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
-                                        textDirection: TextDirection.ltr,
+                                        // textDirection: TextDirection.ltr,
                                         children: [
                                           RichText(
                                             text: TextSpan(

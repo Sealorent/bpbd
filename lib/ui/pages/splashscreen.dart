@@ -28,10 +28,14 @@ class _SplashScreenState extends State<SplashScreen> {
   goHomePage() {
     Timer(const Duration(seconds: 5), () {
       ifLogin == false
-          ? Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const OnBoarding()))
-          : Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const GuestPage()));
+          ? Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const OnBoarding()),
+              (route) => false)
+          : Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const GuestPage()),
+              (route) => false);
     });
   }
 

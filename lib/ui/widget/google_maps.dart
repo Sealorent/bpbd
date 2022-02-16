@@ -22,6 +22,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
   // final _key = GlobalKey<WebViewController>();
+  Position? _position;
 
   final _controller = TextEditingController();
   late WebViewController _webViewController;
@@ -37,11 +38,27 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     'https://www.google.com/maps/d/u/0/embed?mid=1INe8PyPTth40NGjYloGLGpgx9kUee1ud&usp=sharing', // Banjir
   ];
 
+  _getCurrentLocation() {
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        _position = position;
+      });
+      var d = position;
+      print('Position : $d');
+    }).catchError((e) {
+      print('geolocation error : $e');
+    });
+  }
+
   @override
   void initState() {
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }
+    _getCurrentLocation();
     super.initState();
   }
 
@@ -51,9 +68,9 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     sizeConfig.init(context);
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     print(applicationBloc.currentLocation.latitude);
-    return (applicationBloc.currentLocation == null)
-        ? Center(
-            child: const CircularProgressIndicator(),
+    return (_position == null)
+        ? const Center(
+            child: CircularProgressIndicator(),
           )
         : Scaffold(
             key: homeScaffoldKey,
