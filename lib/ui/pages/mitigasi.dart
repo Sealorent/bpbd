@@ -124,7 +124,8 @@ class _MitigasiState extends State<Mitigasi> {
                                                 child: Image.network(
                                                     'https://bsorumahinspirasi.com/public/upload/kategori/' +
                                                         snapshot.data
-                                                            .data[index].icon
+                                                            .data[index].icon,
+                                                    color: Colors.amber
                                                     // snapshot
                                                     //     .data.data![index].icon
                                                     //     .toString(),

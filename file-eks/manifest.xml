@@ -14,6 +14,7 @@
     
     <application
         android:label="bpbd"
+        android:name="bpbd"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk"/>

@@ -38,28 +38,28 @@ class KategoriData {
     this.id,
     this.name,
     this.icon,
-    this.Kategori,
+    // this.Kategori,
     this.mitigasi,
   });
 
   int? id;
   String? name;
   String? icon;
-  String? Kategori;
+  // String? Kategori;
   String? mitigasi;
 
   factory KategoriData.fromJson(Map<String, dynamic> json) => KategoriData(
       id: json["id"],
       name: json["name"],
       icon: json["icon"],
-      Kategori: json["Kategori"],
+      // Kategori: json["Kategori"],
       mitigasi: json["mitigasi"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "icon": icon,
-        "Kategori": Kategori,
+        // "Kategori": Kategori,
         "mitigasi": mitigasi,
       };
 }

@@ -151,16 +151,24 @@ class _AkunPageState extends State<AkunPage> {
                                               ? ClipOval(
                                                   child: Image.network(
                                                       user!.photoURL!))
-                                              : Image.asset(
-                                                  'assets/icons/photo.png',
-                                                  height: 120,
-                                                  width: 120,
-                                                )),
+                                              : akunApi != null
+                                                  ? Image.network(
+                                                      'https://bsorumahinspirasi.com/public/image/profile/' +
+                                                          akunApi!.data!.photo
+                                                              .toString(),
+                                                      height: 120,
+                                                      width: 120,
+                                                    )
+                                                  : Image.asset(
+                                                      'assets/icons/photo.png',
+                                                      height: 120,
+                                                      width: 120,
+                                                    )),
                                   SizedBox(
                                     height: SizeConfig.blockSizeVertical * 1,
                                   ),
                                   Text(
-                                    akunApi!.data!.name!,
+                                    "Profil",
                                     style: onBoardStyle.copyWith(
                                         color: Colors.grey, fontSize: 20),
                                   )
@@ -213,14 +221,21 @@ class _AkunPageState extends State<AkunPage> {
                                 borderSide: const BorderSide())),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        initialValue: name != null
-                            ? name
+                        initialValue: akunApi != null
+                            ? akunApi!.data!.name
                             : user != null
-                                ? user!.displayName!
-                                : 'data masih kosong',
+                                ? user!.displayName
+                                : name,
+                        // name != null
+                        //     ? name
+                        //     : user != null
+                        //         ? user!.displayName!
+                        //         : akunApi != null
+                        //             ? akunApi!.data!.name!
+                        //             : "Nama belum terisi",
                         validator: (nameValue) {
                           if (nameValue!.isEmpty) {
-                            return 'Please enter your password';
+                            return 'Masukkan Nama Anda';
                           }
                           name = nameValue;
                           return null;
@@ -253,14 +268,16 @@ class _AkunPageState extends State<AkunPage> {
                                 borderSide: const BorderSide())),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        initialValue: email == null
-                            ? user != null
+                        initialValue: email != null
+                            ? email
+                            : email != null
                                 ? user!.email!
-                                : ''
-                            : email,
+                                : akunApi != null
+                                    ? akunApi!.data!.email!
+                                    : "Email belum terisi",
                         validator: (emailValue) {
                           if (emailValue!.isEmpty) {
-                            return 'Please enter your password';
+                            return 'Masukkan E-Mail anda email';
                           }
                           email = emailValue;
                           return null;
@@ -295,6 +312,13 @@ class _AkunPageState extends State<AkunPage> {
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {},
+                        initialValue: noTlp != null
+                            ? noTlp
+                            : noTlp != null
+                                ? user!.phoneNumber!
+                                : akunApi != null
+                                    ? akunApi!.data!.noTelp!
+                                    : "No Telepon belum terisi",
                         validator: (noTelp) {
                           if (noTelp!.isEmpty) {
                             return 'Maukkan No Telepon';

@@ -339,9 +339,8 @@ class _LaporkanState extends State<Laporkan> {
       'base64': _img64,
     };
 
-    print(_token);
-
-    Network.sendLaporan(data, _token!).then((response) {
+    Network.sendLaporan(data, _token).then((response) {
+      print(_token);
       if (response.success!) {
         Fluttertoast.showToast(
             msg: "Berhasil mengirim laporan",

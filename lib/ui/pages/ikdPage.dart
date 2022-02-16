@@ -8,8 +8,6 @@ class IKDPages extends StatefulWidget {
 }
 
 class _IKDPagesState extends State<IKDPages> {
-  Downloader? download;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

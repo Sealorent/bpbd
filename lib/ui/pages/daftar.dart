@@ -254,14 +254,21 @@ class _DaftarPageState extends State<DaftarPage> {
 
     var res = await Network().auth(data, 'auth/register');
     var body = json.decode(res.body);
-    print(body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
       localStorage.setString('user', json.encode(body['user']));
+      Fluttertoast.showToast(
+          msg: "Berhasil Mendaftar",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 12.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const MainPage()),
       );
     } else {
       if (body['message']['name'] != null) {

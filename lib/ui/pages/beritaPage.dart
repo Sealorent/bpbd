@@ -19,8 +19,8 @@ class _BeritaPageState extends State<BeritaPage>
   @override
   void initState() {
     super.initState();
-    _initBerita();
     _initKategori();
+    _initBerita();
   }
 
   _initBerita() {
@@ -144,7 +144,7 @@ class _BeritaPageState extends State<BeritaPage>
                 children: <Widget>[
                   berita != null
                       ? ListView.builder(
-                          itemCount: 1,
+                          itemCount: berita!.data!.length,
                           itemBuilder: (BuildContext ctx, index) {
                             return Card(
                               elevation: 2,
@@ -152,10 +152,10 @@ class _BeritaPageState extends State<BeritaPage>
                               shadowColor: Colors.black.withOpacity(0.9),
                               child: ListTile(
                                   onTap: () {
-                                    if (berita!.data![index].link_artikel !=
+                                    if (berita!.data![index].linkArtikel !=
                                         null) {
                                       _launchURL(
-                                          berita!.data![index].link_artikel!);
+                                          berita!.data![index].linkArtikel!);
                                     } else {
                                       print('url kosong');
                                       Fluttertoast.showToast(
@@ -283,7 +283,8 @@ class _BeritaPageState extends State<BeritaPage>
                                                       .data.data[index].title),
                                                   Text(
                                                       snapshot.data.data[index]
-                                                          .createdAt,
+                                                          .createdAt
+                                                          .toString(),
                                                       style:
                                                           onBoardStyle.copyWith(
                                                               fontSize: 12)),

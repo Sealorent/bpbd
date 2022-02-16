@@ -1,6 +1,6 @@
 // To parse this JSON data, do
 //
-//     final user = userFromJson(jsonString);
+//     final userApi = userApiFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -52,11 +52,11 @@ class Data {
   String? name;
   String? email;
   dynamic emailVerifiedAt;
-  dynamic noTelp;
-  dynamic gender;
-  dynamic photo;
-  int? isGoogle;
-  int? isLogin;
+  String? noTelp;
+  String? gender;
+  String? photo;
+  String? isGoogle;
+  String? isLogin;
   String? role;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -76,8 +76,6 @@ class Data {
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 
-  get length => null;
-
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
@@ -93,6 +91,3 @@ class Data {
         "updated_at": updatedAt!.toIso8601String(),
       };
 }
-// To parse this JSON data, do
-//
-//     final updateUser = updateUserFromJson(jsonString);

@@ -11,8 +11,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Network {
   static const _DOMAIN = 'https://bsorumahinspirasi.com';
   static const _DOMAINI = 'bsorumahinspirasi.com';
-  static const IMG_PATH = 'https://bsorumahinspirasi.com/upload/berita/';
+  static const IMG_PATH = 'https://bsorumahinspirasi.com/public/upload/berita/';
   final String _url = 'https://bsorumahinspirasi.com/api/';
+  static const String _urli = 'https://bsorumahinspirasi.com/api/';
 
   // 192.168.1.2 is my IP, change with your IP address
   var token;
@@ -58,7 +59,7 @@ class Network {
 
   static Future<Berita> searchBerita(String judul) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/search-berita/');
+      var url = Uri.https(_DOMAINI, '/api/search-berita');
       var response = await http.post(url, headers: {
         'Accept': 'application/json',
       }, body: {
@@ -78,7 +79,7 @@ class Network {
 
   static Future<Berita> getListBeritaKategori(String kategori) async {
     try {
-      var url = Uri.http(_DOMAINI, '/api/berita/$kategori');
+      var url = Uri.https(_DOMAINI, '/api/berita/$kategori');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -97,7 +98,7 @@ class Network {
   static Future<Berita> getListBeritaKategoriTitle(
       String kategori, String title) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/berita/$kategori/$title');
+      var url = Uri.https(_DOMAINI, '/api/berita/$kategori/$title');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -171,9 +172,9 @@ class Network {
 
   static Future<SimpleResponse> sendLaporan(var data, String token) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/laporan-bencana/');
+      var url = Uri.https(_DOMAINI, '/api/laporan-bencana');
       var response = await http.post(url, headers: {
-        'Content-type': 'application/json',
+        // 'Content-type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }, body: {
