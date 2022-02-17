@@ -69,6 +69,12 @@ class _GuestPageState extends State<GuestPage> {
                     });
                   }
 
+                  Map<Permission, PermissionStatus> statuses = await [
+                    Permission.location,
+                    Permission.camera,
+                    Permission.bluetooth,
+                    Permission.storage
+                  ].request();
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -96,7 +102,13 @@ class _GuestPageState extends State<GuestPage> {
               height: SizeConfig.blockSizeVertical * 7,
               width: SizeConfig.blockSizeHorizontal * 80,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  Map<Permission, PermissionStatus> statuses = await [
+                    Permission.location,
+                    Permission.camera,
+                    Permission.bluetooth,
+                    Permission.storage
+                  ].request();
                   Navigator.push(
                       context,
                       MaterialPageRoute(

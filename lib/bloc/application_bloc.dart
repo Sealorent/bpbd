@@ -1,22 +1,22 @@
-import 'package:bpbd/services/geolocator_services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:bpbd/services/geolocator_services.dart';
+// import 'package:flutter/widgets.dart';
+// import 'package:geolocator/geolocator.dart';
 
-class ApplicationBloc with ChangeNotifier {
-  final geoLocatorService = GeolocatorService();
+// class ApplicationBloc with ChangeNotifier {
+//   final geoLocatorService = GeolocatorService();
 
-  // final placeService = PlaceService();
+//   // final placeService = PlaceService();
 
-  late Position currentLocation;
+//   late Position currentLocation;
 
-  // late List<PlaceSearch> searchResults;
+//   // late List<PlaceSearch> searchResults;
 
-  ApplicationBloc() {
-    setCurrentLocation();
-  }
+//   ApplicationBloc() {
+//     setCurrentLocation();
+//   }
 
-  setCurrentLocation() async {
-    currentLocation = await geoLocatorService.getCurrentLocation();
-    notifyListeners();
-  }
-}
+//   setCurrentLocation() async {
+//     currentLocation = await geoLocatorService.getCurrentLocation();
+//     notifyListeners();
+//   }
+// }

@@ -37,6 +37,7 @@ class NewBencana {
 class NewBencanaData {
   NewBencanaData({
     this.id,
+    this.title,
     this.idKategoriBencana,
     this.deskripsi,
     this.longitude,
@@ -58,6 +59,7 @@ class NewBencanaData {
   });
 
   String? id;
+  String? title;
   String? idKategoriBencana;
   String? deskripsi;
   String? longitude;
@@ -79,6 +81,7 @@ class NewBencanaData {
 
   factory NewBencanaData.fromJson(Map<String, dynamic> json) => NewBencanaData(
         id: json["id"],
+        title: json["title"],
         idKategoriBencana: json["id_kategori_bencana"],
         deskripsi: json["deskripsi"],
         longitude: json["longitude"],
@@ -101,6 +104,7 @@ class NewBencanaData {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "title": title,
         "id_kategori_bencana": idKategoriBencana,
         "deskripsi": deskripsi,
         "longitude": longitude,

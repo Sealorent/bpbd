@@ -264,7 +264,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => DetailMitigasi()));
+                                builder: (context) => IKDPages()));
                       },
                       title: Align(
                         alignment: Alignment.centerLeft,
@@ -412,8 +412,8 @@ class _PilihanMenuState extends State<PilihanMenu> {
   }
 
   void logoutUser() async {
-    FirebaseService service = FirebaseService();
     try {
+      FirebaseService service = FirebaseService();
       service.signOutFromGoogle();
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.clear();

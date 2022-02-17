@@ -5,13 +5,14 @@ import 'package:bpbd/models/kategori.dart';
 import 'package:bpbd/models/new_bencana.dart';
 import 'package:bpbd/models/simple_response.dart';
 import 'package:bpbd/models/user.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = 'bsorumahinspirasi.com';
-  static const IMG_PATH = 'https://bsorumahinspirasi.com/upload/berita/';
-  final String _url = 'https://bsorumahinspirasi.com/api/';
+  static const _DOMAIN = '192.168.83.140:8000';
+  static const IMG_PATH = 'http://192.168.83.140:8000/upload/berita/';
+  final String _url = 'http://192.168.83.140:8000/api/';
 
   // 192.168.1.2 is my IP, change with your IP address
   var token;
@@ -19,6 +20,7 @@ class Network {
   static Future<Bencana> getListBencana() async {
     try {
       var url = Uri.http(_DOMAIN, '/api/bencana');
+
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -40,6 +42,8 @@ class Network {
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
+
+      print(response);
 
       if (response.statusCode == 200) {
         final Berita data = beritaFromJson(response.body);
@@ -183,20 +187,20 @@ class Network {
     }
   }
 
-  static Future<User> getUser(int id, String token) async {
+  static Future<UserApi> getUser(int id, String token) async {
     try {
       var url = Uri.http(_DOMAIN, '/api/profile/$id');
       var response = await http.get(url, headers: {
         'Content-type': 'application/json',
-        'Accept': '*/*',
+        'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
 
       if (response.statusCode == 200) {
-        final User data = userFromJson(response.body);
+        final UserApi data = userApiFromJson(response.body);
         return data;
       } else {
-        return User();
+        return UserApi();
       }
     } catch (e) {
       throw Exception('error : ' + e.toString());
@@ -207,6 +211,7 @@ class Network {
     try {
       var url = Uri.http(_DOMAIN, '/api/laporan-bencana/');
       var response = await http.post(url, headers: {
+        'Content-type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       }, body: {
@@ -254,19 +259,29 @@ class Network {
     token = jsonDecode((localStorage.getString('token')).toString())['token'];
   }
 
-  postUrl(dat, apUrl, String token) async {
-    var ful = Uri.parse(_url + apUrl);
-    return await http.post(ful, body: jsonEncode(dat), headers: {
-      'Content-type': 'application/json',
-      'Accept': '*/*',
-      'Authorization': 'Bearer $token',
-    });
+  postUrl(dat, apUrl, token) async {
+    try {
+      var ful = Uri.parse(_url + apUrl);
+      var response = await http.post(ful, body: jsonEncode(dat), headers: {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      print(response);
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return Text('error');
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
   }
 
   auth(data, apiURL) async {
     var fullUrl = Uri.parse(_url + apiURL);
     return await http.post(fullUrl,
-        body: jsonEncode(data), headers: _setHeaders());
+        body: json.encode(data), headers: _setHeaders());
   }
 
   getData(apiURL) async {
@@ -281,6 +296,5 @@ class Network {
   _setHeaders() => {
         'Content-type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
       };
 }

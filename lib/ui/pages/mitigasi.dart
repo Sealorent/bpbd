@@ -122,7 +122,7 @@ class _MitigasiState extends State<Mitigasi> {
                                                         BorderRadius.circular(
                                                             20)),
                                                 child: Image.network(
-                                                    'http://192.168.1.2:8000/upload/kategori/' +
+                                                    'https://bsorumahinspirasi.com/public/upload/kategori/' +
                                                         snapshot.data
                                                             .data[index].icon
                                                     // snapshot

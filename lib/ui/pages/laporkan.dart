@@ -14,8 +14,6 @@ class _LaporkanState extends State<Laporkan> {
   var judul, alamat, pesan, _image;
   String? _img64;
   var _token;
-  // final _scaffoldKey = GlobalKey<ScaffoldState>();
-  // bool _secureText = true;
   SizeConfig sizeConfig = SizeConfig();
   double _longitude = 0.0;
   double _latitude = 0.0;
@@ -43,7 +41,7 @@ class _LaporkanState extends State<Laporkan> {
     _token = jsonDecode((localStorage.getString('token')).toString());
     if (_token == null) {
       Fluttertoast.showToast(
-          msg: "Harap login untuk melaporkan bencana",
+          msg: "Harap login untuk update profil",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -371,7 +369,9 @@ class _LaporkanState extends State<Laporkan> {
     });
   }
 
-  _getCurrentLocation() {
+  _getCurrentLocation() async {
+    await Geolocator.isLocationServiceEnabled();
+    await Geolocator.requestPermission();
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)

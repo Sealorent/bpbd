@@ -46,8 +46,8 @@ class BeritaData {
 
   String? title;
   String? link_artikel;
-  String? kategoriId;
-  String? userId;
+  int? kategoriId;
+  int? userId;
   String? createdAt;
   int? id;
   String? name;

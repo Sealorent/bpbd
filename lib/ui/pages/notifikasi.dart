@@ -7,7 +7,25 @@ class NotifikasiPage extends StatefulWidget {
   _NotifikasiPageState createState() => _NotifikasiPageState();
 }
 
-class _NotifikasiPageState extends State<NotifikasiPage> {
+class _NotifikasiPageState extends State<NotifikasiPage>
+    with SingleTickerProviderStateMixin {
+  TabController? _controller;
+
+  Berita? berita;
+  Kategori? kategori;
+
+  _initKategori() {
+    Network.getListKategori().then((response) {
+      setState(() {
+        kategori = response;
+        _controller = TabController(
+          length: (1 + response.data!.length),
+          vsync: this,
+        );
+      });
+    });
+  }
+
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {
@@ -33,7 +51,7 @@ class _NotifikasiPageState extends State<NotifikasiPage> {
                 unselectedLabelColor: Colors.grey,
                 indicatorColor: Colors.transparent,
                 labelColor: orangeColor,
-                // overlayColor: MaterialStateProperty(),
+                controller: _controller,
                 tabs: [
                   Tab(
                     child: Text(
@@ -41,24 +59,31 @@ class _NotifikasiPageState extends State<NotifikasiPage> {
                       style: defaultStyle.copyWith(fontSize: 18),
                     ),
                   ),
-                  Tab(
-                    child: Text(
-                      'Banjir',
-                      style: defaultStyle.copyWith(fontSize: 18),
+                  for (var item in kategori!.data!)
+                    Tab(
+                      child: Text(
+                        item.name.toString(),
+                        style: defaultStyle.copyWith(fontSize: 16),
+                      ),
                     ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Gempa Bumi',
-                      style: defaultStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Tanah Longsor',
-                      style: defaultStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
+                  // Tab(
+                  //   child: Text(
+                  //     'Banjir',
+                  //     style: defaultStyle.copyWith(fontSize: 18),
+                  //   ),
+                  // ),
+                  // Tab(
+                  //   child: Text(
+                  //     'Gempa Bumi',
+                  //     style: defaultStyle.copyWith(fontSize: 18),
+                  //   ),
+                  // ),
+                  // Tab(
+                  //   child: Text(
+                  //     'Tanah Longsor',
+                  //     style: defaultStyle.copyWith(fontSize: 18),
+                  //   ),
+                  // ),
                 ]),
             preferredSize: Size.fromHeight(SizeConfig.blockSizeVertical * 6),
           ),

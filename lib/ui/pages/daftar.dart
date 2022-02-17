@@ -11,7 +11,7 @@ class _DaftarPageState extends State<DaftarPage> {
   SizeConfig sizeConfig = SizeConfig();
   User? user = FirebaseAuth.instance.currentUser;
   final _formKey = GlobalKey<FormState>();
-  var name, email, password;
+  var name, email, password, noTelp;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
   late int isGoogle = user != null ? 1 : 0;
@@ -35,42 +35,7 @@ class _DaftarPageState extends State<DaftarPage> {
               horizontal: SizeConfig.blockSizeHorizontal * 8),
           children: [
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 2,
-            ),
-            Row(
-              children: [
-                Image.asset(
-                  'assets/images/logobpbd.png',
-                  // height: SizeConfig.blockSizeHorizontal * 18,
-                  width: SizeConfig.blockSizeVertical * 8,
-                ),
-                SizedBox(
-                  width: SizeConfig.blockSizeHorizontal * 4,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'BPBD',
-                      style: onBoardStyle.copyWith(fontSize: 18),
-                    ),
-                    Text(
-                      'BONDOWOSO',
-                      style: onBoardStyle.copyWith(fontSize: 18),
-                    )
-                  ],
-                )
-              ],
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 2,
-            ),
-            Divider(
-              thickness: 2,
-              color: orangeColor,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 1,
+              height: SizeConfig.blockSizeVertical * 6,
             ),
             Text(
               'Daftar Akun',
@@ -87,7 +52,11 @@ class _DaftarPageState extends State<DaftarPage> {
                   color: const Color(0xFF1F1F1F).withOpacity(0.8)),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 2,
+              height: SizeConfig.blockSizeVertical * 1,
+            ),
+            Divider(
+              thickness: 2,
+              color: orangeColor,
             ),
             Text(
               'Nama Lengkap',
@@ -154,7 +123,7 @@ class _DaftarPageState extends State<DaftarPage> {
               height: SizeConfig.blockSizeVertical * 3,
             ),
             Text(
-              'Password',
+              'Nomor Telepon',
               style: onBoardStyle.copyWith(
                   fontWeight: FontWeight.w400,
                   fontSize: 18,
@@ -162,6 +131,37 @@ class _DaftarPageState extends State<DaftarPage> {
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 2,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+                    hintText: 'Masukkan no Telepon',
+                    suffixIcon: const Icon(
+                      Icons.email_outlined,
+                    ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                        borderSide: const BorderSide())),
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.next,
+                validator: (hpValue) {
+                  if (hpValue!.isEmpty) {
+                    return 'Please enter your no telp';
+                  }
+                  noTelp = hpValue;
+                  return null;
+                }),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 3,
+            ),
+            Text(
+              'Password',
+              style: onBoardStyle.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 18,
+                  color: const Color(0xFF444444)),
+            ),
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 3,
             ),
             TextFormField(
                 // controller: usernameController,
@@ -207,47 +207,7 @@ class _DaftarPageState extends State<DaftarPage> {
                   )),
             ),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 2,
-            ),
-            Center(
-              child: Text(
-                'Atau dengan',
-                style: onBoardStyle.copyWith(
-                    fontSize: 14,
-                    color: const Color(0xFF444444).withOpacity(0.7)),
-              ),
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 2,
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 7,
-              child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: const BorderSide(color: Colors.white))),
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/Google.svg',
-                        height: SizeConfig.blockSizeVertical * 4,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 6,
-                      ),
-                      Text(
-                        'Lanjutkan melalui Google',
-                        style: onBoardStyle.copyWith(fontSize: 16),
-                      ),
-                    ],
-                  )),
+              height: SizeConfig.blockSizeVertical * 1,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -288,11 +248,13 @@ class _DaftarPageState extends State<DaftarPage> {
       'name': name,
       'email': email,
       'password': password,
+      'no_hp': noTelp,
       'is_google': isGoogle
     };
 
-    var res = await Network().auth(data, '/register');
+    var res = await Network().auth(data, 'auth/register');
     var body = json.decode(res.body);
+    print(body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));

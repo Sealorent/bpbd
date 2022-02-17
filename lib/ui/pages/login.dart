@@ -33,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  int google = 0;
+
   showHide() {
     setState(() {
       _secureText = !_secureText;
@@ -125,11 +127,6 @@ class _LoginPageState extends State<LoginPage> {
                               borderSide: const BorderSide())),
                       keyboardType: TextInputType.text,
                       textInputAction: TextInputAction.next,
-                      // focusNode: userFocus,
-
-                      // onFieldSubmitted: (_) {
-                      //   // FocusScope.of(context).requestFocus(passFocus);
-                      // },
                       validator: (emailValue) {
                         if (emailValue!.isEmpty) {
                           return 'Please enter your email';
@@ -306,9 +303,11 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    var data = {'email': email, 'password': password};
+    var data = {'email': email, 'password': password, 'is_google': google};
+    print(data);
     var res = await Network().auth(data, 'auth/login');
     var body = json.decode(res.body);
+    print(body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', json.encode(body['token']));
