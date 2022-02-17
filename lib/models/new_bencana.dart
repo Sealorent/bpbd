@@ -1,15 +1,16 @@
 // To parse this JSON data, do
 //
-//     final bencana = bencanaFromJson(jsonString);
+//     final newBencana = newBencanaFromJson(jsonString);
 
 import 'dart:convert';
 
-Bencana bencanaFromJson(String str) => Bencana.fromJson(json.decode(str));
+NewBencana newBencanaFromJson(String str) =>
+    NewBencana.fromJson(json.decode(str));
 
-String bencanaToJson(Bencana data) => json.encode(data.toJson());
+String newBencanaToJson(NewBencana data) => json.encode(data.toJson());
 
-class Bencana {
-  Bencana({
+class NewBencana {
+  NewBencana({
     this.success,
     this.message,
     this.data,
@@ -17,13 +18,13 @@ class Bencana {
 
   bool? success;
   String? message;
-  List<BencanaData>? data;
+  List<NewBencanaData>? data;
 
-  factory Bencana.fromJson(Map<String, dynamic> json) => Bencana(
+  factory NewBencana.fromJson(Map<String, dynamic> json) => NewBencana(
         success: json["success"],
         message: json["message"],
-        data: List<BencanaData>.from(
-            json["data"].map((x) => BencanaData.fromJson(x))),
+        data: List<NewBencanaData>.from(
+            json["data"].map((x) => NewBencanaData.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,8 +34,8 @@ class Bencana {
       };
 }
 
-class BencanaData {
-  BencanaData({
+class NewBencanaData {
+  NewBencanaData({
     this.id,
     this.idKategoriBencana,
     this.deskripsi,
@@ -44,27 +45,39 @@ class BencanaData {
     this.idAdmin,
     this.idUser,
     this.status,
+    this.desaId,
+    this.kecamatanId,
     this.createdAt,
     this.idKategori,
     this.name,
     this.icon,
+    this.linkEmbed,
+    this.photos,
+    this.namaKecamatan,
+    this.namaDesa,
   });
 
-  int? id;
-  int? idKategoriBencana;
+  String? id;
+  String? idKategoriBencana;
   String? deskripsi;
   String? longitude;
   String? latitude;
   String? gambar;
   String? idAdmin;
   String? idUser;
-  dynamic? status;
-  DateTime? createdAt;
-  int? idKategori;
+  String? status;
+  String? desaId;
+  String? kecamatanId;
+  String? createdAt;
+  String? idKategori;
   String? name;
   String? icon;
+  String? linkEmbed;
+  String? photos;
+  String? namaKecamatan;
+  String? namaDesa;
 
-  factory BencanaData.fromJson(Map<String, dynamic> json) => BencanaData(
+  factory NewBencanaData.fromJson(Map<String, dynamic> json) => NewBencanaData(
         id: json["id"],
         idKategoriBencana: json["id_kategori_bencana"],
         deskripsi: json["deskripsi"],
@@ -74,10 +87,16 @@ class BencanaData {
         idAdmin: json["id_admin"],
         idUser: json["id_user"],
         status: json["status"],
-        createdAt: DateTime.parse(json["created_at"]),
+        desaId: json["desa_id"],
+        kecamatanId: json["kecamatan_id"],
+        createdAt: json["created_at"].toString().substring(0, 10),
         idKategori: json["id_kategori"],
         name: json["name"],
         icon: json["icon"],
+        linkEmbed: json["link_embed"],
+        photos: json["photos"],
+        namaKecamatan: json["nama_kecamatan"],
+        namaDesa: json["nama_desa"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -90,9 +109,15 @@ class BencanaData {
         "id_admin": idAdmin,
         "id_user": idUser,
         "status": status,
-        "created_at": createdAt!.toIso8601String(),
+        "desa_id": desaId,
+        "kecamatan_id": kecamatanId,
+        "created_at": createdAt,
         "id_kategori": idKategori,
         "name": name,
         "icon": icon,
+        "link_embed": linkEmbed,
+        "photos": photos,
+        "nama_kecamatan": namaKecamatan,
+        "nama_desa": namaDesa,
       };
 }

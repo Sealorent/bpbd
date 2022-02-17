@@ -94,7 +94,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const BeritaNearPage()));
+                                builder: (context) => const BeritaPage()));
                       },
                       title: Align(
                         alignment: Alignment.centerLeft,
