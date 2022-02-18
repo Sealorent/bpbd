@@ -99,7 +99,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const Mitigasi()));
+                          builder: (context) => const MitigasiKec()));
                 },
                 child: Center(
                   child: Text(

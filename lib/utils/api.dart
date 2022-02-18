@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bpbd/models/bencana.dart';
 import 'package:bpbd/models/berita.dart';
 import 'package:bpbd/models/kategori.dart';
+import 'package:bpbd/models/mitigasi_kategori.dart';
 import 'package:bpbd/models/new_bencana.dart';
 import 'package:bpbd/models/simple_response.dart';
 import 'package:bpbd/models/user.dart';
@@ -10,9 +11,9 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = '192.168.83.140:8000';
-  static const IMG_PATH = 'http://192.168.83.140:8000/upload/berita/';
-  final String _url = 'http://192.168.83.140:8000/api/';
+  static const _DOMAIN = '192.168.1.19:8000';
+  static const IMG_PATH = 'http://192.168.1.19:8000/upload/berita/';
+  final String _url = 'http://192.168.1.19:8000/api/';
 
   // 192.168.1.2 is my IP, change with your IP address
   var token;
@@ -56,18 +57,20 @@ class Network {
     }
   }
 
-  static Future<NewBencana> getListBencanaKec(String kecamatan) async {
+  static Future<MitigasiKategori> getListBencanaKec(String kecamatan) async {
     try {
       var url = Uri.http(_DOMAIN, '/api/bencana-kecamatan/$kecamatan');
+      print(url);
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
 
       if (response.statusCode == 200) {
-        final NewBencana data = newBencanaFromJson(response.body);
+        final MitigasiKategori data = mitigasiKategoriFromJson(response.body);
+        print(response.body);
         return data;
       } else {
-        return NewBencana();
+        return MitigasiKategori();
       }
     } catch (e) {
       throw Exception('error : ' + e.toString());
@@ -94,13 +97,11 @@ class Network {
     }
   }
 
-  static Future<NewBencana> searchBencanaKec(String judul) async {
+  static Future<NewBencana> searchBencanaKec(String kec, String title) async {
     try {
-      var url = Uri.http(_DOMAIN, '/api/search-berita/');
-      var response = await http.post(url, headers: {
+      var url = Uri.http(_DOMAIN, '/api/search-bencana/$kec/$title');
+      var response = await http.get(url, headers: {
         'Accept': 'application/json',
-      }, body: {
-        "judul": judul
       });
 
       if (response.statusCode == 200 || response.statusCode == 202) {
@@ -132,6 +133,26 @@ class Network {
     }
   }
 
+  static Future<NewBencana> getListBencanaKategori(
+      String kecamatan, String kategori) async {
+    try {
+      var url = Uri.http(_DOMAIN, '/api/bencana/$kecamatan/$kategori');
+      var response = await http.get(url, headers: {
+        'Accept': 'application/json',
+      });
+      print('url bencana kategori : $url');
+      if (response.statusCode == 200) {
+        final NewBencana data = newBencanaFromJson(response.body);
+        print(response.body);
+        return data;
+      } else {
+        return NewBencana();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
   static Future<Berita> getListBeritaKategoriTitle(
       String kategori, String title) async {
     try {
@@ -145,6 +166,26 @@ class Network {
         return data;
       } else {
         return Berita();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
+  static Future<NewBencana> getListBencanaKategoriTitle(
+      String kecamatan, String kategori, String title) async {
+    try {
+      var url =
+          Uri.http(_DOMAIN, '/api/search-bencana/$kecamatan/$kategori/$title');
+      var response = await http.get(url, headers: {
+        'Accept': 'application/json',
+      });
+
+      if (response.statusCode == 200) {
+        final NewBencana data = newBencanaFromJson(response.body);
+        return data;
+      } else {
+        return NewBencana();
       }
     } catch (e) {
       throw Exception('error : ' + e.toString());

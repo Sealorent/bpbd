@@ -58,20 +58,20 @@ class NewBencanaData {
     this.namaDesa,
   });
 
-  String? id;
+  dynamic? id;
   String? title;
-  String? idKategoriBencana;
+  dynamic? idKategoriBencana;
   String? deskripsi;
   String? longitude;
   String? latitude;
   String? gambar;
-  String? idAdmin;
-  String? idUser;
+  dynamic? idAdmin;
+  dynamic? idUser;
   String? status;
-  String? desaId;
-  String? kecamatanId;
+  dynamic? desaId;
+  dynamic? kecamatanId;
   String? createdAt;
-  String? idKategori;
+  dynamic? idKategori;
   String? name;
   String? icon;
   String? linkEmbed;
