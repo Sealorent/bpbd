@@ -8,7 +8,38 @@ class PilihanMenu extends StatefulWidget {
 }
 
 class _PilihanMenuState extends State<PilihanMenu> {
+  User? user = FirebaseAuth.instance.currentUser;
   SizeConfig sizeConfig = SizeConfig();
+  var _id;
+  String _token = '';
+
+  _getuser() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    _token = jsonDecode((localStorage.getString('token')).toString());
+    _id = localStorage.getInt('id');
+    if (_token == null) {
+      Fluttertoast.showToast(
+          msg: "Anda Masuk Sebagai tamu",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 12.0);
+    } else {
+      // print(_token);
+      return _id;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _getuser();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
@@ -222,7 +253,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const Mitigasi()));
+                                builder: (context) => const BencanaPage()));
                       },
                       title: Align(
                         alignment: Alignment.centerLeft,
@@ -388,21 +419,40 @@ class _PilihanMenuState extends State<PilihanMenu> {
                     ),
                   ],
                 ),
-                ListTile(
-                  onTap: () {
-                    logoutUser();
-                  },
-                  leading: const Icon(
-                    Icons.exit_to_app,
-                    size: 30,
-                    color: Colors.red,
-                  ),
-                  title: Text(
-                    'Keluar Akun',
-                    style:
-                        onBoardStyle.copyWith(color: Colors.red, fontSize: 18),
-                  ),
-                )
+                _id != null
+                    ? ListTile(
+                        onTap: () {
+                          logoutUser();
+                        },
+                        leading: const Icon(
+                          Icons.exit_to_app,
+                          size: 30,
+                          color: Colors.red,
+                        ),
+                        title: Text(
+                          'Keluar Akun' + '$_token',
+                          style: onBoardStyle.copyWith(
+                              color: Colors.red, fontSize: 18),
+                        ),
+                      )
+                    : ListTile(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LoginPage()));
+                        },
+                        leading: const Icon(
+                          Icons.exit_to_app,
+                          size: 30,
+                          color: Colors.green,
+                        ),
+                        title: Text(
+                          'Masuk',
+                          style: onBoardStyle.copyWith(
+                              color: Colors.green, fontSize: 18),
+                        ),
+                      )
               ],
             ),
           ),
@@ -417,7 +467,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
       service.signOutFromGoogle();
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.clear();
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => const LoginPage()));
     } catch (e) {
       if (e is FirebaseAuthException) {

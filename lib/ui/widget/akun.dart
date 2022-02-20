@@ -34,7 +34,7 @@ class _AkunPageState extends State<AkunPage> {
     _token = jsonDecode((localStorage.getString('token')).toString());
     _id = localStorage.getInt('id');
     _isGoogle = localStorage.getBool('isLogin');
-    if (_isGoogle == false) {
+    if (user == null) {
       if (_token == null) {
         Fluttertoast.showToast(
             msg: "Harap login untuk melaporkan bencana",
@@ -44,7 +44,6 @@ class _AkunPageState extends State<AkunPage> {
             backgroundColor: Colors.red,
             textColor: Colors.white,
             fontSize: 12.0);
-
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const LoginPage()),
@@ -69,7 +68,6 @@ class _AkunPageState extends State<AkunPage> {
     Network.getUser(_id, _token).then((response) {
       setState(() {
         akunApi = response;
-        print(akunApi);
       });
     });
   }
@@ -153,7 +151,7 @@ class _AkunPageState extends State<AkunPage> {
                                                       user!.photoURL!))
                                               : akunApi != null
                                                   ? Image.network(
-                                                      'https://bsorumahinspirasi.com/public/image/profile/' +
+                                                      'https://bpbd.bsorumahinspirasi.com/public/image/profile/' +
                                                           akunApi!.data!.photo
                                                               .toString(),
                                                       height: 120,
@@ -212,7 +210,9 @@ class _AkunPageState extends State<AkunPage> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                            hintText: 'Masukkan Nama Lengkap',
+                            hintText: akunApi != null
+                                ? akunApi!.data!.name
+                                : "masukkan nama lengkap",
                             suffixIcon: const Icon(
                               Icons.person,
                             ),
@@ -260,7 +260,9 @@ class _AkunPageState extends State<AkunPage> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                            hintText: 'Masukkan Email',
+                            hintText: akunApi != null
+                                ? akunApi!.data!.email
+                                : 'Masukkan Email',
                             // hintStyle: onBoardStyle.copyWith(fontSize: 14),
                             suffixIcon: const Icon(Icons.email),
                             border: OutlineInputBorder(
@@ -268,13 +270,13 @@ class _AkunPageState extends State<AkunPage> {
                                 borderSide: const BorderSide())),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        initialValue: email != null
-                            ? email
-                            : email != null
-                                ? user!.email!
-                                : akunApi != null
-                                    ? akunApi!.data!.email!
-                                    : "Email belum terisi",
+                        // initialValue: email != null
+                        //     ? email
+                        //     : email != null
+                        //         ? user!.email!
+                        //         : akunApi != null
+                        //             ? akunApi!.data!.email!
+                        //             : "Email belum terisi",
                         validator: (emailValue) {
                           if (emailValue!.isEmpty) {
                             return 'Masukkan E-Mail anda email';
@@ -302,7 +304,9 @@ class _AkunPageState extends State<AkunPage> {
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                            hintText: 'Masukkan Nomor Telepon',
+                            hintText: akunApi != null
+                                ? akunApi!.data!.noTelp
+                                : 'Masukkan Nomor Telepon',
                             suffixIcon: const Icon(
                               Icons.call,
                             ),
@@ -312,13 +316,13 @@ class _AkunPageState extends State<AkunPage> {
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
                         onFieldSubmitted: (_) {},
-                        initialValue: noTlp != null
-                            ? noTlp
-                            : noTlp != null
-                                ? user!.phoneNumber!
-                                : akunApi != null
-                                    ? akunApi!.data!.noTelp!
-                                    : "No Telepon belum terisi",
+                        // initialValue: noTlp != null
+                        //     ? noTlp
+                        //     : noTlp != null
+                        //         ? user!.phoneNumber!
+                        //         : akunApi != null
+                        //             ? akunApi!.data!.noTelp!
+                        //             : "No Telepon belum terisi",
                         validator: (noTelp) {
                           if (noTelp!.isEmpty) {
                             return 'Maukkan No Telepon';
@@ -436,6 +440,7 @@ class _AkunPageState extends State<AkunPage> {
 
   void _updateProfile() async {
     String fileName = _image.path.split('/').last;
+
     try {
       var data = {
         'email': email,
@@ -448,7 +453,7 @@ class _AkunPageState extends State<AkunPage> {
 
       var res = await Network().postUrl(
         data,
-        'update-profile/$_id',
+        _id,
         _token,
       );
 

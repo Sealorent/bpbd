@@ -48,7 +48,7 @@ class _GuestPageState extends State<GuestPage> {
                           Permission.bluetooth,
                           Permission.storage
                         ].request();
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const MainPage()));
@@ -84,7 +84,7 @@ class _GuestPageState extends State<GuestPage> {
                           Permission.bluetooth,
                           Permission.storage
                         ].request();
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const LoginPage()));

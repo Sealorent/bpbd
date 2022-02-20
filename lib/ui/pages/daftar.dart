@@ -141,7 +141,7 @@ class _DaftarPageState extends State<DaftarPage> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide())),
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 textInputAction: TextInputAction.next,
                 validator: (hpValue) {
                   if (hpValue!.isEmpty) {
@@ -256,8 +256,6 @@ class _DaftarPageState extends State<DaftarPage> {
     var body = json.decode(res.body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', json.encode(body['token']));
-      localStorage.setString('user', json.encode(body['user']));
       Fluttertoast.showToast(
           msg: "Berhasil Mendaftar",
           toastLength: Toast.LENGTH_SHORT,
@@ -268,7 +266,7 @@ class _DaftarPageState extends State<DaftarPage> {
           fontSize: 12.0);
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()),
       );
     } else {
       if (body['message']['name'] != null) {

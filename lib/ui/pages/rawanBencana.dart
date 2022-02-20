@@ -18,6 +18,54 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
   bool kecepatanAngin = false;
   bool kebakaranHutan = false;
   bool likuifaksi = false;
+  ReceivePort _port = ReceivePort();
+
+  Future download(String url) async {
+    var status = await Permission.storage.request();
+    if (status.isGranted) {
+      final baseStorage = await getExternalStorageDirectory();
+      await FlutterDownloader.enqueue(
+        url: url,
+        savedDir: baseStorage!.path,
+        showNotification:
+            true, // show download progress in status bar (for Android)
+        openFileFromNotification:
+            true, // click on notification to open downloaded file (for Android)
+      );
+    }
+  }
+
+  @override
+  void initState() {
+    IsolateNameServer.registerPortWithName(
+        _port.sendPort, 'downloader_send_port');
+    _port.listen((dynamic data) {
+      String id = data[0];
+      DownloadTaskStatus status = data[1];
+      int progress = data[2];
+
+      if (status == DownloadTaskStatus.complete) {
+        print('Download Complete');
+      }
+      setState(() {});
+    });
+
+    FlutterDownloader.registerCallback(downloadCallback);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+    super.dispose();
+  }
+
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +103,7 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
                   banjir == true
                       ? Column(
                           children: [
-                            Container(
-                              // color: Colors.black,
+                            SizedBox(
                               height: SizeConfig.blockSizeVertical * 30,
                               width: SizeConfig.blockSizeHorizontal * 110,
                               child: Image.asset(
@@ -70,7 +117,12 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
+                                    onPressed: () {},
+                                    child: TextButton(
+                                        child: const Text('download'),
+                                        onPressed: () async {
+                                          download('');
+                                        })),
                               ),
                             )
                           ],

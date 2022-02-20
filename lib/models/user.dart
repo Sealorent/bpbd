@@ -48,15 +48,15 @@ class Data {
     this.updatedAt,
   });
 
-  int? id;
+  dynamic id;
   String? name;
   String? email;
   dynamic emailVerifiedAt;
   String? noTelp;
   String? gender;
   String? photo;
-  String? isGoogle;
-  String? isLogin;
+  dynamic isGoogle;
+  dynamic isLogin;
   String? role;
   DateTime? createdAt;
   DateTime? updatedAt;

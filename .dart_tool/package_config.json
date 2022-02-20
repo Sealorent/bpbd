@@ -182,6 +182,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_downloader",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_downloader-1.7.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "flutter_html",
       "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_html-2.2.1",
       "packageUri": "lib/",
@@ -788,7 +794,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-02-16T08:23:14.148825Z",
+  "generated": "2022-02-17T06:45:36.519808Z",
   "generator": "pub",
   "generatorVersion": "2.15.1"
 }

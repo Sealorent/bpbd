@@ -1,13 +1,13 @@
 part of 'pages.dart';
 
-class IKDPages extends StatefulWidget {
-  IKDPages({Key? key}) : super(key: key);
+class BencanaPage extends StatefulWidget {
+  const BencanaPage({Key? key}) : super(key: key);
 
   @override
-  _IKDPagesState createState() => _IKDPagesState();
+  State<BencanaPage> createState() => _BencanaPageState();
 }
 
-class _IKDPagesState extends State<IKDPages> {
+class _BencanaPageState extends State<BencanaPage> {
   ReceivePort _port = ReceivePort();
 
   Future download(String url) async {
@@ -59,8 +59,6 @@ class _IKDPagesState extends State<IKDPages> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsFlutterBinding.ensureInitialized();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -80,7 +78,7 @@ class _IKDPagesState extends State<IKDPages> {
               color: orangeColor,
               child: ListTile(
                   onTap: () {},
-                  title: Text('Indeks Ketahanan Daerah',
+                  title: Text('Kejadian Bencana',
                       style: onBoardStyle.copyWith(
                           color: Colors.white, fontSize: 18)),
                   subtitle: Text('2021',
@@ -89,7 +87,7 @@ class _IKDPagesState extends State<IKDPages> {
                   trailing: InkWell(
                     onTap: () async {
                       download(
-                          'https://www.bignerdranch.com/documents/objective-c-prereading-assignment.pdf');
+                          'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/21-09-598JvJFPETA%20KRB%20GERAKAN%20TANAH%20BONDOWOSO.png');
                     },
                     child: const Icon(
                       Icons.file_download,

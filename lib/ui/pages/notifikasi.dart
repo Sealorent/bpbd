@@ -7,71 +7,94 @@ class NotifikasiPage extends StatefulWidget {
   _NotifikasiPageState createState() => _NotifikasiPageState();
 }
 
-class _NotifikasiPageState extends State<NotifikasiPage> {
+class _NotifikasiPageState extends State<NotifikasiPage>
+    with SingleTickerProviderStateMixin {
+  TabController? _controller;
+
+  Berita? berita;
+  Kategori? kategori;
+
+  // _initBerita() {
+  //   Network.getListKategori().then((response) {
+  //     setState(() {
+  //       berita = response;
+  //     });
+  //   });
+  // }
+
+  _initKategori() {
+    Network.getListKategori().then((response) {
+      setState(() {
+        kategori = response;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // _initBerita();
+    _initKategori();
+  }
+
   SizeConfig sizeConfig = SizeConfig();
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
     return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          shadowColor: Colors.white,
-          elevation: 0.0,
-          // centerTitle: true,
-          title: Padding(
-            padding: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 20),
-            child: Text('Notifikasi',
-                style:
-                    onBoardStyle.copyWith(fontSize: 20, color: Colors.black)),
-          ),
-          bottom: PreferredSize(
-            child: TabBar(
-                isScrollable: true,
-                unselectedLabelColor: Colors.grey,
-                indicatorColor: Colors.transparent,
-                labelColor: orangeColor,
-                // overlayColor: MaterialStateProperty(),
-                tabs: [
-                  Tab(
-                    child: Text(
-                      'Terbaru',
-                      style: defaultStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Banjir',
-                      style: defaultStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Gempa Bumi',
-                      style: defaultStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Tanah Longsor',
-                      style: defaultStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                ]),
-            preferredSize: Size.fromHeight(SizeConfig.blockSizeVertical * 6),
-          ),
-        ),
-        body: const TabBarView(
-          children: <Widget>[
-            Terbaru(),
-            Terbaru(),
-            Terbaru(),
-            Terbaru(),
-          ],
-        ),
-      ),
-    );
+        length: 1,
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.white,
+              foregroundColor: Colors.black,
+              shadowColor: Colors.white,
+              elevation: 0.0,
+              // centerTitle: true,
+              title: Padding(
+                padding:
+                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 20),
+                child: Text('Notifikasi',
+                    style: onBoardStyle.copyWith(
+                        fontSize: 20, color: Colors.black)),
+              ),
+            ),
+            // for (var item in kategori!.data!)
+            body: FutureBuilder(
+                future: Network.getListBerita(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasError) return Text('selamat');
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.waiting:
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    case ConnectionState.active:
+                    case ConnectionState.done:
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount: snapshot.data.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Card(
+                                elevation: 2,
+                                child: ListTile(
+                                  title: Text(snapshot.data.data[index].name),
+                                  subtitle: Text(snapshot
+                                      .data.data[index].createdAt
+                                      .toString()),
+                                ),
+                              );
+                            });
+                      } else {
+                        return const Center(
+                          child: Text(
+                            "Data tidak ada...",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w900, fontSize: 30.0),
+                          ),
+                        );
+                      }
+                  }
+                })));
   }
 }

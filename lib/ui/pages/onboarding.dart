@@ -65,7 +65,7 @@ class _OnBoardingState extends State<OnBoarding> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoginPage()));
+                                  builder: (context) => const GuestPage()));
                         },
                         child: Text(
                           _currentPage == _numpages - 1 ? '' : 'Skip',

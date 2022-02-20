@@ -122,7 +122,7 @@ class _MitigasiState extends State<Mitigasi> {
                                                         BorderRadius.circular(
                                                             20)),
                                                 child: Image.network(
-                                                    'https://bsorumahinspirasi.com/public/upload/kategori/' +
+                                                    'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
                                                         snapshot.data
                                                             .data[index].icon,
                                                     color: Colors.amber

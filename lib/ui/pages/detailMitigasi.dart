@@ -52,7 +52,7 @@ class DetailMitigasi extends StatelessWidget {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(50)),
                               child: Image.network(
-                                'https://bsorumahinspirasi.com/public/upload/kategori/' +
+                                'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
                                     '$icon',
                                 color: orangeColor,
                               ),
