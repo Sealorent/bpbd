@@ -41,7 +41,7 @@ class _LaporkanState extends State<Laporkan> {
     _token = jsonDecode((localStorage.getString('token')).toString());
     if (_token == null) {
       Fluttertoast.showToast(
-          msg: "Harap login untuk update profil",
+          msg: "Harap masuk menggunakan akun yang sudah terdaftar",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,

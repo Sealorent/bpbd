@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.bpbd.host">
+          package="com.example.bpbd.host"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <!-- The INTERNET permission is required for development. Specifically,
          flutter needs it to communicate with the running application
@@ -16,7 +17,6 @@
     <application
         android:requestLegacyExternalStorage="true"
         android:label="bpbd"
-        android:name="bpbd"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk"/>
@@ -44,6 +44,29 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Begin FlutterDownloader customization -->
+        <!-- disable default Initializer -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+        <!-- declare customized Initializer -->
+        <provider
+            android:name="vn.hunghd.flutterdownloader.FlutterDownloaderInitializer"
+            android:authorities="${applicationId}.flutter-downloader-init"
+            android:exported="false">
+            <!-- changes this number to configure the maximum number of concurrent tasks -->
+            <meta-data
+                android:name="vn.hunghd.flutterdownloader.MAX_CONCURRENT_TASKS"
+                android:value="999" />
+        </provider>
+        <!-- End FlutterDownloader customization -->
     </application>
     <queries>
     <!-- If your app opens https URLs -->

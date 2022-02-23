@@ -9,12 +9,22 @@ class BencanaPage extends StatefulWidget {
 
 class _BencanaPageState extends State<BencanaPage> {
   ReceivePort _port = ReceivePort();
+  bool _isDownloading = false;
+  double _downloadProgress = 0.0;
 
   Future download(String url) async {
     var status = await Permission.storage.request();
     if (status.isGranted) {
       final baseStorage = await getExternalStorageDirectory();
-      await FlutterDownloader.enqueue(
+      // await FlutterDownloader.enqueue(
+      //   url: url,
+      //   savedDir: baseStorage!.path,
+      //   showNotification:
+      //       true, // show download progress in status bar (for Android)
+      //   openFileFromNotification:
+      //       true, // click on notification to open downloaded file (for Android)
+      // );
+      final taskId = await FlutterDownloader.enqueue(
         url: url,
         savedDir: baseStorage!.path,
         showNotification:
@@ -22,11 +32,14 @@ class _BencanaPageState extends State<BencanaPage> {
         openFileFromNotification:
             true, // click on notification to open downloaded file (for Android)
       );
+
+      FlutterDownloader.open(taskId: taskId!);
     }
   }
 
   @override
   void initState() {
+    super.initState();
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
@@ -36,12 +49,53 @@ class _BencanaPageState extends State<BencanaPage> {
 
       if (status == DownloadTaskStatus.complete) {
         print('Download Complete');
+        // setState(() {
+        //   _isDownloading = false;
+        //   _downloadProgress = 0.0;
+        // });
       }
-      setState(() {});
+      if (status == DownloadTaskStatus.canceled) {
+        print('Download Canceled');
+        // setState(() {
+        //   _isDownloading = false;
+        //   _downloadProgress = 0.0;
+        // });
+      }
+      if (status == DownloadTaskStatus.enqueued) {
+        print('Download Enqueued');
+        // setState(() {
+        //   _isDownloading = true;
+        // });
+      }
+      if (status == DownloadTaskStatus.failed) {
+        print('Download Failed');
+        FlutterDownloader.retry(taskId: id);
+        // setState(() {
+        //   _isDownloading = false;
+        //   _downloadProgress = 0.0;
+        // });
+      }
+      if (status == DownloadTaskStatus.paused) {
+        print('Download Paused');
+        FlutterDownloader.retry(taskId: id);
+      }
+      if (status == DownloadTaskStatus.running) {
+        print('Download Running');
+        // setState(() {
+        //   _isDownloading = true;
+        // });
+      }
+      if (status == DownloadTaskStatus.undefined) {
+        print('Download Undefined');
+        // setState(() {
+        //   _isDownloading = false;
+        //   _downloadProgress = 0.0;
+        // });
+      }
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
-    super.initState();
+    // var s = d;
   }
 
   @override
@@ -62,7 +116,7 @@ class _BencanaPageState extends State<BencanaPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Indeks Ketahanan Daerah",
+          "Kejadian Bencana",
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -73,29 +127,34 @@ class _BencanaPageState extends State<BencanaPage> {
         child: Column(
           children: [
             Card(
-              shadowColor: Colors.grey,
-              elevation: 3,
-              color: orangeColor,
-              child: ListTile(
-                  onTap: () {},
-                  title: Text('Kejadian Bencana',
-                      style: onBoardStyle.copyWith(
-                          color: Colors.white, fontSize: 18)),
-                  subtitle: Text('2021',
-                      style: onBoardStyle.copyWith(
-                          color: Colors.white, fontSize: 18)),
-                  trailing: InkWell(
-                    onTap: () async {
-                      download(
-                          'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/21-09-598JvJFPETA%20KRB%20GERAKAN%20TANAH%20BONDOWOSO.png');
-                    },
-                    child: const Icon(
-                      Icons.file_download,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  )),
-            ),
+                shadowColor: Colors.grey,
+                elevation: 3,
+                color: orangeColor,
+                child: ListTile(
+                    onTap: () {},
+                    title: Text('Kejadian Bencana',
+                        style: onBoardStyle.copyWith(
+                            color: Colors.white, fontSize: 18)),
+                    subtitle: Text('2021',
+                        style: onBoardStyle.copyWith(
+                            color: Colors.white, fontSize: 18)),
+                    trailing: !_isDownloading
+                        ? InkWell(
+                            onTap: () async {
+                              download(
+                                  'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/21-09-598JvJFPETA%20KRB%20GERAKAN%20TANAH%20BONDOWOSO.png');
+                            },
+                            child: const Icon(
+                              Icons.file_download,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          )
+                        : CircularProgressIndicator(
+                            value: _downloadProgress,
+                            backgroundColor: Colors.white,
+                            color: Colors.red,
+                          ))),
           ],
         ),
       ),

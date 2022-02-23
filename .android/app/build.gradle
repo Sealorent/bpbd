@@ -15,7 +15,7 @@ android {
         applicationId "com.example.bpbd.host"
         multiDexEnabled true
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }

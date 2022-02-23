@@ -11,33 +11,37 @@ class _PilihanMenuState extends State<PilihanMenu> {
   User? user = FirebaseAuth.instance.currentUser;
   SizeConfig sizeConfig = SizeConfig();
   var _id;
-  String _token = '';
+  String? _token;
 
   _getuser() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    _token = jsonDecode((localStorage.getString('token')).toString());
     _id = localStorage.getInt('id');
-    if (_token == null) {
-      Fluttertoast.showToast(
-          msg: "Anda Masuk Sebagai tamu",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 12.0);
-    } else {
-      // print(_token);
+    var token = localStorage.getString('token');
+    if (token != null) {
+      print('token : $token');
+      setState(() => _token = token);
       return _id;
     }
+    // if (token == null) {
+    //   Fluttertoast.showToast(
+    //       msg: "Anda Masuk Sebagai tamu",
+    //       toastLength: Toast.LENGTH_SHORT,
+    //       gravity: ToastGravity.CENTER,
+    //       timeInSecForIosWeb: 1,
+    //       backgroundColor: Colors.red,
+    //       textColor: Colors.white,
+    //       fontSize: 12.0);
+    // } else {
+    //   print('token : $token');
+    //   setState(() => _token = token);
+    //   return _id;
+    // }
   }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _getuser();
-    });
+    _getuser();
   }
 
   @override
@@ -419,7 +423,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                     ),
                   ],
                 ),
-                _id != null
+                _token != null || user != null
                     ? ListTile(
                         onTap: () {
                           logoutUser();
@@ -430,7 +434,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                           color: Colors.red,
                         ),
                         title: Text(
-                          'Keluar Akun' + '$_token',
+                          'Keluar Akun',
                           style: onBoardStyle.copyWith(
                               color: Colors.red, fontSize: 18),
                         ),

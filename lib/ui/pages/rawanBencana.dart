@@ -7,7 +7,8 @@ class RawanBencanaPage extends StatefulWidget {
   State<RawanBencanaPage> createState() => _RawanBencanaPageState();
 }
 
-class _RawanBencanaPageState extends State<RawanBencanaPage> {
+class _RawanBencanaPageState extends State<RawanBencanaPage>
+    with TickerProviderStateMixin {
   SizeConfig sizeConfig = SizeConfig();
   bool banjir = false;
   bool gempaBumi = false;
@@ -18,6 +19,8 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
   bool kecepatanAngin = false;
   bool kebakaranHutan = false;
   bool likuifaksi = false;
+  late AnimationController controller;
+
   ReceivePort _port = ReceivePort();
 
   Future download(String url) async {
@@ -47,7 +50,18 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
       if (status == DownloadTaskStatus.complete) {
         print('Download Complete');
       }
+      if (status == DownloadTaskStatus.failed) {
+        FlutterDownloader();
+      }
       setState(() {});
+
+      controller = AnimationController(
+        vsync: this,
+        duration: const Duration(seconds: 5),
+      )..addListener(() {
+          setState(() {});
+        });
+      controller.repeat(reverse: true);
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
@@ -57,6 +71,7 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
   @override
   void dispose() {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
+    controller.dispose();
     super.dispose();
   }
 
@@ -103,6 +118,10 @@ class _RawanBencanaPageState extends State<RawanBencanaPage> {
                   banjir == true
                       ? Column(
                           children: [
+                            CircularProgressIndicator(
+                              value: controller.value,
+                              semanticsLabel: 'loading',
+                            ),
                             SizedBox(
                               height: SizeConfig.blockSizeVertical * 30,
                               width: SizeConfig.blockSizeHorizontal * 110,

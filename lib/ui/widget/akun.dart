@@ -212,7 +212,9 @@ class _AkunPageState extends State<AkunPage> {
                         decoration: InputDecoration(
                             hintText: akunApi != null
                                 ? akunApi!.data!.name
-                                : "masukkan nama lengkap",
+                                : user != null
+                                    ? user!.displayName
+                                    : "masukkan nama lengkap",
                             suffixIcon: const Icon(
                               Icons.person,
                             ),
@@ -221,18 +223,6 @@ class _AkunPageState extends State<AkunPage> {
                                 borderSide: const BorderSide())),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        initialValue: akunApi != null
-                            ? akunApi!.data!.name
-                            : user != null
-                                ? user!.displayName
-                                : name,
-                        // name != null
-                        //     ? name
-                        //     : user != null
-                        //         ? user!.displayName!
-                        //         : akunApi != null
-                        //             ? akunApi!.data!.name!
-                        //             : "Nama belum terisi",
                         validator: (nameValue) {
                           if (nameValue!.isEmpty) {
                             return 'Masukkan Nama Anda';
@@ -262,7 +252,9 @@ class _AkunPageState extends State<AkunPage> {
                         decoration: InputDecoration(
                             hintText: akunApi != null
                                 ? akunApi!.data!.email
-                                : 'Masukkan Email',
+                                : user != null
+                                    ? user!.email
+                                    : 'Masukkan Email',
                             // hintStyle: onBoardStyle.copyWith(fontSize: 14),
                             suffixIcon: const Icon(Icons.email),
                             border: OutlineInputBorder(
@@ -270,13 +262,6 @@ class _AkunPageState extends State<AkunPage> {
                                 borderSide: const BorderSide())),
                         keyboardType: TextInputType.text,
                         textInputAction: TextInputAction.next,
-                        // initialValue: email != null
-                        //     ? email
-                        //     : email != null
-                        //         ? user!.email!
-                        //         : akunApi != null
-                        //             ? akunApi!.data!.email!
-                        //             : "Email belum terisi",
                         validator: (emailValue) {
                           if (emailValue!.isEmpty) {
                             return 'Masukkan E-Mail anda email';
@@ -288,52 +273,52 @@ class _AkunPageState extends State<AkunPage> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 2,
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'No. Telepon ',
-                          textAlign: TextAlign.left,
-                          style: onBoardStyle.copyWith(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 18,
-                              color: const Color(0xFF444444)),
-                        ),
-                      ),
+                      user == null
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'No. Telepon ',
+                                textAlign: TextAlign.left,
+                                style: onBoardStyle.copyWith(
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 18,
+                                    color: const Color(0xFF444444)),
+                              ),
+                            )
+                          : Container(),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 2,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            hintText: akunApi != null
-                                ? akunApi!.data!.noTelp
-                                : 'Masukkan Nomor Telepon',
-                            suffixIcon: const Icon(
-                              Icons.call,
-                            ),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: const BorderSide())),
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        onFieldSubmitted: (_) {},
-                        // initialValue: noTlp != null
-                        //     ? noTlp
-                        //     : noTlp != null
-                        //         ? user!.phoneNumber!
-                        //         : akunApi != null
-                        //             ? akunApi!.data!.noTelp!
-                        //             : "No Telepon belum terisi",
-                        validator: (noTelp) {
-                          if (noTelp!.isEmpty) {
-                            return 'Maukkan No Telepon';
-                          }
-                          noTlp = noTelp;
-                          return null;
-                        },
-                      ),
+                      user == null
+                          ? TextFormField(
+                              decoration: InputDecoration(
+                                  hintText: akunApi != null
+                                      ? akunApi!.data!.noTelp
+                                      : user != null
+                                          ? user!.phoneNumber
+                                          : 'Masukkan Nomor Telepon',
+                                  suffixIcon: const Icon(
+                                    Icons.call,
+                                  ),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      borderSide: const BorderSide())),
+                              keyboardType: TextInputType.text,
+                              textInputAction: TextInputAction.next,
+                              onFieldSubmitted: (_) {},
+                              validator: (noTelp) {
+                                if (noTelp!.isEmpty) {
+                                  return 'Maukkan No Telepon';
+                                }
+                                noTlp = noTelp;
+                                return null;
+                              },
+                            )
+                          : Container(),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 2,
                       ),
+                      user == null ?
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -344,63 +329,69 @@ class _AkunPageState extends State<AkunPage> {
                               fontSize: 18,
                               color: const Color(0xFF444444)),
                         ),
-                      ),
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Radio<String>(
-                              value: 'p',
-                              groupValue: _selectedGender,
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedGender = value!;
-                                });
-                              },
-                            ),
-                            const Text(
-                              'Pria',
-                              style: TextStyle(fontSize: 17.0),
-                            ),
-                            Radio<String>(
-                              value: 'l',
-                              groupValue: _selectedGender,
-                              onChanged: (value) {
-                                setState(() {
-                                  _selectedGender = value!;
-                                });
-                              },
-                            ),
-                            const Text(
-                              'Wanita',
-                              style: TextStyle(fontSize: 17.0),
-                            ),
-                          ]),
+                      ) : Container( ),
+                      user == null
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                  Radio<String>(
+                                    value: 'p',
+                                    groupValue: _selectedGender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedGender = value!;
+                                      });
+                                    },
+                                  ),
+                                  const Text(
+                                    'Pria',
+                                    style: TextStyle(fontSize: 17.0),
+                                  ),
+                                  Radio<String>(
+                                    value: 'l',
+                                    groupValue: _selectedGender,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedGender = value!;
+                                      });
+                                    },
+                                  ),
+                                  const Text(
+                                    'Wanita',
+                                    style: TextStyle(fontSize: 17.0),
+                                  ),
+                                ])
+                          : Container(),
                       SizedBox(
                         height: SizeConfig.safeBlockVertical * 5,
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 7,
-                        width: SizeConfig.blockSizeHorizontal * 100,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (_akunKey.currentState!.validate()) {
-                                _updateProfile();
-                              }
-                            },
-                            style: ButtonStyle(
-                              shape: MaterialStateProperty.all<
-                                      RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: orangeColor))),
-                              backgroundColor:
-                                  MaterialStateProperty.all(orangeColor),
-                            ),
-                            child: Text(
-                              'Simpan',
-                              style: onBoardStyle.copyWith(fontSize: 20),
-                            )),
-                      ),
+                      user == null
+                          ? SizedBox(
+                              height: SizeConfig.blockSizeVertical * 7,
+                              width: SizeConfig.blockSizeHorizontal * 100,
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (_akunKey.currentState!.validate()) {
+                                      _updateProfile();
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(18.0),
+                                            side: BorderSide(
+                                                color: orangeColor))),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(orangeColor),
+                                  ),
+                                  child: Text(
+                                    'Simpan',
+                                    style: onBoardStyle.copyWith(fontSize: 20),
+                                  )),
+                            )
+                          : Container()
                     ],
                   ),
                 );

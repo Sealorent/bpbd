@@ -5,10 +5,12 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
+  ErrorWidget.builder = (FlutterErrorDetails details) => ErrorPage();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
-  await FlutterDownloader.initialize();
+  await FlutterDownloader.initialize(debug: true);
   runApp(const MyApp());
 }
 
