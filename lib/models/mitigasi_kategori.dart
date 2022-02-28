@@ -37,25 +37,25 @@ class MitigasiKategori {
 }
 
 class MitigasiKategoriData {
-  MitigasiKategoriData({
-    this.id_kategori_bencana,
-    this.name,
-    this.icon,
-  });
+  MitigasiKategoriData(
+      {this.id_kategori_bencana, this.name, this.icon, this.linkEmbed});
 
-  dynamic? id_kategori_bencana;
+  dynamic id_kategori_bencana;
   String? name;
   String? icon;
+  String? linkEmbed;
 
   factory MitigasiKategoriData.fromJson(Map<String, dynamic> json) =>
       MitigasiKategoriData(
           id_kategori_bencana: json["id_kategori_bencana"],
           name: json["name"],
-          icon: json["icon"]);
+          icon: json["icon"],
+          linkEmbed: json["link_embed"]);
 
   Map<String, dynamic> toJson() => {
         "id_kategori_bencana": id_kategori_bencana,
         "name": name,
         "icon": icon,
+        "link_embed": linkEmbed
       };
 }

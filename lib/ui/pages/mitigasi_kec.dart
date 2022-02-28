@@ -28,6 +28,7 @@ class _MitigasiKecState extends State<MitigasiKec> {
     Network.getListBencanaKec(kec).then((response) {
       setState(() {
         mitigasi = response;
+        print(mitigasi);
       });
     });
   }
@@ -80,12 +81,12 @@ class _MitigasiKecState extends State<MitigasiKec> {
 
   @override
   Widget build(BuildContext context) {
+    print("lat : $_latitude");
     sizeConfig.init(context);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "MitigasiKec Bencana",
+        title: Text(
+          "Mitigasi Kec $_kecamatan",
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -114,7 +115,7 @@ class _MitigasiKecState extends State<MitigasiKec> {
                     height: 20,
                   ),
                   Text(
-                    'Pilih bencananya untuk melihat rekomendasi MitigasiKecnya.',
+                    'Pilih bencananya untuk melihat rekomendasi Mitigasi Kecamatan nya.',
                     style: onBoardStyle.copyWith(
                       fontSize: 18,
                       color: Colors.grey.withOpacity(0.8),
@@ -168,8 +169,9 @@ class _MitigasiKecState extends State<MitigasiKec> {
                                               borderRadius:
                                                   BorderRadius.circular(20)),
                                           child: Image.network(
-                                              'https://bsorumahinspirasi.com/public/upload/kategori/' +
-                                                  mitigasi!.data![index].icon!
+                                              'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                                  mitigasi!.data![index].icon!,
+                                              color: Colors.amber
                                               // snapshot
                                               //     .data.data![index].icon
                                               //     .toString(),

@@ -28,7 +28,7 @@ class DetailMitigasi extends StatelessWidget {
 
   Widget _buildContent() {
     return FutureBuilder(
-        future: Network.getListKategoriId(id),
+        future: Network.getListKategoriId(int.parse(id)),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) return Text('Error');
           switch (snapshot.connectionState) {
@@ -55,6 +55,7 @@ class DetailMitigasi extends StatelessWidget {
                                 'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
                                     '$icon',
                                 color: orangeColor,
+                                fit: BoxFit.scaleDown,
                               ),
                             ),
                             Center(

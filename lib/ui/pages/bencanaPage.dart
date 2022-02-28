@@ -16,14 +16,6 @@ class _BencanaPageState extends State<BencanaPage> {
     var status = await Permission.storage.request();
     if (status.isGranted) {
       final baseStorage = await getExternalStorageDirectory();
-      // await FlutterDownloader.enqueue(
-      //   url: url,
-      //   savedDir: baseStorage!.path,
-      //   showNotification:
-      //       true, // show download progress in status bar (for Android)
-      //   openFileFromNotification:
-      //       true, // click on notification to open downloaded file (for Android)
-      // );
       final taskId = await FlutterDownloader.enqueue(
         url: url,
         savedDir: baseStorage!.path,
@@ -39,7 +31,6 @@ class _BencanaPageState extends State<BencanaPage> {
 
   @override
   void initState() {
-    super.initState();
     IsolateNameServer.registerPortWithName(
         _port.sendPort, 'downloader_send_port');
     _port.listen((dynamic data) {
@@ -49,53 +40,15 @@ class _BencanaPageState extends State<BencanaPage> {
 
       if (status == DownloadTaskStatus.complete) {
         print('Download Complete');
-        // setState(() {
-        //   _isDownloading = false;
-        //   _downloadProgress = 0.0;
-        // });
-      }
-      if (status == DownloadTaskStatus.canceled) {
-        print('Download Canceled');
-        // setState(() {
-        //   _isDownloading = false;
-        //   _downloadProgress = 0.0;
-        // });
-      }
-      if (status == DownloadTaskStatus.enqueued) {
-        print('Download Enqueued');
-        // setState(() {
-        //   _isDownloading = true;
-        // });
       }
       if (status == DownloadTaskStatus.failed) {
-        print('Download Failed');
-        FlutterDownloader.retry(taskId: id);
-        // setState(() {
-        //   _isDownloading = false;
-        //   _downloadProgress = 0.0;
-        // });
-      }
-      if (status == DownloadTaskStatus.paused) {
-        print('Download Paused');
         FlutterDownloader.retry(taskId: id);
       }
-      if (status == DownloadTaskStatus.running) {
-        print('Download Running');
-        // setState(() {
-        //   _isDownloading = true;
-        // });
-      }
-      if (status == DownloadTaskStatus.undefined) {
-        print('Download Undefined');
-        // setState(() {
-        //   _isDownloading = false;
-        //   _downloadProgress = 0.0;
-        // });
-      }
+      setState(() {});
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
-    // var s = d;
+    super.initState();
   }
 
   @override
@@ -142,7 +95,7 @@ class _BencanaPageState extends State<BencanaPage> {
                         ? InkWell(
                             onTap: () async {
                               download(
-                                  'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/21-09-598JvJFPETA%20KRB%20GERAKAN%20TANAH%20BONDOWOSO.png');
+                                  'https://bpbd.bsorumahinspirasi.com/public/upload/mitigasi/23-31-15cGbhDKRB (1).pdf');
                             },
                             child: const Icon(
                               Icons.file_download,

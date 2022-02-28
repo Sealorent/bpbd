@@ -39,7 +39,6 @@ class _CheckAuthState extends State<CheckAuth> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _checkIfLoggedIn();
   }

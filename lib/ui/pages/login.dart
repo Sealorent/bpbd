@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   bool visitToday = false;
   SharedPreferences? localStorage;
   late String todayDate;
+  bool visible = true;
 
   _checkVisit() async {
     var now = DateTime.now();
@@ -103,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 height: SizeConfig.blockSizeVertical * 2,
               ),
               Text(
-                'Email',
+                'Email / Nomor Telepon',
                 style: onBoardStyle.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
@@ -115,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                   // controller: usernameController,
                   decoration: InputDecoration(
-                      hintText: 'Masukkan Email',
+                      hintText: ' Email / Nomer Telepon',
                       suffixIcon: const Icon(Icons.email_outlined),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
@@ -148,12 +149,24 @@ class _LoginPageState extends State<LoginPage> {
               TextFormField(
                   decoration: InputDecoration(
                       hintText: 'Masukkan Password',
-                      suffixIcon: const Icon(Icons.lock_outlined),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            visible = !visible;
+                          });
+                        },
+                        icon: visible
+                            ? const Icon(
+                                FontAwesomeIcons.eyeSlash,
+                                size: 20,
+                              )
+                            : const Icon(FontAwesomeIcons.eye, size: 20),
+                      ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
                           borderSide: const BorderSide())),
                   keyboardType: TextInputType.text,
-                  obscureText: true,
+                  obscureText: visible,
                   textInputAction: TextInputAction.next,
                   validator: (passwordValue) {
                     if (passwordValue!.isEmpty) {

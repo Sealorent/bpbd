@@ -248,7 +248,6 @@ class _PilihanMenuState extends State<PilihanMenu> {
                           left: SizeConfig.blockSizeHorizontal * 18,
                           right: SizeConfig.blockSizeHorizontal * 5),
                       child: const Divider(
-                        // height: SizeConfig.blockSizeVertical * 15,
                         thickness: 1,
                       ),
                     ),
@@ -257,59 +256,17 @@ class _PilihanMenuState extends State<PilihanMenu> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const BencanaPage()));
+                                builder: (context) => DataTahunan()));
                       },
                       title: Align(
                         alignment: Alignment.centerLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Kejadian Bencana',
+                            Text('Data Tahunan ',
                                 style: onBoardStyle.copyWith(
                                   color: Colors.black,
-                                )),
-                          ],
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_sharp,
-                        color: orangeColor,
-                      ),
-                      leading: Icon(
-                        Icons.filter_hdr,
-                        color: orangeColor,
-                        size: 30,
-                      ),
-                    ),
-                  ],
-                ),
-                Stack(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
-                          left: SizeConfig.blockSizeHorizontal * 18,
-                          right: SizeConfig.blockSizeHorizontal * 5),
-                      child: const Divider(
-                        thickness: 1,
-                      ),
-                    ),
-                    ListTile(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => IKDPages()));
-                      },
-                      title: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('IKD (Indeks Ketahanan Daerah)',
-                                style: onBoardStyle.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 14,
+                                  fontSize: 16,
                                 )),
                           ],
                         ),
@@ -426,7 +383,7 @@ class _PilihanMenuState extends State<PilihanMenu> {
                 _token != null || user != null
                     ? ListTile(
                         onTap: () {
-                          logoutUser();
+                          _exitPage();
                         },
                         leading: const Icon(
                           Icons.exit_to_app,
@@ -493,6 +450,37 @@ class _PilihanMenuState extends State<PilihanMenu> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
+              )
+            ],
+          );
+        });
+  }
+
+  void _exitPage() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Center(
+                child: Text(
+              'Apakah anda yakin ingin keluar ?',
+              style: onBoardStyle,
+            )),
+            // content: Text('Hey! I am Coflutter!'),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    logoutUser();
+                  },
+                  child: Text('Iya',
+                      style: onBoardStyle.copyWith(color: orangeColor))),
+              TextButton(
+                onPressed: () {
+                  // _dismissDialog();
+                  Navigator.pop(context);
+                },
+                child: Text('Tidak',
+                    style: onBoardStyle.copyWith(color: orangeColor)),
               )
             ],
           );

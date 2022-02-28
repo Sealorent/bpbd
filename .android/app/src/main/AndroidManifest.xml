@@ -50,6 +50,7 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
+            android:requestLegacyExternalStorage="true"
             tools:node="merge">
             <meta-data
                 android:name="androidx.work.WorkManagerInitializer"
@@ -60,6 +61,7 @@
         <provider
             android:name="vn.hunghd.flutterdownloader.FlutterDownloaderInitializer"
             android:authorities="${applicationId}.flutter-downloader-init"
+             android:requestLegacyExternalStorage="true"
             android:exported="false">
             <!-- changes this number to configure the maximum number of concurrent tasks -->
             <meta-data

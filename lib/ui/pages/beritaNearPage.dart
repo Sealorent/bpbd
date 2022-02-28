@@ -64,7 +64,7 @@
 //       Fluttertoast.showToast(msg: 'Please enable Your Location Service');
 //     }
 
-//     permission = await Geolocator.checkPermission();
+//     permission = await Geolocator.checkPermission();goog
 //     if (permission == LocationPermission.denied) {
 //       permission = await Geolocator.requestPermission();
 //       if (permission == LocationPermission.denied) {

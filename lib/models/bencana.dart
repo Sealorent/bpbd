@@ -58,7 +58,7 @@ class BencanaData {
   String? gambar;
   String? idAdmin;
   String? idUser;
-  dynamic? status;
+  dynamic status;
   DateTime? createdAt;
   int? idKategori;
   String? name;

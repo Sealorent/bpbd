@@ -15,6 +15,7 @@ class _DaftarPageState extends State<DaftarPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool _isLoading = false;
   late int isGoogle = user != null ? 1 : 0;
+  bool visible = true;
 
   _showMsg(msg) {
     final snackBar = SnackBar(
@@ -58,12 +59,19 @@ class _DaftarPageState extends State<DaftarPage> {
               thickness: 2,
               color: orangeColor,
             ),
-            Text(
-              'Nama Lengkap',
-              style: onBoardStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  color: const Color(0xFF444444)),
+            RichText(
+              text: TextSpan(
+                text: 'Nama Lengkap ',
+                style: onBoardStyle.copyWith(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: const Color(0xFF444444)),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: '*',
+                      style: onBoardStyle.copyWith(color: Colors.red)),
+                ],
+              ),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 2,
@@ -114,7 +122,9 @@ class _DaftarPageState extends State<DaftarPage> {
                 textInputAction: TextInputAction.next,
                 validator: (emailValue) {
                   if (emailValue!.isEmpty) {
-                    return 'Please enter your email';
+                    email = "user@mail.com";
+                    return null;
+                    // return 'Please enter your email';
                   }
                   email = emailValue;
                   return null;
@@ -122,12 +132,19 @@ class _DaftarPageState extends State<DaftarPage> {
             SizedBox(
               height: SizeConfig.blockSizeVertical * 3,
             ),
-            Text(
-              'Nomor Telepon',
-              style: onBoardStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  color: const Color(0xFF444444)),
+            RichText(
+              text: TextSpan(
+                text: 'Nomor Telepon',
+                style: onBoardStyle.copyWith(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: const Color(0xFF444444)),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: '*',
+                      style: onBoardStyle.copyWith(color: Colors.red)),
+                ],
+              ),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 2,
@@ -153,32 +170,50 @@ class _DaftarPageState extends State<DaftarPage> {
             SizedBox(
               height: SizeConfig.blockSizeVertical * 3,
             ),
-            Text(
-              'Password',
-              style: onBoardStyle.copyWith(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 18,
-                  color: const Color(0xFF444444)),
+            RichText(
+              text: TextSpan(
+                text: 'Password ',
+                style: onBoardStyle.copyWith(
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                    color: const Color(0xFF444444)),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: '*',
+                      style: onBoardStyle.copyWith(color: Colors.red)),
+                ],
+              ),
             ),
             SizedBox(
               height: SizeConfig.blockSizeVertical * 3,
             ),
             TextFormField(
+
                 // controller: usernameController,
                 decoration: InputDecoration(
                     hintText: 'Masukkan Password',
-                    suffixIcon: const Icon(
-                      Icons.lock_outlined,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          visible = !visible;
+                        });
+                      },
+                      icon: visible
+                          ? const Icon(
+                              FontAwesomeIcons.eyeSlash,
+                              size: 20,
+                            )
+                          : const Icon(FontAwesomeIcons.eye, size: 20),
                     ),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.0),
                         borderSide: const BorderSide())),
                 keyboardType: TextInputType.text,
-                obscureText: true,
+                obscureText: visible,
                 textInputAction: TextInputAction.next,
                 validator: (passwordValue) {
                   if (passwordValue!.isEmpty) {
-                    return 'Please enter your password';
+                    return "password belum diisi";
                   }
                   password = passwordValue;
                   return null;
@@ -253,6 +288,7 @@ class _DaftarPageState extends State<DaftarPage> {
     };
 
     var res = await Network().auth(data, 'auth/register');
+    print(res);
     var body = json.decode(res.body);
     if (body['success']) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();

@@ -9,20 +9,15 @@ class GoogleMapsPage extends StatefulWidget {
 
 class _GoogleMapsPageState extends State<GoogleMapsPage> {
   SizeConfig sizeConfig = SizeConfig();
-  bool onLocation = true;
-  bool onSearching = true;
-  bool defaultMaps = true;
-  bool covid = true;
-  bool banjir = true;
-  bool gempa = true;
-  bool longsor = true;
-  bool search = false;
-  int selectedIndex = 0;
-  int inT = 0;
-  double _longitude = -8.094825;
-  double _latitude = 112.1477463;
+
+  double? _longitude;
+  double? _latitude;
   Berita? berita;
+  Kategori? kategori;
   int? jmlberita;
+  bool? serviceEnabled;
+  bool isActive = false;
+  int? indexi;
   static const kGoogleApiKey = "AIzaSyDafHTY2k1B7_YV9hBOX7woxcS9DEDdWmk";
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -35,28 +30,13 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
     });
   }
 
-  final _controller = TextEditingController();
   late WebViewController _webViewController;
-
-  var _listUrl = <String>[
-    'https://www.google.com/maps/place/Nangkaan,+Kec.+Bondowoso,+Kabupaten+Bondowoso,+Jawa+Timur/@-7.9284984,113.8035192,15z/data=!3m1!4b1!4m5!3m4!1s0x2dd6dcd5e994cba5:0x6e9f5452ef10f836!8m2!3d-7.9290528!4d113.8093931', // Default Home
-    'https://www.google.com/maps/d/u/0/embed?mid=1AUHQPrCXVX-wVTuTVg1VsbfbAachLttD&usp=sharing', // Gempa Bumi
-    'https://www.google.com/maps/d/u/0/embed?mid=14rJkIe3l_rvXgTr5-UBRvnP7N0xxuQH4&usp=sharing', // Tanah Longsor
-    'https://www.google.com/maps/d/u/0/embed?mid=1FEV8WUN82ov_ug6wiEVpwvxZsuW05cv9&usp=sharing', // Gunung Api
-    'https://www.google.com/maps/d/u/0/embed?mid=1djBME9l-eJS5c35YLOw8rHrv-qXwwAMv&usp=sharing', // Angin Puting Beliung
-    'https://www.google.com/maps/d/u/0/embed?mid=1Ltx2B1SUL7o0zT9XcGTiN7LjQOhD9Gab&usp=sharing', // Kebakaran Hutan
-    'https://www.google.com/maps/d/u/0/embed?mid=1H6S2GO3DTeymvPY2ipgCOJjkG-c-Q36Z&usp=sharing', // Likuifaksi
-    'https://www.google.com/maps/d/u/0/embed?mid=1INe8PyPTth40NGjYloGLGpgx9kUee1ud&usp=sharing', // Banjir
-    'https://www.google.com/maps/place/@', // init url
-  ];
-
-  // String initialUrl =
-  //     'https://www.google.com/maps/place/@'+_longitude.toString() +','+ _latitude.toString()+',15z' ;
 
   @override
   void initState() {
     super.initState();
     _initBerita();
+
     if (Platform.isAndroid) {
       WebView.platform = SurfaceAndroidWebView();
     }
@@ -67,8 +47,14 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
-    _listUrl.last =
-        'https://www.google.com/maps/place/@$_longitude,$_latitude,15z';
+    setState(() {
+      _latitude;
+      _longitude;
+    });
+    String _listUrl =
+        'https://www.google.com/maps/place/@$_latitude,$_longitude,15z';
+    // 'https://www.google.com/maps/place/Blitar,8z';
+    print("k : $_listUrl");
     return Scaffold(
       key: homeScaffoldKey,
       body: Stack(
@@ -78,7 +64,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
             child: WebView(
               // key: _key,
               javascriptMode: JavascriptMode.unrestricted,
-              initialUrl: _listUrl.last,
+              initialUrl: _listUrl,
               onWebViewCreated: (WebViewController webViewController) {
                 _webViewController = webViewController;
               },
@@ -207,7 +193,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                         ),
                       ),
                       Container(
-                        width: SizeConfig.blockSizeHorizontal * 90,
+                        width: SizeConfig.blockSizeHorizontal * 100,
                         height: SizeConfig.blockSizeVertical * 12,
                         color: Colors.white,
                         child: ListView(
@@ -216,178 +202,112 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Row(
-                                // mainAxisAlignment: MainAxisAlignment.,
-                                // mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Column(
-                                    children: [
-                                      RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              if (covid == true) {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[1]);
-                                                covid = false;
-                                                banjir = true;
-                                                gempa = true;
-                                                longsor = true;
-                                              } else {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[0]);
-                                                covid = true;
-                                                banjir = true;
-                                                gempa = true;
-                                                longsor = true;
+                                  // mainAxisAlignment: MainAxisAlignment.,
+                                  // mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 20,
+                                      width:
+                                          SizeConfig.safeBlockHorizontal * 95,
+                                      child: FutureBuilder(
+                                        future: Network.getListKategori(),
+                                        builder:
+                                            (context, AsyncSnapshot snapshot) {
+                                          if (snapshot.hasError)
+                                            return Text('Error');
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.none:
+                                            case ConnectionState.waiting:
+                                              return Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                            case ConnectionState.active:
+                                            case ConnectionState.done:
+                                              if (snapshot.hasData) {
+                                                return ListView.builder(
+                                                    scrollDirection:
+                                                        Axis.horizontal,
+                                                    itemCount: snapshot
+                                                        .data.data.length,
+                                                    itemBuilder:
+                                                        (BuildContext ctx,
+                                                            index) {
+                                                      return Column(
+                                                        children: [
+                                                          RawMaterialButton(
+                                                              onPressed: () {
+                                                                setState(() {
+                                                                  if (isActive ==
+                                                                      true) {
+                                                                    isActive =
+                                                                        false;
+                                                                  }
+                                                                  _webViewController
+                                                                      .loadUrl(
+                                                                          _listUrl);
+                                                                });
+                                                              },
+                                                              onLongPress: () {
+                                                                setState(() {
+                                                                  if (isActive ==
+                                                                      false) {
+                                                                    isActive =
+                                                                        true;
+                                                                  }
+                                                                  _webViewController
+                                                                      .loadUrl(snapshot
+                                                                          .data
+                                                                          .data[
+                                                                              index]
+                                                                          .linkEmbed);
+                                                                });
+                                                              },
+                                                              fillColor:
+                                                                  orangeColor,
+                                                              shape:
+                                                                  const CircleBorder(),
+                                                              child:
+                                                                  Image.network(
+                                                                'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                                                    snapshot
+                                                                        .data
+                                                                        .data[
+                                                                            index]
+                                                                        .icon,
+                                                                height: 40,
+                                                                width: 40,
+                                                              )),
+                                                          Text(
+                                                            snapshot
+                                                                .data
+                                                                .data![index]
+                                                                .name,
+                                                            style: onBoardStyle.copyWith(
+                                                                color: isActive ==
+                                                                        true
+                                                                    ? orangeColor
+                                                                    : Colors
+                                                                        .grey,
+                                                                fontSize: 10),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
                                               }
-                                            });
-                                          },
-                                          fillColor: covid == true
-                                              ? Colors.grey
-                                              : orangeColor,
-                                          shape: const CircleBorder(),
-                                          child: const FaIcon(
-                                            FontAwesomeIcons.virus,
-                                            size: 18,
-                                            color: Colors.white,
-                                          )),
-                                      Text(
-                                        'Covid-19',
-                                        style: onBoardStyle.copyWith(
-                                            color: covid == true
-                                                ? Colors.grey
-                                                : orangeColor,
-                                            fontSize: 12),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              if (banjir == true) {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[2]);
-                                                covid = true;
-                                                banjir = false;
-                                                gempa = true;
-                                                longsor = true;
-                                              } else {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[0]);
-                                                covid = true;
-                                                banjir = true;
-                                                gempa = true;
-                                                longsor = true;
-                                              }
-                                            });
-                                          },
-                                          fillColor: banjir == true
-                                              ? Colors.grey
-                                              : orangeColor,
-                                          shape: const CircleBorder(),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/banjir.svg',
-                                            height: 18,
-                                            width: 18,
-                                          )),
-                                      Text(
-                                        'Banjir',
-                                        style: onBoardStyle.copyWith(
-                                            color: banjir == true
-                                                ? Colors.grey
-                                                : orangeColor,
-                                            fontSize: 12),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              if (gempa == true) {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[3]);
-                                                covid = true;
-                                                banjir = true;
-                                                gempa = false;
-                                                longsor = true;
-                                              } else {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[0]);
-                                                covid = true;
-                                                banjir = true;
-                                                gempa = true;
-                                                longsor = true;
-                                              }
-                                            });
-                                          },
-                                          fillColor: gempa == true
-                                              ? Colors.grey
-                                              : orangeColor,
-                                          shape: const CircleBorder(),
-                                          child: Image.asset(
-                                            'assets/icons/gempa.png',
-                                            height: 18,
-                                            width: 18,
-                                          )),
-                                      Text(
-                                        'Gempa',
-                                        style: onBoardStyle.copyWith(
-                                            color: gempa == true
-                                                ? Colors.grey
-                                                : orangeColor,
-                                            fontSize: 12),
-                                      )
-                                    ],
-                                  ),
-                                  Column(
-                                    children: [
-                                      RawMaterialButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              if (longsor == true) {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[4]);
-                                                covid = true;
-                                                banjir = true;
-                                                gempa = true;
-                                                longsor = false;
-                                              } else {
-                                                _webViewController
-                                                    .loadUrl(_listUrl[0]);
-                                                covid = true;
-                                                banjir = true;
-                                                gempa = true;
-                                                longsor = true;
-                                              }
-                                            });
-                                          },
-                                          fillColor: longsor == true
-                                              ? Colors.grey
-                                              : orangeColor,
-                                          shape: const CircleBorder(),
-                                          child: Image.asset(
-                                            'assets/icons/longsor.png',
-                                            height: 18,
-                                            width: 18,
-                                          )),
-                                      Align(
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          'Longsor',
-                                          style: onBoardStyle.copyWith(
-                                              color: longsor == true
-                                                  ? Colors.grey
-                                                  : orangeColor,
-                                              fontSize: 12),
-                                        ),
+                                          }
+                                          return const Center(
+                                            child: Text(
+                                              "Loading ...",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w900,
+                                                  fontSize: 30.0),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                  ]),
                             ),
                           ],
                         ),
@@ -402,6 +322,7 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   }
 
   _getCurrentLocation() async {
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
     Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.best,
             forceAndroidLocationManager: true)
@@ -409,10 +330,11 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       setState(() {
         _longitude = position.longitude;
         _latitude = position.latitude;
+        print('long : $_longitude');
+        print('lat : $_latitude');
       });
       var d = position;
-      print('long : $_longitude');
-      print('lat : $_latitude');
+      print("d :$d");
     }).catchError((e) {
       print('geolocation error : $e');
     });

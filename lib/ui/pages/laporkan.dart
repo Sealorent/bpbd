@@ -15,8 +15,8 @@ class _LaporkanState extends State<Laporkan> {
   String? _img64;
   var _token;
   SizeConfig sizeConfig = SizeConfig();
-  double _longitude = 0.0;
-  double _latitude = 0.0;
+  double? _longitude;
+  double? _latitude;
 
   _imgFromCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
@@ -68,10 +68,14 @@ class _LaporkanState extends State<Laporkan> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      _longitude;
+      _latitude;
+    });
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Mitigasi Bencana",
+          "Laporan Bencana",
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -339,6 +343,7 @@ class _LaporkanState extends State<Laporkan> {
       'base64': _img64,
     };
 
+    print("data : $data");
     Network.sendLaporan(data, _token).then((response) {
       print(_token);
       if (response.success!) {

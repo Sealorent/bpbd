@@ -10,16 +10,6 @@ class RawanBencanaPage extends StatefulWidget {
 class _RawanBencanaPageState extends State<RawanBencanaPage>
     with TickerProviderStateMixin {
   SizeConfig sizeConfig = SizeConfig();
-  bool banjir = false;
-  bool gempaBumi = false;
-  bool longsor = false;
-  bool anginBeliung = false;
-  bool gerakanTanah = false;
-  bool gunungApi = false;
-  bool kecepatanAngin = false;
-  bool kebakaranHutan = false;
-  bool likuifaksi = false;
-  late AnimationController controller;
 
   ReceivePort _port = ReceivePort();
 
@@ -27,15 +17,24 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
     var status = await Permission.storage.request();
     if (status.isGranted) {
       final baseStorage = await getExternalStorageDirectory();
-      await FlutterDownloader.enqueue(
+      final taskId = await FlutterDownloader.enqueue(
         url: url,
         savedDir: baseStorage!.path,
+        // headers: {"auth": "test_for_sql_encoding"},
+        saveInPublicStorage: true,
+        requiresStorageNotLow: true,
         showNotification:
             true, // show download progress in status bar (for Android)
         openFileFromNotification:
             true, // click on notification to open downloaded file (for Android)
       );
+
+      FlutterDownloader.open(taskId: taskId!);
     }
+  }
+
+  void _launchURL(String _url) async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
   @override
@@ -51,17 +50,9 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
         print('Download Complete');
       }
       if (status == DownloadTaskStatus.failed) {
-        FlutterDownloader();
+        FlutterDownloader.retry(taskId: id);
       }
       setState(() {});
-
-      controller = AnimationController(
-        vsync: this,
-        duration: const Duration(seconds: 5),
-      )..addListener(() {
-          setState(() {});
-        });
-      controller.repeat(reverse: true);
     });
 
     FlutterDownloader.registerCallback(downloadCallback);
@@ -71,7 +62,6 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
   @override
   void dispose() {
     IsolateNameServer.removePortNameMapping('downloader_send_port');
-    controller.dispose();
     super.dispose();
   }
 
@@ -82,343 +72,157 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
     send!.send([id, status, progress]);
   }
 
+  // double progress = 0;
+
+  // // Track if the PDF was downloaded here.
+  // bool didDownloadPDF = false;
+
+  // // Show the progress status to the user.
+  // String progressString = 'File has not been downloaded yet.';
+
+  // Future download(Dio dio, String url, String savePath) async {
+  //   try {
+  //     Response response = await dio.download(
+  //       url,
+  //       savePath,
+  //       onReceiveProgress: updateProgress,
+  //       options: Options(
+  //           responseType: ResponseType.bytes,
+  //           followRedirects: false,
+  //           validateStatus: (status) {
+  //             return status! < 500;
+  //           }),
+  //     );
+  //     var file = File(savePath).openSync(mode: FileMode.write);
+  //     file.writeFromSync(response.data);
+  //     await file.close();
+
+  //     // Here, you're catching an error and printing it. For production
+  //     // apps, you should display the warning to the user and give them a
+  //     // way to restart the download.
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // void updateProgress(done, total) {
+  //   progress = done / total;
+  //   setState(() {
+  //     if (progress >= 1) {
+  //       progressString =
+  //           '✅ File has finished downloading. Try opening the file.';
+  //       didDownloadPDF = true;
+  //     } else {
+  //       progressString = 'Download progress: ' +
+  //           (progress * 100).toStringAsFixed(0) +
+  //           '% done.';
+  //     }
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            "Rawan Bencana",
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          shadowColor: Colors.white,
+      appBar: AppBar(
+        title: const Text(
+          "Peta Rawan Bencana",
         ),
-        body: SizedBox(
-            height: SizeConfig.blockSizeVertical * 100,
-            child: ListView(children: [
-              Column(
-                children: [
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          banjir = !banjir;
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        shadowColor: Colors.white,
+      ),
+      body: SizedBox(
+        height: SizeConfig.blockSizeVertical * 100,
+        child: FutureBuilder(
+            future: Network.getListKategori(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasError) {
+                return const Center(child: Text("can't connect"));
+              }
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                case ConnectionState.active:
+                case ConnectionState.done:
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data.data.length,
+                        itemBuilder: (BuildContext ctx, index) {
+                          return Card(
+                            shadowColor: Colors.grey,
+                            elevation: 3,
+                            color: orangeColor,
+                            child: ListTile(
+                              onTap: () async {
+                                await showDialog(
+                                    context: context,
+                                    builder: (_) => dialog(
+                                        snapshot.data.data[index].photos));
+                              },
+                              title: Text(
+                                  snapshot.data.data[index].name.toString(),
+                                  style: onBoardStyle.copyWith(
+                                      color: Colors.white, fontSize: 18)),
+                              trailing: IconButton(
+                                  onPressed: () {
+                                    _launchURL(
+                                        'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                            snapshot.data.data[index].photos);
+                                  },
+                                  icon: const Icon(Icons.file_download),
+                                  color: Colors.white),
+                            ),
+                          );
                         });
-                      },
-                      title: Text('BANJIR',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  banjir == true
-                      ? Column(
-                          children: [
-                            CircularProgressIndicator(
-                              value: controller.value,
-                              semanticsLabel: 'loading',
-                            ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/BANJIR.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {},
-                                    child: TextButton(
-                                        child: const Text('download'),
-                                        onPressed: () async {
-                                          download('');
-                                        })),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          gempaBumi = !gempaBumi;
-                        });
-                      },
-                      title: Text('GEMPA BUMI',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  gempaBumi == true
-                      ? Column(
-                          children: [
-                            Container(
-                              // color: Colors.black,
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/GEMPA_BUMI.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          longsor = !longsor;
-                        });
-                      },
-                      title: Text('TANAH LONGSOR',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  longsor == true
-                      ? Column(
-                          children: [
-                            Container(
-                              // color: Colors.black,
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/TANAH_LONGSOR.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          anginBeliung = !anginBeliung;
-                        });
-                      },
-                      title: Text('ANGIN PUTING BELIUNG',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  anginBeliung == true
-                      ? Column(
-                          children: [
-                            Container(
-                              // color: Colors.black,
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/ANGIN_PUTING_BELIUNG.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          gerakanTanah = !gerakanTanah;
-                        });
-                      },
-                      title: Text('GERAKAN TANAH',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  gerakanTanah == true
-                      ? Column(
-                          children: [
-                            SizedBox(
-                              // color: Colors.black,
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/GERAKAN_TANAH.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          kecepatanAngin = !kecepatanAngin;
-                        });
-                      },
-                      title: Text('KECEPATAN ANGIN',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  kecepatanAngin == true
-                      ? Column(
-                          children: [
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/KECEPATAN_ANGIN.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          gunungApi = !gunungApi;
-                        });
-                      },
-                      title: Text('GUNUNG API',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  gunungApi == true
-                      ? Column(
-                          children: [
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/GUNUNG_API.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                  Card(
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    color: orangeColor,
-                    child: ListTile(
-                      onTap: () {
-                        setState(() {
-                          kebakaranHutan = !kebakaranHutan;
-                        });
-                      },
-                      title: Text('KEBAKARAN HUTAN',
-                          style: onBoardStyle.copyWith(
-                              color: Colors.white, fontSize: 18)),
-                    ),
-                  ),
-                  kebakaranHutan == true
-                      ? Column(
-                          children: [
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 30,
-                              width: SizeConfig.blockSizeHorizontal * 110,
-                              child: Image.asset(
-                                  'assets/images/peta/KEBAKARAN_HUTAN.png',
-                                  width: SizeConfig.blockSizeHorizontal * 100,
-                                  height: SizeConfig.blockSizeVertical * 50),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  right: SizeConfig.blockSizeHorizontal * 9),
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                    onPressed: () {}, child: Text('Download')),
-                              ),
-                            )
-                          ],
-                        )
-                      : Container(),
-                ],
-              ),
-            ])));
+                  } else {
+                    return const Center(
+                      child: Text(
+                        "Data tidak ada...",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, fontSize: 30.0),
+                      ),
+                    );
+                  }
+              }
+            }),
+      ),
+    );
+  }
+
+  Dialog dialog(String img) {
+    return Dialog(
+      child: SizedBox(
+        width: SizeConfig.blockSizeHorizontal * 80,
+        height: SizeConfig.blockSizeVertical * 35,
+        child: Center(
+          child: Image.network(
+            'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/$img',
+            fit: BoxFit.fitWidth,
+            loadingBuilder: (BuildContext context, Widget child,
+                ImageChunkEvent? loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              }
+              return Center(
+                child: CircularProgressIndicator(
+                  value: loadingProgress.expectedTotalBytes != null
+                      ? loadingProgress.cumulativeBytesLoaded /
+                          loadingProgress.expectedTotalBytes!
+                      : null,
+                ),
+              );
+            },
+          ),
+          // Text(
+          //   progressString,
+          // ),
+        ),
+      ),
+    );
   }
 }

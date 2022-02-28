@@ -12,7 +12,7 @@ class _AkunPageState extends State<AkunPage> {
   final _akunKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   final _scaffold = GlobalKey<ScaffoldState>();
-  String _selectedGender = 'p';
+  String _selectedGender = "l";
   User? user = FirebaseAuth.instance.currentUser;
   var _token;
   var _id;
@@ -65,6 +65,7 @@ class _AkunPageState extends State<AkunPage> {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     _token = jsonDecode((localStorage.getString('token')).toString());
     _id = localStorage.getInt('id');
+    print("tok: $_token");
     Network.getUser(_id, _token).then((response) {
       setState(() {
         akunApi = response;
@@ -150,12 +151,15 @@ class _AkunPageState extends State<AkunPage> {
                                                   child: Image.network(
                                                       user!.photoURL!))
                                               : akunApi != null
-                                                  ? Image.network(
-                                                      'https://bpbd.bsorumahinspirasi.com/public/image/profile/' +
-                                                          akunApi!.data!.photo
-                                                              .toString(),
-                                                      height: 120,
-                                                      width: 120,
+                                                  ? ClipOval(
+                                                      child: Image.network(
+                                                        'https://bpbd.bsorumahinspirasi.com/public/image/profile/' +
+                                                            akunApi!.data!.photo
+                                                                .toString(),
+                                                        height: 120,
+                                                        width: 120,
+                                                        fit: BoxFit.fill,
+                                                      ),
                                                     )
                                                   : Image.asset(
                                                       'assets/icons/photo.png',
@@ -318,24 +322,25 @@ class _AkunPageState extends State<AkunPage> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 2,
                       ),
-                      user == null ?
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Jenis Kelamin',
-                          textAlign: TextAlign.left,
-                          style: onBoardStyle.copyWith(
-                              fontWeight: FontWeight.w200,
-                              fontSize: 18,
-                              color: const Color(0xFF444444)),
-                        ),
-                      ) : Container( ),
+                      user == null
+                          ? Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Jenis Kelamin',
+                                textAlign: TextAlign.left,
+                                style: onBoardStyle.copyWith(
+                                    fontWeight: FontWeight.w200,
+                                    fontSize: 18,
+                                    color: const Color(0xFF444444)),
+                              ),
+                            )
+                          : Container(),
                       user == null
                           ? Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                   Radio<String>(
-                                    value: 'p',
+                                    value: "p",
                                     groupValue: _selectedGender,
                                     onChanged: (value) {
                                       setState(() {
@@ -348,7 +353,7 @@ class _AkunPageState extends State<AkunPage> {
                                     style: TextStyle(fontSize: 17.0),
                                   ),
                                   Radio<String>(
-                                    value: 'l',
+                                    value: "l",
                                     groupValue: _selectedGender,
                                     onChanged: (value) {
                                       setState(() {
@@ -430,7 +435,9 @@ class _AkunPageState extends State<AkunPage> {
   }
 
   void _updateProfile() async {
-    String fileName = _image.path.split('/').last;
+    String? fileName;
+
+    fileName = _image.path.split('/').last;
 
     try {
       var data = {
@@ -441,15 +448,26 @@ class _AkunPageState extends State<AkunPage> {
         'tmpfile': _img64,
         'file': fileName
       };
+      print(data);
+
+      print("tok: $_token, $_id");
 
       var res = await Network().postUrl(
         data,
         _id,
         _token,
       );
-
+      print(res);
       var bod = json.decode(res.body);
       if (bod['success']) {
+        Fluttertoast.showToast(
+            msg: "Berhasil update",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: orangeColor,
+            textColor: Colors.white,
+            fontSize: 12.0);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MainPage()),

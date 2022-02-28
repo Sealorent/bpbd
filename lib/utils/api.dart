@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bpbd/models/bencana.dart';
 import 'package:bpbd/models/berita.dart';
 import 'package:bpbd/models/kategori.dart';
+import 'package:bpbd/models/laporan.dart';
 import 'package:bpbd/models/mitigasi_kategori.dart';
 import 'package:bpbd/models/new_bencana.dart';
 import 'package:bpbd/models/simple_response.dart';
@@ -14,9 +15,8 @@ class Network {
   static const _DOMAIN = 'http://bpbd.bsorumahinspirasi.com';
   static const _DOMAINI = 'bpbd.bsorumahinspirasi.com';
   static const IMG_PATH =
-      'http://bpbd.bsorumahinspirasi.com/public/upload/berita/';
-  final String _url = 'http://bpbd.bsorumahinspirasi.com/api/';
-  static const String _urli = 'http://bpbd.bsorumahinspirasi.com/api/';
+      'https://bpbd.bsorumahinspirasi.com/public/upload/berita/';
+  final String _url = 'https://bpbd.bsorumahinspirasi.com/api/';
 
   // 192.168.1.2 is my IP, change with your IP address
   var token;
@@ -47,8 +47,6 @@ class Network {
         'Accept': 'application/json',
       });
 
-      print(response);
-
       if (response.statusCode == 200) {
         final Berita data = beritaFromJson(response.body);
         return data;
@@ -62,15 +60,13 @@ class Network {
 
   static Future<MitigasiKategori> getListBencanaKec(String kecamatan) async {
     try {
-      var url = Uri.https(_DOMAIN, '/api/bencana-kecamatan/$kecamatan');
-      print(url);
+      var url = Uri.https(_DOMAINI, '/api/bencana-kecamatan/$kecamatan');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
 
       if (response.statusCode == 200) {
         final MitigasiKategori data = mitigasiKategoriFromJson(response.body);
-        print(response.body);
         return data;
       } else {
         return MitigasiKategori();
@@ -102,7 +98,7 @@ class Network {
 
   static Future<NewBencana> searchBencanaKec(String kec, String title) async {
     try {
-      var url = Uri.https(_DOMAIN, '/api/search-bencana/$kec/$title');
+      var url = Uri.https(_DOMAINI, '/api/search-bencana/$kec/$title');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -139,14 +135,12 @@ class Network {
   static Future<NewBencana> getListBencanaKategori(
       String kecamatan, String kategori) async {
     try {
-      var url = Uri.https(_DOMAIN, '/api/bencana/$kecamatan/$kategori');
+      var url = Uri.https(_DOMAINI, '/api/bencana/$kecamatan/$kategori');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
-      print('url bencana kategori : $url');
       if (response.statusCode == 200) {
         final NewBencana data = newBencanaFromJson(response.body);
-        print(response.body);
         return data;
       } else {
         return NewBencana();
@@ -155,6 +149,27 @@ class Network {
       throw Exception('error : ' + e.toString());
     }
   }
+
+  // static Future<NewBencana> getListPetaBencana(
+  //     String kecamatan, String kategori) async {
+  //   try {
+  //     var url = Uri.https(_DOMAINI, '/api/bencana/$kecamatan/$kategori');
+  //     var response = await http.get(url, headers: {
+  //       'Accept': 'application/json',
+  //     });
+  //     print('url bencana kategori : $url');
+  //     print(response);
+  //     if (response.statusCode == 200) {
+  //       final NewBencana data = newBencanaFromJson(response.body);
+  //       print(response.body);
+  //       return data;
+  //     } else {
+  //       return NewBencana();
+  //     }
+  //   } catch (e) {
+  //     throw Exception('error : ' + e.toString());
+  //   }
+  // }
 
   static Future<Berita> getListBeritaKategoriTitle(
       String kategori, String title) async {
@@ -215,11 +230,11 @@ class Network {
 
   static Future<Kategori> getListKategoriId(int id) async {
     try {
-      var url = Uri.https(_DOMAIN, '/api/mitigasi-bencana/$id');
+      var url = Uri.https(_DOMAINI, '/api/mitigasi-bencana/$id');
       var response = await http.get(url, headers: {
         'Accept': '*/*',
       });
-
+      print(response);
       if (response.statusCode == 200) {
         final Kategori data = kategoriFromJson(response.body);
         return data;
@@ -234,7 +249,27 @@ class Network {
   static Future<UserApi> getUser(int id, String token) async {
     try {
       var url = Uri.https(_DOMAINI, '/api/profile/$id');
-      print(url);
+      var response = await http.get(url, headers: {
+        // 'Content-type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        final UserApi data = userApiFromJson(response.body);
+        return data;
+      } else {
+        return UserApi();
+      }
+    } catch (e) {
+      throw Exception('error : ' + e.toString());
+    }
+  }
+
+  static Future<Download> getPdf(String token) async {
+    try {
+      var url = Uri.https(_DOMAINI, '/api/laporan-download');
+      // print(token);
       var response = await http.get(url, headers: {
         // 'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -242,10 +277,11 @@ class Network {
       });
       print(response);
       if (response.statusCode == 200) {
-        final UserApi data = userApiFromJson(response.body);
+        final Download data = downloadFromJson(response.body);
+        print(data);
         return data;
       } else {
-        return UserApi();
+        return Download();
       }
     } catch (e) {
       throw Exception('error : ' + e.toString());
