@@ -155,40 +155,54 @@ class _MitigasiKecState extends State<MitigasiKec> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      // crossAxisAlignment:
+                                      //     CrossAxisAlignment.start,
                                       children: [
-                                        const SizedBox(
-                                          height: 2,
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: RawMaterialButton(
+                                              onPressed: () {},
+                                              fillColor: orangeColor,
+                                              shape: const CircleBorder(),
+                                              child: Image.network(
+                                                'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                                    mitigasi!
+                                                        .data![index].icon!,
+                                                height: 35,
+                                                width: 35,
+                                              )),
                                         ),
-                                        Container(
-                                          width: 40,
-                                          height: 40,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: Image.network(
-                                              'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
-                                                  mitigasi!.data![index].icon!,
-                                              color: Colors.amber
-                                              // snapshot
-                                              //     .data.data![index].icon
-                                              //     .toString(),
-                                              ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
+                                        // Container(
+                                        //   width: 40,
+                                        //   height: 40,
+                                        //   decoration: BoxDecoration(
+                                        //       color: Colors.white,
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(20)),
+                                        //   child: Image.network(
+                                        //       'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                        //           mitigasi!.data![index].icon!,
+                                        //       color: Colors.amber
+                                        //       // snapshot
+                                        //       //     .data.data![index].icon
+                                        //       //     .toString(),
+                                        //       ),
+                                        // ),
+
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              mitigasi!.data![index].name!,
-                                              style: onBoardStyle.copyWith(
-                                                  color: Colors.white,
-                                                  fontSize: 16),
+                                            SizedBox(
+                                              width: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  30,
+                                              child: Text(
+                                                mitigasi!.data![index].name!,
+                                                style: onBoardStyle.copyWith(
+                                                    color: Colors.white,
+                                                    fontSize: 14),
+                                              ),
                                             ),
                                             const Icon(
                                               Icons.chevron_right_sharp,

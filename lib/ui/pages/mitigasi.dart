@@ -113,46 +113,79 @@ class _MitigasiState extends State<Mitigasi> {
                                               const SizedBox(
                                                 height: 2,
                                               ),
-                                              Container(
-                                                width: 40,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            20)),
-                                                child: Image.network(
+                                              RawMaterialButton(
+                                                  onPressed: () {},
+                                                  fillColor: orangeColor,
+                                                  shape: const CircleBorder(),
+                                                  child: Image.network(
                                                     'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
                                                         snapshot.data
                                                             .data[index].icon,
-                                                    color: Colors.amber
-                                                    // snapshot
-                                                    //     .data.data![index].icon
-                                                    //     .toString(),
-                                                    ),
-                                              ),
-                                              const SizedBox(
-                                                height: 20,
-                                              ),
+                                                    height: 35,
+                                                    width: 35,
+                                                  )),
+                                              // Container(
+                                              //   width: 40,
+                                              //   height: 40,
+                                              //   decoration: BoxDecoration(
+                                              //       color: Colors.white,
+                                              //       borderRadius:
+                                              //           BorderRadius.circular(
+                                              //               20)),
+                                              //   child: Image.network(
+                                              //       'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                              //           snapshot.data
+                                              //               .data[index].icon,
+                                              //       color: Colors.amber
+                                              //       // snapshot
+                                              //       //     .data.data![index].icon
+                                              //       //     .toString(),
+                                              //       ),
+                                              // ),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Text(
-                                                    snapshot
-                                                        .data.data![index].name,
-                                                    style:
-                                                        onBoardStyle.copyWith(
-                                                            color: Colors.white,
-                                                            fontSize: 16),
+                                                  SizedBox(
+                                                    width: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        30,
+                                                    child: Text(
+                                                      snapshot.data.data![index]
+                                                          .name,
+                                                      style:
+                                                          onBoardStyle.copyWith(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14),
+                                                    ),
                                                   ),
                                                   const Icon(
                                                     Icons.chevron_right_sharp,
                                                     color: Colors.white,
                                                   ),
                                                 ],
-                                              )
+                                              ),
+                                              // Row(
+                                              //   mainAxisAlignment:
+                                              //       MainAxisAlignment
+                                              //           .spaceBetween,
+                                              //   children: [
+                                              //     Text(
+                                              //       snapshot
+                                              //           .data.data![index].name,
+                                              //       style:
+                                              //           onBoardStyle.copyWith(
+                                              //               color: Colors.white,
+                                              //               fontSize: 16),
+                                              //     ),
+                                              //     const Icon(
+                                              //       Icons.chevron_right_sharp,
+                                              //       color: Colors.white,
+                                              //     ),
+                                              //   ],
+                                              // )
                                             ],
                                           ),
                                         ),

@@ -253,10 +253,10 @@ class _BeritaPageState extends State<BeritaPage>
                                                 )),
                                             onTap: () {
                                               if (snapshot.data.data[index]
-                                                      .link_artikel !=
+                                                      .linkArtikel !=
                                                   null) {
                                                 _launchURL(snapshot.data
-                                                    .data[index].link_artikel);
+                                                    .data[index].linkArtikel);
                                               } else {
                                                 print('url kosong');
                                                 Fluttertoast.showToast(

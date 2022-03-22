@@ -41,41 +41,44 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       WebView.platform = SurfaceAndroidWebView();
     }
     _getCurrentLocation();
-    super.initState();
+    // super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     sizeConfig.init(context);
-    setState(() {
-      _latitude;
-      _longitude;
-    });
-    String _listUrl =
-        'https://www.google.com/maps/place/@$_latitude,$_longitude,15z';
+    String? _listUrl;
+    if (_longitude != null && _latitude != null) {
+      _listUrl =
+          'https://www.google.com/maps/place/@$_latitude,$_longitude,15z';
+    } else {
+      _getCurrentLocation();
+    }
+    _listUrl = 'https://www.google.com/maps/place/@$_latitude,$_longitude,15z';
     // 'https://www.google.com/maps/place/Blitar,8z';
-    print("k : $_listUrl");
+
     return Scaffold(
       key: homeScaffoldKey,
       body: Stack(
         children: [
           SizedBox(
-            height: SizeConfig.blockSizeVertical * 120,
-            child: WebView(
-              // key: _key,
-              javascriptMode: JavascriptMode.unrestricted,
-              initialUrl: _listUrl,
-              onWebViewCreated: (WebViewController webViewController) {
-                _webViewController = webViewController;
-              },
-              onPageStarted: (String url) {
-                print('Starting $url');
-              },
-              onPageFinished: (String url) {
-                print('Starting $url');
-              },
-            ),
-          ),
+              height: SizeConfig.blockSizeVertical * 120,
+              child: _longitude != null && _latitude != null
+                  ? WebView(
+                      // key: _key,
+                      javascriptMode: JavascriptMode.unrestricted,
+                      initialUrl: _listUrl,
+                      onWebViewCreated: (WebViewController webViewController) {
+                        _webViewController = webViewController;
+                      },
+                      onPageStarted: (String url) {
+                        print('Starting $url');
+                      },
+                      onPageFinished: (String url) {
+                        print('Starting $url');
+                      },
+                    )
+                  : Center(child: CircularProgressIndicator())),
           Positioned(
               height: SizeConfig.safeBlockVertical * 11,
               bottom: 0,
@@ -245,7 +248,8 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                                                   }
                                                                   _webViewController
                                                                       .loadUrl(
-                                                                          _listUrl);
+                                                                          _listUrl
+                                                                              .toString());
                                                                 });
                                                               },
                                                               onLongPress: () {

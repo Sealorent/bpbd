@@ -37,7 +37,7 @@ class _AkunPageState extends State<AkunPage> {
     if (user == null) {
       if (_token == null) {
         Fluttertoast.showToast(
-            msg: "Harap login untuk melaporkan bencana",
+            msg: "Harap login untuk masuk halaman akun",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -152,15 +152,23 @@ class _AkunPageState extends State<AkunPage> {
                                                       user!.photoURL!))
                                               : akunApi != null
                                                   ? ClipOval(
-                                                      child: Image.network(
-                                                        'https://bpbd.bsorumahinspirasi.com/public/image/profile/' +
-                                                            akunApi!.data!.photo
-                                                                .toString(),
-                                                        height: 120,
-                                                        width: 120,
-                                                        fit: BoxFit.fill,
-                                                      ),
-                                                    )
+                                                      child: akunApi!.data!
+                                                                  .photo !=
+                                                              null
+                                                          ? Image.network(
+                                                              'https://bpbd.bsorumahinspirasi.com/public/image/profile/' +
+                                                                  akunApi!.data!
+                                                                      .photo
+                                                                      .toString(),
+                                                              height: 120,
+                                                              width: 120,
+                                                              fit: BoxFit.fill,
+                                                            )
+                                                          : Image.asset(
+                                                              'assets/icons/photo.png',
+                                                              height: 120,
+                                                              width: 120,
+                                                            ))
                                                   : Image.asset(
                                                       'assets/icons/photo.png',
                                                       height: 120,
@@ -322,51 +330,51 @@ class _AkunPageState extends State<AkunPage> {
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 2,
                       ),
-                      user == null
-                          ? Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Jenis Kelamin',
-                                textAlign: TextAlign.left,
-                                style: onBoardStyle.copyWith(
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 18,
-                                    color: const Color(0xFF444444)),
-                              ),
-                            )
-                          : Container(),
-                      user == null
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                  Radio<String>(
-                                    value: "p",
-                                    groupValue: _selectedGender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedGender = value!;
-                                      });
-                                    },
-                                  ),
-                                  const Text(
-                                    'Pria',
-                                    style: TextStyle(fontSize: 17.0),
-                                  ),
-                                  Radio<String>(
-                                    value: "l",
-                                    groupValue: _selectedGender,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        _selectedGender = value!;
-                                      });
-                                    },
-                                  ),
-                                  const Text(
-                                    'Wanita',
-                                    style: TextStyle(fontSize: 17.0),
-                                  ),
-                                ])
-                          : Container(),
+                      // user == null
+                      //     ? Align(
+                      //         alignment: Alignment.centerLeft,
+                      //         child: Text(
+                      //           'Jenis Kelamin',
+                      //           textAlign: TextAlign.left,
+                      //           style: onBoardStyle.copyWith(
+                      //               fontWeight: FontWeight.w200,
+                      //               fontSize: 18,
+                      //               color: const Color(0xFF444444)),
+                      //         ),
+                      //       )
+                      //     : Container(),
+                      // user == null
+                      //     ? Row(
+                      //         mainAxisAlignment: MainAxisAlignment.start,
+                      //         children: <Widget>[
+                      //             Radio<String>(
+                      //               value: "p",
+                      //               groupValue: _selectedGender,
+                      //               onChanged: (value) {
+                      //                 setState(() {
+                      //                   _selectedGender = value!;
+                      //                 });
+                      //               },
+                      //             ),
+                      //             const Text(
+                      //               'Pria',
+                      //               style: TextStyle(fontSize: 17.0),
+                      //             ),
+                      //             Radio<String>(
+                      //               value: "l",
+                      //               groupValue: _selectedGender,
+                      //               onChanged: (value) {
+                      //                 setState(() {
+                      //                   _selectedGender = value!;
+                      //                 });
+                      //               },
+                      //             ),
+                      //             const Text(
+                      //               'Wanita',
+                      //               style: TextStyle(fontSize: 17.0),
+                      //             ),
+                      //           ])
+                      //     : Container(),
                       SizedBox(
                         height: SizeConfig.safeBlockVertical * 5,
                       ),

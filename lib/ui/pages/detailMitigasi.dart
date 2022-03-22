@@ -45,19 +45,27 @@ class DetailMitigasi extends StatelessWidget {
                         padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
                         child: Column(
                           children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Image.network(
-                                'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
-                                    '$icon',
-                                color: orangeColor,
-                                fit: BoxFit.scaleDown,
-                              ),
-                            ),
+                            RawMaterialButton(
+                                onPressed: () {},
+                                fillColor: orangeColor,
+                                shape: const CircleBorder(),
+                                child: Image.network(
+                                  'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/$icon',
+                                  height: 80,
+                                  width: 80,
+                                )),
+                            // Container(
+                            //   width: 60,
+                            //   height: 60,
+                            //   decoration: BoxDecoration(
+                            //       color: Colors.white,
+                            //       borderRadius: BorderRadius.circular(50)),
+                            //   child: Image.network(
+                            //     'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/$icon',
+                            //     color: orangeColor,
+                            //     fit: BoxFit.scaleDown,
+                            //   ),
+                            // ),
                             Center(
                               child: Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
