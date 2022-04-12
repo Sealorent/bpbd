@@ -146,6 +146,7 @@ class _BeritaPageState extends State<BeritaPage>
                       ? ListView.builder(
                           itemCount: berita!.data!.length,
                           itemBuilder: (BuildContext ctx, index) {
+                            
                             return Card(
                               elevation: 2,
                               borderOnForeground: true,
