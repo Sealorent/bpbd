@@ -42,9 +42,9 @@ class _TentangState extends State<Tentang> {
                 height: 170,
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 50, 195, 0),
+                padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: RichText(
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     text: const TextSpan(
                       text: 'Tentang BPBD',
                       style: TextStyle(
@@ -59,7 +59,7 @@ class _TentangState extends State<Tentang> {
                 child: RichText(
                     text: const TextSpan(
                   text:
-                      'Badan Penanggulangan Bencana Daerah adalah lembaga pemerintah non-departemen yang melaksanakan tugas penanggulangan bencana di daerah baik Provinsi maupun Kabupaten/ Kota dengan berpedoman pada kebijakan yang ditetapkan oleh Badan Nasional Penanggulangan Bencana.',
+                      'Badan Penanggulangan Bencana Daerah adalah Badan Penanggulangan Bencana Daerah Kabupaten Bondowoso yang dibentuk dalam rangka melaksanakan tugas dan fungsi untuk melaksanakan penanggulangan bencana. \n\n BPBD mempunyai tugas : \n1. menetapkan pedoman dan pengarahan terhadap usaha penanggulangan bencana yang mencakup pencegahan bencana, penanganan darurat, rehabilitasi serta rekonstruksi secara adil dan setara; \n2. menetapkan standarisasi serta kebutuhan penyelenggaraan penanggulangan bencana berdasarkan peraturan perundang-undangan; \n3. menyusun, menetapkan dan menginformasikan peta rawan bencana; \n4. menyusun dan menetapkan prosedur tetap penanganan bencana; \n5. melaporkan penyelenggaraan penanggulangan bencana kepada Bupati setiap bulan sekali dalam kondisi normal dan setiap saat dalam kondisi darurat bencana. \n\nBPBD dalam melaksanakan tugasnya mempunyai fungsi : \n1. perumusan dan penetapan kebijakan penanggulangan bencana dan penanganan pengungsi dengan bertindak cepat dan tepat, efektif dan efisien; dan \n2. pengkoordinasian pelaksanaan kegiatan penanggulangan bencana secara terencana, terpadu dan menyeluruh.',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
@@ -67,9 +67,9 @@ class _TentangState extends State<Tentang> {
                 )),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(10, 30, 50, 0),
+                padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: RichText(
-                    textAlign: TextAlign.left,
+                    textAlign: TextAlign.center,
                     text: const TextSpan(
                       text: 'Tentang Aplikasi BPBD Bondowoso',
                       style: TextStyle(
@@ -84,7 +84,7 @@ class _TentangState extends State<Tentang> {
                 child: RichText(
                     text: const TextSpan(
                   text:
-                      'Aplikasi BPBD Bondowoso ini adalah Aplikasi yang berguna untuk masyarakat di Kabupaten Bondowoso dan masyarakat yang berkunjung di daerah Kabupaten Bondowoso, untuk membantu masyarakat dalam menerima Informasi Bencana Alam yang berada disekitar masyarakat.',
+                      'Aplikasi SIGABAN ini adalah sebuah aplikasi yang digunakan untuk media pelaporan dalam rangka penanganan bencana di Kabupaten Bondowoso Provinsi Jawa Timur. \nSelain itu, aplikasi ini juga berisikan peta rawan bencana banjir, kekeringan, gunung berapi, likuifaksi, angin puting beliung, kebakaran hutan dan lahan, gempa bumi dan tanah longsor yang bisa digunakan oleh seluruh masyarakat yang berada di wilayah kabupaten bondowoso untuk mengetahui ancaman bencana apa saja di wilayah mereka berada. \nAplikasi ini juga berisikan informasi penanganan bencana oleh BPBD Kabupaten Bondowoso serta informasi berbagai mitigasi bencana yang bisa dilakukan oleh masyarakat kabupaten bondowoso dalam mencegah terjadinya bencana. \nSemoga aplikasi ini bisa terus berkembang dan bermanfaat bagi masyarakat kabupaten bondowoso dan masyarakat yang akan berkunjung ke kabupaten bondowoso.',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15,
