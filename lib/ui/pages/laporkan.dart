@@ -344,6 +344,7 @@ class _LaporkanState extends State<Laporkan> {
     };
 
     print("data : $data");
+    print(_token);
     Network.sendLaporan(data, _token).then((response) {
       print(_token);
       if (response.success!) {
@@ -352,7 +353,7 @@ class _LaporkanState extends State<Laporkan> {
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.green,
             textColor: Colors.white,
             fontSize: 12.0);
       } else {
@@ -365,7 +366,10 @@ class _LaporkanState extends State<Laporkan> {
             textColor: Colors.white,
             fontSize: 12.0);
       }
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
     });
 
     setState(() {

@@ -45,21 +45,21 @@
     },
     {
       "name": "cloud_firestore",
-      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-3.1.7",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore-3.1.12",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "cloud_firestore_platform_interface",
-      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_platform_interface-5.4.12",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_platform_interface-5.5.3",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "cloud_firestore_web",
-      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-2.6.7",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/cloud_firestore_web-2.6.12",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "collection",
@@ -165,15 +165,15 @@
     },
     {
       "name": "firebase_core_platform_interface",
-      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-4.2.4",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_platform_interface-4.2.5",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "firebase_core_web",
-      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.5.4",
+      "rootUri": "file:///C:/Users/Viky/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.6.2",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.16"
     },
     {
       "name": "flutter",
@@ -800,7 +800,7 @@
       "languageVersion": "2.14"
     }
   ],
-  "generated": "2022-03-19T01:41:34.817230Z",
+  "generated": "2022-04-14T14:16:18.085077Z",
   "generator": "pub",
   "generatorVersion": "2.16.1"
 }

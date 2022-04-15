@@ -12,18 +12,24 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Network {
-  static const _DOMAIN = 'http://bpbd.bsorumahinspirasi.com';
-  static const _DOMAINI = 'bpbd.bsorumahinspirasi.com';
-  static const IMG_PATH =
-      'https://bpbd.bsorumahinspirasi.com/public/upload/berita/';
-  final String _url = 'https://bpbd.bsorumahinspirasi.com/api/';
+  // static const _DOMAIN = 'http://bpbd.bsorumahinspirasi.com';
+  // static const _DOMAINI = 'bpbd.bsorumahinspirasi.com';
+  // static const IMG_PATH =
+  //     'https://bpbd.bsorumahinspirasi.com/public/upload/berita/';
+  // final String _url = 'https://bpbd.bsorumahinspirasi.com/api/';
 
-  // 192.168.1.2 is my IP, change with your IP address
+  static const _DOMAIN = 'https://bpbdbondowoso.com/bpbd-admin/public/';
+  static const _DOMAINI = 'bpbdbondowoso.com';
+  static const add = '/bpbd-admin/public';
+  static const IMG_PATH =
+      'https://bpbdbondowoso.com/bpbd-admin/public/upload/berita/';
+  final String _url = 'https://bpbdbondowoso.com/bpbd-admin/public/api/';
+
   var token;
 
   static Future<Bencana> getListBencana() async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/bencana');
+      var url = Uri.https(_DOMAINI, '$add/api/bencana');
 
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
@@ -42,7 +48,7 @@ class Network {
 
   static Future<Berita> getListBerita() async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/berita/');
+      var url = Uri.https(_DOMAINI, '$add/api/berita/');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -60,7 +66,7 @@ class Network {
 
   static Future<MitigasiKategori> getListBencanaKec(String kecamatan) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/bencana-kecamatan/$kecamatan');
+      var url = Uri.https(_DOMAINI, '$add/api/bencana-kecamatan/$kecamatan');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -78,7 +84,7 @@ class Network {
 
   static Future<Berita> searchBerita(String judul) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/search-berita');
+      var url = Uri.https(_DOMAINI, '$add/api/search-berita');
       var response = await http.post(url, headers: {
         'Accept': 'application/json',
       }, body: {
@@ -98,7 +104,7 @@ class Network {
 
   static Future<NewBencana> searchBencanaKec(String kec, String title) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/search-bencana/$kec/$title');
+      var url = Uri.https(_DOMAINI, '$add/api/search-bencana/$kec/$title');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -116,7 +122,7 @@ class Network {
 
   static Future<Berita> getListBeritaKategori(String kategori) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/berita/$kategori');
+      var url = Uri.https(_DOMAINI, '$add/api/berita/$kategori');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -135,7 +141,7 @@ class Network {
   static Future<NewBencana> getListBencanaKategori(
       String kecamatan, String kategori) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/bencana/$kecamatan/$kategori');
+      var url = Uri.https(_DOMAINI, '$add/api/bencana/$kecamatan/$kategori');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -150,31 +156,10 @@ class Network {
     }
   }
 
-  // static Future<NewBencana> getListPetaBencana(
-  //     String kecamatan, String kategori) async {
-  //   try {
-  //     var url = Uri.https(_DOMAINI, '/api/bencana/$kecamatan/$kategori');
-  //     var response = await http.get(url, headers: {
-  //       'Accept': 'application/json',
-  //     });
-  //     print('url bencana kategori : $url');
-  //     print(response);
-  //     if (response.statusCode == 200) {
-  //       final NewBencana data = newBencanaFromJson(response.body);
-  //       print(response.body);
-  //       return data;
-  //     } else {
-  //       return NewBencana();
-  //     }
-  //   } catch (e) {
-  //     throw Exception('error : ' + e.toString());
-  //   }
-  // }
-
   static Future<Berita> getListBeritaKategoriTitle(
       String kategori, String title) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/berita/$kategori/$title');
+      var url = Uri.https(_DOMAINI, '$add/api/berita/$kategori/$title');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -193,8 +178,8 @@ class Network {
   static Future<NewBencana> getListBencanaKategoriTitle(
       String kecamatan, String kategori, String title) async {
     try {
-      var url =
-          Uri.https(_DOMAIN, '/api/search-bencana/$kecamatan/$kategori/$title');
+      var url = Uri.https(
+          _DOMAIN, '$add/api/search-bencana/$kecamatan/$kategori/$title');
       var response = await http.get(url, headers: {
         'Accept': 'application/json',
       });
@@ -212,11 +197,10 @@ class Network {
 
   static Future<Kategori> getListKategori() async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/mitigasi-bencana/');
+      var url = Uri.https(_DOMAINI, '$add/api/mitigasi-bencana/');
       var response = await http.get(url, headers: {
         'Accept': '*/*',
       });
-
       if (response.statusCode == 200) {
         final Kategori data = kategoriFromJson(response.body);
         return data;
@@ -230,7 +214,7 @@ class Network {
 
   static Future<Kategori> getListKategoriId(int id) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/mitigasi-bencana/$id');
+      var url = Uri.https(_DOMAINI, '$add/api/mitigasi-bencana/$id');
       var response = await http.get(url, headers: {
         'Accept': '*/*',
       });
@@ -248,7 +232,7 @@ class Network {
 
   static Future<UserApi> getUser(int id, String token) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/profile/$id');
+      var url = Uri.https(_DOMAINI, '$add/api/profile/$id');
       var response = await http.get(url, headers: {
         // 'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -268,14 +252,15 @@ class Network {
 
   static Future<Download> getPdf(String token) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/laporan-download');
+      var url = Uri.https(_DOMAINI, '$add/api/laporan-download');
       // print(token);
       var response = await http.get(url, headers: {
         // 'Content-type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       });
-      print(response);
+      print(response.statusCode);
+      print(url);
       if (response.statusCode == 200) {
         final Download data = downloadFromJson(response.body);
         print(data);
@@ -290,7 +275,7 @@ class Network {
 
   static Future<SimpleResponse> sendLaporan(var data, String token) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/laporan-bencana');
+      var url = Uri.https(_DOMAINI, '$add/api/laporan-bencana');
       var response = await http.post(url, headers: {
         // 'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -305,6 +290,7 @@ class Network {
         "tmpfile": data['base64'],
       });
 
+      print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 202) {
         final SimpleResponse data = simpleResponseFromJson(response.body);
         return data;
@@ -318,7 +304,7 @@ class Network {
 
   static Future<SimpleResponse> visitor(String id_user) async {
     try {
-      var url = Uri.https(_DOMAINI, '/api/add-visitor/$id_user');
+      var url = Uri.https(_DOMAINI, '$add/api/add-visitor/$id_user');
       var response = await http.get(url, headers: {
         'Content-type': 'application/json',
         'Accept': '*/*',
@@ -344,7 +330,7 @@ class Network {
     try {
       // var ful = Uri.parse(_url + apUrl);
       print(id);
-      var url = Uri.https(_DOMAINI, '/api/update-profile/$id');
+      var url = Uri.https(_DOMAINI, '$add/api/update-profile/$id');
       var response = await http.post(url, body: jsonEncode(dat), headers: {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -363,6 +349,7 @@ class Network {
 
   auth(data, apiURL) async {
     var fullUrl = Uri.parse(_url + apiURL);
+    print(fullUrl);
     return await http.post(fullUrl,
         body: json.encode(data), headers: _setHeaders());
   }

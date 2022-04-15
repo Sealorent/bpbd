@@ -297,7 +297,7 @@ class _DaftarPageState extends State<DaftarPage> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 12.0);
       Navigator.pushReplacement(

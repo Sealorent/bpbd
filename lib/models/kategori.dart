@@ -1,12 +1,12 @@
 // To parse this JSON data, do
 //
-//     final Kategori = KategoriFromJson(jsonString);
+//     final kategori = kategoriFromJson(jsonString);
 
 import 'dart:convert';
 
 Kategori kategoriFromJson(String str) => Kategori.fromJson(json.decode(str));
 
-String KategoriToJson(Kategori data) => json.encode(data.toJson());
+String kategoriToJson(Kategori data) => json.encode(data.toJson());
 
 class Kategori {
   Kategori({
@@ -17,13 +17,12 @@ class Kategori {
 
   bool? success;
   String? message;
-  List<KategoriData>? data;
+  List<Datum>? data;
 
   factory Kategori.fromJson(Map<String, dynamic> json) => Kategori(
         success: json["success"],
         message: json["message"],
-        data: List<KategoriData>.from(
-            json["data"].map((x) => KategoriData.fromJson(x))),
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,12 +32,11 @@ class Kategori {
       };
 }
 
-class KategoriData {
-  KategoriData({
+class Datum {
+  Datum({
     this.id,
     this.name,
     this.icon,
-    this.mitigasi,
     this.linkEmbed,
     this.photos,
   });
@@ -46,24 +44,22 @@ class KategoriData {
   int? id;
   String? name;
   String? icon;
-  String? mitigasi;
   String? linkEmbed;
   String? photos;
 
-  factory KategoriData.fromJson(Map<String, dynamic> json) => KategoriData(
-      id: json["id"],
-      name: json["name"],
-      icon: json["icon"],
-      mitigasi: json["mitigasi"],
-      linkEmbed: json["link_embed"],
-      photos: json["photos"]);
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        id: json["id"],
+        name: json["name"],
+        icon: json["icon"],
+        linkEmbed: json["link_embed"],
+        photos: json["photos"],
+      );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "icon": icon,
-        "mitigasi": mitigasi,
         "link_embed": linkEmbed,
-        "photos": photos
+        "photos": photos,
       };
 }
