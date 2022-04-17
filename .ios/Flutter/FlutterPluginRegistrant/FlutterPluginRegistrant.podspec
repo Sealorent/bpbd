@@ -23,7 +23,6 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'firebase_analytics'
   s.dependency 'firebase_auth'
   s.dependency 'firebase_core'
-  s.dependency 'flutter_downloader'
   s.dependency 'fluttertoast'
   s.dependency 'geocoding'
   s.dependency 'geolocator_apple'

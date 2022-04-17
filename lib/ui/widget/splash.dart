@@ -19,8 +19,8 @@ Widget _splash(BuildContext context) {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Image.asset(
                 'assets/images/logo.png',
-                width: 141,
-                height: 170,
+                width: 140,
+                // height: 170,
                 fit: BoxFit.fill,
               ),
             ),

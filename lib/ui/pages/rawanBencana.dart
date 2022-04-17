@@ -13,25 +13,25 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
 
   ReceivePort _port = ReceivePort();
 
-  Future download(String url) async {
-    var status = await Permission.storage.request();
-    if (status.isGranted) {
-      final baseStorage = await getExternalStorageDirectory();
-      final taskId = await FlutterDownloader.enqueue(
-        url: url,
-        savedDir: baseStorage!.path,
-        // headers: {"auth": "test_for_sql_encoding"},
-        saveInPublicStorage: true,
-        requiresStorageNotLow: true,
-        showNotification:
-            true, // show download progress in status bar (for Android)
-        openFileFromNotification:
-            true, // click on notification to open downloaded file (for Android)
-      );
+  // Future download(String url) async {
+  //   var status = await Permission.storage.request();
+  //   if (status.isGranted) {
+  //     final baseStorage = await getExternalStorageDirectory();
+  //     final taskId = await FlutterDownloader.enqueue(
+  //       url: url,
+  //       savedDir: baseStorage!.path,
+  //       // headers: {"auth": "test_for_sql_encoding"},
+  //       saveInPublicStorage: true,
+  //       requiresStorageNotLow: true,
+  //       showNotification:
+  //           true, // show download progress in status bar (for Android)
+  //       openFileFromNotification:
+  //           true, // click on notification to open downloaded file (for Android)
+  //     );
 
-      FlutterDownloader.open(taskId: taskId!);
-    }
-  }
+  //     FlutterDownloader.open(taskId: taskId!);
+  //   }
+  // }
 
   void _launchURL(String _url) async {
     if (!await launch(_url)) throw 'Could not launch $_url';
@@ -39,23 +39,23 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
 
   @override
   void initState() {
-    IsolateNameServer.registerPortWithName(
-        _port.sendPort, 'downloader_send_port');
-    _port.listen((dynamic data) {
-      String id = data[0];
-      DownloadTaskStatus status = data[1];
-      int progress = data[2];
+    // IsolateNameServer.registerPortWithName(
+    //     _port.sendPort, 'downloader_send_port');
+    // _port.listen((dynamic data) {
+    //   String id = data[0];
+    //   DownloadTaskStatus status = data[1];
+    //   int progress = data[2];
 
-      if (status == DownloadTaskStatus.complete) {
-        print('Download Complete');
-      }
-      if (status == DownloadTaskStatus.failed) {
-        FlutterDownloader.retry(taskId: id);
-      }
-      setState(() {});
-    });
+    //   if (status == DownloadTaskStatus.complete) {
+    //     print('Download Complete');
+    //   }
+    //   if (status == DownloadTaskStatus.failed) {
+    //     FlutterDownloader.retry(taskId: id);
+    //   }
+    //   setState(() {});
+    // });
 
-    FlutterDownloader.registerCallback(downloadCallback);
+    // FlutterDownloader.registerCallback(downloadCallback);
     super.initState();
   }
 
@@ -65,12 +65,12 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
     super.dispose();
   }
 
-  static void downloadCallback(
-      String id, DownloadTaskStatus status, int progress) {
-    final SendPort? send =
-        IsolateNameServer.lookupPortByName('downloader_send_port');
-    send!.send([id, status, progress]);
-  }
+  // static void downloadCallback(
+  //     String id, DownloadTaskStatus status, int progress) {
+  //   final SendPort? send =
+  //       IsolateNameServer.lookupPortByName('downloader_send_port');
+  //   send!.send([id, status, progress]);
+  // }
 
   // double progress = 0;
 
