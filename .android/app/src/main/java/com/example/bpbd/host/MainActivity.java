@@ -1,4 +1,4 @@
-package com.example.bpbd.host;
+package com.bpbdbws.bpbd;
 
 import io.flutter.embedding.android.FlutterActivity;
 

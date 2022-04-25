@@ -36,11 +36,14 @@ class _TentangState extends State<Tentang> {
           padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
           child: Column(
             children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: 141,
-                height: 170,
-              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Image.asset('assets/images/logo.png',
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width * 0.3),
+                Image.asset('assets/images/logobpbd.png',
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width * 0.3),
+              ]),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                 child: RichText(
