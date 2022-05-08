@@ -341,6 +341,14 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
       print("d :$d");
     }).catchError((e) {
       print('geolocation error : $e');
+       Fluttertoast.showToast(
+          msg: "Lokasi tidak dapat terdeteksi",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
     });
   }
 }
