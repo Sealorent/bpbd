@@ -49,14 +49,10 @@ class _NotifikasiPageState extends State<NotifikasiPage>
               foregroundColor: Colors.black,
               shadowColor: Colors.white,
               elevation: 0.0,
-              // centerTitle: true,
-              title: Padding(
-                padding:
-                    EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 20),
-                child: Text('Notifikasi',
+              centerTitle: true,
+              title: Text('Notifikasi',
                     style: onBoardStyle.copyWith(
                         fontSize: 20, color: Colors.black)),
-              ),
             ),
             // for (var item in kategori!.data!)
             body: FutureBuilder(
@@ -94,6 +90,8 @@ class _NotifikasiPageState extends State<NotifikasiPage>
                           ),
                         );
                       }
+                    default:
+                      return Center(child: Text('Error: ${snapshot.error}'));
                   }
                 })));
   }

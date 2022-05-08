@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:label="bpbd"
+        android:label="Si Gaban"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

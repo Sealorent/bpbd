@@ -37,6 +37,7 @@ class Datum {
     this.id,
     this.name,
     this.icon,
+    this.mitigasi,
     this.linkEmbed,
     this.photos,
   });
@@ -44,6 +45,7 @@ class Datum {
   int? id;
   String? name;
   String? icon;
+  String? mitigasi;
   String? linkEmbed;
   String? photos;
 
@@ -51,6 +53,7 @@ class Datum {
         id: json["id"],
         name: json["name"],
         icon: json["icon"],
+        mitigasi: json["mitigasi"],
         linkEmbed: json["link_embed"],
         photos: json["photos"],
       );
@@ -59,6 +62,7 @@ class Datum {
         "id": id,
         "name": name,
         "icon": icon,
+        "mitigasi": mitigasi,
         "link_embed": linkEmbed,
         "photos": photos,
       };

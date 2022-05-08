@@ -9,8 +9,8 @@ Widget _splash(BuildContext context) {
           Center(
             child: Image.asset(
               'assets/images/background.png',
-              height: 896,
-              width: 414,
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               fit: BoxFit.fill,
             ),
           ),

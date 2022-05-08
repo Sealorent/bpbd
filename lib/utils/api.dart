@@ -214,6 +214,7 @@ class Network {
 
   static Future<Kategori> getListKategoriId(int id) async {
     try {
+      debugPrint('getListKategoriId');
       var url = Uri.https(_DOMAINI, '$add/api/mitigasi-bencana/$id');
       var response = await http.get(url, headers: {
         'Accept': '*/*',

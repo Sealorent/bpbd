@@ -28,7 +28,7 @@ class DetailMitigasi extends StatelessWidget {
 
   Widget _buildContent() {
     return FutureBuilder(
-        future: Network.getListKategoriId(int.parse(id)),
+        future: Network.getListKategoriId(id),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) return Text('Error');
           switch (snapshot.connectionState) {
@@ -82,7 +82,11 @@ class DetailMitigasi extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Html(data: snapshot.data.data[index].mitigasi),
+                            Html(data: snapshot.data.data[index].mitigasi, 
+                              style: {
+                                "p": Style(textAlign: TextAlign.justify)
+                              },
+                            ),
                           ],
                         ),
                       );

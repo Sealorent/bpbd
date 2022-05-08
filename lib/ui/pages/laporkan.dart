@@ -82,7 +82,8 @@ class _LaporkanState extends State<Laporkan> {
         foregroundColor: Colors.black,
         shadowColor: Colors.white,
       ),
-      body: Form(
+      body: _isLoading ? const Center(child: CircularProgressIndicator(),)
+       :Form(
         key: _formKey,
         child: ListView(
           children: [
@@ -370,11 +371,12 @@ class _LaporkanState extends State<Laporkan> {
         context,
         MaterialPageRoute(builder: (context) => const MainPage()),
       );
+
+      setState(() {
+        _isLoading = false;
+      });
     });
 
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   _getCurrentLocation() async {

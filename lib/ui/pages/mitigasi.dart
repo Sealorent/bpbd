@@ -114,7 +114,20 @@ class _MitigasiState extends State<Mitigasi> {
                                                 height: 2,
                                               ),
                                               RawMaterialButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailMitigasi(
+                                                      id: snapshot
+                                                          .data.data[index].id,
+                                                      name: snapshot.data
+                                                          .data[index].name,
+                                                      icon: snapshot.data
+                                                          .data[index].icon,
+                                                    )));
+                                                  },
                                                   fillColor: orangeColor,
                                                   shape: const CircleBorder(),
                                                   child: Image.network(

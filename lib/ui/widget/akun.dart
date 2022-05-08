@@ -168,11 +168,13 @@ class _AkunPageState extends State<AkunPage> {
                                                               'assets/icons/photo.png',
                                                               height: 120,
                                                               width: 120,
+                                                              fit: BoxFit.cover,
                                                             ))
                                                   : Image.asset(
                                                       'assets/icons/photo.png',
                                                       height: 120,
                                                       width: 120,
+                                                      fit: BoxFit.cover,
                                                     )),
                                   SizedBox(
                                     height: SizeConfig.blockSizeVertical * 1,
@@ -185,21 +187,21 @@ class _AkunPageState extends State<AkunPage> {
                                 ],
                               ),
                             ),
-                            Positioned(
-                              bottom: 25,
-                              right: 0,
-                              child: RawMaterialButton(
-                                  fillColor: orangeColor,
-                                  onPressed: () {
-                                    setState(() {
-                                      _showPicker(context);
-                                    });
-                                  },
-                                  // fillColor: banjir ? Colors.grey : orangeColor,
-                                  shape: const CircleBorder(),
-                                  child: const Icon(Icons.create,
-                                      color: Colors.white)),
-                            ),
+                            // Positioned(
+                            //   bottom: 25,
+                            //   right: 0,
+                            //   child: RawMaterialButton(
+                            //       fillColor: orangeColor,
+                            //       onPressed: () {
+                            //         setState(() {
+                            //           _showPicker(context);
+                            //         });
+                            //       },
+                            //       // fillColor: banjir ? Colors.grey : orangeColor,
+                            //       shape: const CircleBorder(),
+                            //       child: const Icon(Icons.create,
+                            //           color: Colors.white)),
+                            // ),
                           ],
                         ),
                       ),
@@ -378,33 +380,33 @@ class _AkunPageState extends State<AkunPage> {
                       SizedBox(
                         height: SizeConfig.safeBlockVertical * 5,
                       ),
-                      user == null
-                          ? SizedBox(
-                              height: SizeConfig.blockSizeVertical * 7,
-                              width: SizeConfig.blockSizeHorizontal * 100,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_akunKey.currentState!.validate()) {
-                                      _updateProfile();
-                                    }
-                                  },
-                                  style: ButtonStyle(
-                                    shape: MaterialStateProperty.all<
-                                            RoundedRectangleBorder>(
-                                        RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(18.0),
-                                            side: BorderSide(
-                                                color: orangeColor))),
-                                    backgroundColor:
-                                        MaterialStateProperty.all(orangeColor),
-                                  ),
-                                  child: Text(
-                                    'Simpan',
-                                    style: onBoardStyle.copyWith(fontSize: 20),
-                                  )),
-                            )
-                          : Container()
+                      // user == null
+                      //     ? SizedBox(
+                      //         height: SizeConfig.blockSizeVertical * 7,
+                      //         width: SizeConfig.blockSizeHorizontal * 100,
+                      //         child: ElevatedButton(
+                      //             onPressed: () {
+                      //               if (_akunKey.currentState!.validate()) {
+                      //                 _updateProfile();
+                      //               }
+                      //             },
+                      //             style: ButtonStyle(
+                      //               shape: MaterialStateProperty.all<
+                      //                       RoundedRectangleBorder>(
+                      //                   RoundedRectangleBorder(
+                      //                       borderRadius:
+                      //                           BorderRadius.circular(18.0),
+                      //                       side: BorderSide(
+                      //                           color: orangeColor))),
+                      //               backgroundColor:
+                      //                   MaterialStateProperty.all(orangeColor),
+                      //             ),
+                      //             child: Text(
+                      //               'Simpan',
+                      //               style: onBoardStyle.copyWith(fontSize: 20),
+                      //             )),
+                      //       )
+                      //     : Container()
                     ],
                   ),
                 );
