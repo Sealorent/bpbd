@@ -240,16 +240,29 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                                         children: [
                                                           RawMaterialButton(
                                                               onPressed: () {
+                                                                // setState(() {
+                                                                //   if (isActive ==
+                                                                //       true) {
+                                                                //     isActive =
+                                                                //         false;
+                                                                //   }
+                                                                //   _webViewController
+                                                                //       .loadUrl(
+                                                                //           _listUrl
+                                                                //               .toString());
+                                                                // });
                                                                 setState(() {
                                                                   if (isActive ==
-                                                                      true) {
+                                                                      false) {
                                                                     isActive =
-                                                                        false;
+                                                                        true;
                                                                   }
                                                                   _webViewController
-                                                                      .loadUrl(
-                                                                          _listUrl
-                                                                              .toString());
+                                                                      .loadUrl(snapshot
+                                                                          .data
+                                                                          .data[
+                                                                              index]
+                                                                          .linkEmbed);
                                                                 });
                                                               },
                                                               onLongPress: () {

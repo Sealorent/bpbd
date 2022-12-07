@@ -296,7 +296,12 @@ class Network {
         final SimpleResponse data = simpleResponseFromJson(response.body);
         return data;
       } else {
-        return SimpleResponse();
+        var json = {
+          'success': false,
+          'message': 'Terjadi kesalahan.'
+        };
+        final SimpleResponse data = SimpleResponse(success: false, message: 'Terjadi kesalahan.Failed to authenticate on SMTP server');
+        return data;
       }
     } catch (e) {
       throw Exception('error : ' + e.toString());
