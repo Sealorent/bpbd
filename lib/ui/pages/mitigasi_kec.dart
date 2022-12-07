@@ -20,12 +20,14 @@ class _MitigasiKecState extends State<MitigasiKec> {
 
   @override
   void initState() {
-    // _dataKategori = Network.getListKategori();
+    super.initState();
+
     _getAddress();
   }
 
   _initBencana(String kec) {
     Network.getListBencanaKec(kec).then((response) {
+      print('Initial Bencana');
       setState(() {
         mitigasi = response;
         print(mitigasi);
@@ -83,6 +85,11 @@ class _MitigasiKecState extends State<MitigasiKec> {
   Widget build(BuildContext context) {
     print("lat : $_latitude");
     sizeConfig.init(context);
+    if (mitigasi == null) {
+      print('mitigasi tersedia');
+    } else {
+      print('mitigasi tidak tersedia');
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -128,205 +135,108 @@ class _MitigasiKecState extends State<MitigasiKec> {
                     width: MediaQuery.of(context).size.width,
                     height: SizeConfig.blockSizeVertical * 60,
                     child: mitigasi != null
-                        ? GridView.builder(
-                            gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 3 / 2,
-                                    crossAxisSpacing: 20,
-                                    mainAxisSpacing: 20),
-                            itemCount: mitigasi!.data!.length,
-                            itemBuilder: (BuildContext ctx, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => DetailMitigasi(
-                                                id: mitigasi!.data![index]
-                                                    .id_kategori_bencana,
-                                                name:
-                                                    mitigasi!.data![index].name,
-                                                icon:
-                                                    mitigasi!.data![index].icon,
-                                              )));
-                                },
-                                child: Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Column(
-                                      // crossAxisAlignment:
-                                      //     CrossAxisAlignment.start,
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: RawMaterialButton(
-                                              onPressed: () {},
-                                              fillColor: orangeColor,
-                                              shape: const CircleBorder(),
-                                              child: Image.network(
-                                                'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
-                                                    mitigasi!
-                                                        .data![index].icon!,
-                                                height: 35,
-                                                width: 35,
-                                              )),
-                                        ),
-                                        // Container(
-                                        //   width: 40,
-                                        //   height: 40,
-                                        //   decoration: BoxDecoration(
-                                        //       color: Colors.white,
-                                        //       borderRadius:
-                                        //           BorderRadius.circular(20)),
-                                        //   child: Image.network(
-                                        //       'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
-                                        //           mitigasi!.data![index].icon!,
-                                        //       color: Colors.amber
-                                        //       // snapshot
-                                        //       //     .data.data![index].icon
-                                        //       //     .toString(),
-                                        //       ),
-                                        // ),
-
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                        ? mitigasi!.data!.isNotEmpty
+                            ? GridView.builder(
+                                gridDelegate:
+                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent: 200,
+                                        childAspectRatio: 3 / 2,
+                                        crossAxisSpacing: 20,
+                                        mainAxisSpacing: 20),
+                                itemCount: mitigasi!.data!.length,
+                                itemBuilder: (BuildContext ctx, index) {
+                                  return InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DetailMitigasi(
+                                                    id: mitigasi!.data![index]
+                                                        .id_kategori_bencana,
+                                                    name: mitigasi!
+                                                        .data![index].name,
+                                                    icon: mitigasi!
+                                                        .data![index].icon,
+                                                  )));
+                                    },
+                                    child: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Column(
+                                          // crossAxisAlignment:
+                                          //     CrossAxisAlignment.start,
                                           children: [
-                                            SizedBox(
-                                              width: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  30,
-                                              child: Text(
-                                                mitigasi!.data![index].name!,
-                                                style: onBoardStyle.copyWith(
-                                                    color: Colors.white,
-                                                    fontSize: 14),
-                                              ),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: RawMaterialButton(
+                                                  onPressed: () {},
+                                                  fillColor: orangeColor,
+                                                  shape: const CircleBorder(),
+                                                  child: Image.network(
+                                                    'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                                        mitigasi!
+                                                            .data![index].icon!,
+                                                    height: 35,
+                                                    width: 35,
+                                                  )),
                                             ),
-                                            const Icon(
-                                              Icons.chevron_right_sharp,
-                                              color: Colors.white,
-                                            ),
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  // const Text("hai"),
-                                  decoration: BoxDecoration(
-                                      color: Colors.amber,
-                                      borderRadius: BorderRadius.circular(15)),
-                                ),
-                              );
-                            })
-                        : const Center(child: CircularProgressIndicator()),
+                                            // Container(
+                                            //   width: 40,
+                                            //   height: 40,
+                                            //   decoration: BoxDecoration(
+                                            //       color: Colors.white,
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(20)),
+                                            //   child: Image.network(
+                                            //       'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                            //           mitigasi!.data![index].icon!,
+                                            //       color: Colors.amber
+                                            //       // snapshot
+                                            //       //     .data.data![index].icon
+                                            //       //     .toString(),
+                                            //       ),
+                                            // ),
 
-                    // child: FutureBuilder(
-                    //   future: _getAddress(),
-                    //   builder: (context, snap) {
-                    //     if (snap.hasData) {
-                    //       return FutureBuilder(
-                    //         future:
-                    //             Network.getListBencanaKec(snap.data.toString()),
-                    //         builder: (context, snapshot) {
-                    //           if (snapshot.hasData) {
-                    //             return GridView.builder(
-                    //                 gridDelegate:
-                    //                     const SliverGridDelegateWithMaxCrossAxisExtent(
-                    //                         maxCrossAxisExtent: 200,
-                    //                         childAspectRatio: 3 / 2,
-                    //                         crossAxisSpacing: 20,
-                    //                         mainAxisSpacing: 20),
-                    //                 itemCount: snapshot.data.length,
-                    //                 itemBuilder: (BuildContext ctx, index) {
-                    //                   return InkWell(
-                    //                     onTap: () {
-                    //                       Navigator.push(
-                    //                           context,
-                    //                           MaterialPageRoute(
-                    //                               builder: (context) =>
-                    //                                   DetailMitigasi(
-                    //                                     id: snapshot
-                    //                                         .data[index].id,
-                    //                                     name: snapshot
-                    //                                         .data[index].name,
-                    //                                     icon: snapshot
-                    //                                         .data[index].icon,
-                    //                                   )));
-                    //                     },
-                    //                     child: Container(
-                    //                       child: Padding(
-                    //                         padding: const EdgeInsets.all(10.0),
-                    //                         child: Column(
-                    //                           crossAxisAlignment:
-                    //                               CrossAxisAlignment.start,
-                    //                           children: [
-                    //                             const SizedBox(
-                    //                               height: 2,
-                    //                             ),
-                    //                             Container(
-                    //                               width: 40,
-                    //                               height: 40,
-                    //                               decoration: BoxDecoration(
-                    //                                   color: Colors.white,
-                    //                                   borderRadius:
-                    //                                       BorderRadius.circular(
-                    //                                           20)),
-                    //                               child: Image.network(
-                    //                                   'https://bsorumahinspirasi.com/public/upload/kategori/' +
-                    //                                       snapshot
-                    //                                           .data[index].icon
-                    //                                   // snapshot
-                    //                                   //     .data.data![index].icon
-                    //                                   //     .toString(),
-                    //                                   ),
-                    //                             ),
-                    //                             const SizedBox(
-                    //                               height: 20,
-                    //                             ),
-                    //                             Row(
-                    //                               mainAxisAlignment:
-                    //                                   MainAxisAlignment
-                    //                                       .spaceBetween,
-                    //                               children: [
-                    //                                 Text(
-                    //                                   snapshot.data[index].name,
-                    //                                   style:
-                    //                                       onBoardStyle.copyWith(
-                    //                                           color:
-                    //                                               Colors.white,
-                    //                                           fontSize: 16),
-                    //                                 ),
-                    //                                 const Icon(
-                    //                                   Icons.chevron_right_sharp,
-                    //                                   color: Colors.white,
-                    //                                 ),
-                    //                               ],
-                    //                             )
-                    //                           ],
-                    //                         ),
-                    //                       ),
-                    //                       // const Text("hai"),
-                    //                       decoration: BoxDecoration(
-                    //                           color: Colors.amber,
-                    //                           borderRadius:
-                    //                               BorderRadius.circular(15)),
-                    //                     ),
-                    //                   );
-                    //                 });
-                    //           } else {
-                    //             return const Center(
-                    //                 child: CircularProgressIndicator());
-                    //           }
-                    //         },
-                    //       );
-                    //     } else {
-                    //       return const Center(child: Text('data tidak ada'));
-                    //     }
-                    //   },
-                    // ),
-                  )
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                SizedBox(
+                                                  width: SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      30,
+                                                  child: Text(
+                                                    mitigasi!
+                                                        .data![index].name!,
+                                                    style:
+                                                        onBoardStyle.copyWith(
+                                                            color: Colors.white,
+                                                            fontSize: 14),
+                                                  ),
+                                                ),
+                                                const Icon(
+                                                  Icons.chevron_right_sharp,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      // const Text("hai"),
+                                      decoration: BoxDecoration(
+                                          color: Colors.amber,
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                    ),
+                                  );
+                                })
+                            : const Center(
+                                child: Text('Mitigasi tidak tersedia'))
+                        : const Center(child: CircularProgressIndicator()),
+                  ),
                 ],
               ),
             ),
