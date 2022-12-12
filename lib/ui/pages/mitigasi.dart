@@ -116,22 +116,31 @@ class _MitigasiState extends State<Mitigasi> {
                                               RawMaterialButton(
                                                   onPressed: () {
                                                     Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DetailMitigasi(
-                                                      id: snapshot
-                                                          .data.data[index].id,
-                                                      name: snapshot.data
-                                                          .data[index].name,
-                                                      icon: snapshot.data
-                                                          .data[index].icon,
-                                                    )));
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                DetailMitigasi(
+                                                                  id: snapshot
+                                                                      .data
+                                                                      .data[
+                                                                          index]
+                                                                      .id,
+                                                                  name: snapshot
+                                                                      .data
+                                                                      .data[
+                                                                          index]
+                                                                      .name,
+                                                                  icon: snapshot
+                                                                      .data
+                                                                      .data[
+                                                                          index]
+                                                                      .icon,
+                                                                )));
                                                   },
                                                   fillColor: orangeColor,
                                                   shape: const CircleBorder(),
                                                   child: Image.network(
-                                                    'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                                    'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/' +
                                                         snapshot.data
                                                             .data[index].icon,
                                                     height: 35,
