@@ -141,7 +141,7 @@ class _DataTahunanState extends State<DataTahunan> {
                       trailing: IconButton(
                           onPressed: () {
                             _launchURL(
-                                'https://bpbd.bsorumahinspirasi.com/public/upload/pdf/' +
+                                'https://bpbdbondowoso.com/bpbd-admin/public/upload/pdf/' +
                                     item.pdf.toString());
                           },
                           icon: const Icon(Icons.file_download),

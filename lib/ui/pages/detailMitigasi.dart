@@ -50,7 +50,7 @@ class DetailMitigasi extends StatelessWidget {
                                 fillColor: orangeColor,
                                 shape: const CircleBorder(),
                                 child: Image.network(
-                                  'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/$icon',
+                                  'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/$icon',
                                   height: 80,
                                   width: 80,
                                 )),
@@ -61,7 +61,7 @@ class DetailMitigasi extends StatelessWidget {
                             //       color: Colors.white,
                             //       borderRadius: BorderRadius.circular(50)),
                             //   child: Image.network(
-                            //     'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/$icon',
+                            //     'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/$icon',
                             //     color: orangeColor,
                             //     fit: BoxFit.scaleDown,
                             //   ),
@@ -82,10 +82,9 @@ class DetailMitigasi extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Html(data: snapshot.data.data[index].mitigasi, 
-                              style: {
-                                "p": Style(textAlign: TextAlign.justify)
-                              },
+                            Html(
+                              data: snapshot.data.data[index].mitigasi,
+                              style: {"p": Style(textAlign: TextAlign.justify)},
                             ),
                           ],
                         ),

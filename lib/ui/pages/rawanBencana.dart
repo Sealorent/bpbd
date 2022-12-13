@@ -171,7 +171,7 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
                               trailing: IconButton(
                                   onPressed: () {
                                     _launchURL(
-                                        'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                        'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/' +
                                             snapshot.data.data[index].photos);
                                   },
                                   icon: const Icon(Icons.file_download),
@@ -201,7 +201,7 @@ class _RawanBencanaPageState extends State<RawanBencanaPage>
         height: SizeConfig.blockSizeVertical * 35,
         child: Center(
           child: Image.network(
-            'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/$img',
+            'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/$img',
             fit: BoxFit.fitWidth,
             loadingBuilder: (BuildContext context, Widget child,
                 ImageChunkEvent? loadingProgress) {

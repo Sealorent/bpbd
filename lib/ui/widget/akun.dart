@@ -156,7 +156,7 @@ class _AkunPageState extends State<AkunPage> {
                                                                   .photo !=
                                                               null
                                                           ? Image.network(
-                                                              'https://bpbd.bsorumahinspirasi.com/public/image/profile/' +
+                                                              'https://bpbdbondowoso.com/bpbd-admin/public/image/profile/' +
                                                                   akunApi!.data!
                                                                       .photo
                                                                       .toString(),

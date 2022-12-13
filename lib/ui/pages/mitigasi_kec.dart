@@ -174,7 +174,7 @@ class _MitigasiKecState extends State<MitigasiKec> {
                                                   fillColor: orangeColor,
                                                   shape: const CircleBorder(),
                                                   child: Image.network(
-                                                    'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                                    'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/' +
                                                         mitigasi!
                                                             .data![index].icon!,
                                                     height: 35,
@@ -189,7 +189,7 @@ class _MitigasiKecState extends State<MitigasiKec> {
                                             //       borderRadius:
                                             //           BorderRadius.circular(20)),
                                             //   child: Image.network(
-                                            //       'https://bpbd.bsorumahinspirasi.com/public/upload/kategori/' +
+                                            //       'https://bpbdbondowoso.com/bpbd-admin/public/upload/kategori/' +
                                             //           mitigasi!.data![index].icon!,
                                             //       color: Colors.amber
                                             //       // snapshot

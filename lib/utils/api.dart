@@ -15,7 +15,7 @@ class Network {
   // static const _DOMAIN = 'http://bpbd.bsorumahinspirasi.com';
   // static const _DOMAINI = 'bpbd.bsorumahinspirasi.com';
   // static const IMG_PATH =
-  //     'https://bpbd.bsorumahinspirasi.com/public/upload/berita/';
+  //     'https://bpbdbondowoso.com/bpbd-admin/public/upload/berita/';
   // final String _url = 'https://bpbd.bsorumahinspirasi.com/api/';
 
   static const _DOMAIN = 'https://bpbdbondowoso.com/bpbd-admin/public/';
@@ -296,11 +296,10 @@ class Network {
         final SimpleResponse data = simpleResponseFromJson(response.body);
         return data;
       } else {
-        var json = {
-          'success': false,
-          'message': 'Terjadi kesalahan.'
-        };
-        final SimpleResponse data = SimpleResponse(success: false, message: 'Terjadi kesalahan.Failed to authenticate on SMTP server');
+        var json = {'success': false, 'message': 'Terjadi kesalahan.'};
+        final SimpleResponse data = SimpleResponse(
+            success: false,
+            message: 'Terjadi kesalahan.Failed to authenticate on SMTP server');
         return data;
       }
     } catch (e) {

@@ -84,32 +84,31 @@ class _BencanaPageState extends State<BencanaPage> {
                 elevation: 3,
                 color: orangeColor,
                 child: ListTile(
-                    onTap: () {},
-                    title: Text('Kejadian Bencana',
-                        style: onBoardStyle.copyWith(
-                            color: Colors.white, fontSize: 18)),
-                    subtitle: Text('2021',
-                        style: onBoardStyle.copyWith(
-                            color: Colors.white, fontSize: 18)),
-                    // trailing: !_isDownloading
-                    //     ? InkWell(
-                    //         onTap: () async {
-                    //           download(
-                    //               'https://bpbd.bsorumahinspirasi.com/public/upload/mitigasi/23-31-15cGbhDKRB (1).pdf');
-                    //         },
-                    //         child: const Icon(
-                    //           Icons.file_download,
-                    //           color: Colors.white,
-                    //           size: 30,
-                    //         ),
-                    //       )
-                    //     : CircularProgressIndicator(
-                    //         value: _downloadProgress,
-                    //         backgroundColor: Colors.white,
-                    //         color: Colors.red,
-                    //       )
-                          )
-                          ),
+                  onTap: () {},
+                  title: Text('Kejadian Bencana',
+                      style: onBoardStyle.copyWith(
+                          color: Colors.white, fontSize: 18)),
+                  subtitle: Text('2021',
+                      style: onBoardStyle.copyWith(
+                          color: Colors.white, fontSize: 18)),
+                  // trailing: !_isDownloading
+                  //     ? InkWell(
+                  //         onTap: () async {
+                  //           download(
+                  //               'https://bpbdbondowoso.com/bpbd-admin/public/upload/mitigasi/23-31-15cGbhDKRB (1).pdf');
+                  //         },
+                  //         child: const Icon(
+                  //           Icons.file_download,
+                  //           color: Colors.white,
+                  //           size: 30,
+                  //         ),
+                  //       )
+                  //     : CircularProgressIndicator(
+                  //         value: _downloadProgress,
+                  //         backgroundColor: Colors.white,
+                  //         color: Colors.red,
+                  //       )
+                )),
           ],
         ),
       ),
